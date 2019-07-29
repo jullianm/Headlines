@@ -1,0 +1,508 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		811008F022EC4E0600486E5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811008EF22EC4E0600486E5E /* AppDelegate.swift */; };
+		811008F222EC4E0600486E5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811008F122EC4E0600486E5E /* SceneDelegate.swift */; };
+		811008F422EC4E0600486E5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811008F322EC4E0600486E5E /* ContentView.swift */; };
+		811008F622EC4E0F00486E5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811008F522EC4E0F00486E5E /* Assets.xcassets */; };
+		811008F922EC4E0F00486E5E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 811008F822EC4E0F00486E5E /* Preview Assets.xcassets */; };
+		811008FC22EC4E0F00486E5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 811008FA22EC4E0F00486E5E /* LaunchScreen.storyboard */; };
+		8110090722EC4E1000486E5E /* HeadlightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8110090622EC4E1000486E5E /* HeadlightTests.swift */; };
+		8128731122EC58E90076A8A8 /* Coordinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8128731022EC58E90076A8A8 /* Coordinators.swift */; };
+		812EF20F22EC91560050180E /* BreakingNewsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF20E22EC91560050180E /* BreakingNewsCollectionView.swift */; };
+		812EF21922ECA4C10050180E /* TechCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF21822ECA4C10050180E /* TechCollectionView.swift */; };
+		812EF21B22ECA5DF0050180E /* EconomicsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF21A22ECA5DF0050180E /* EconomicsCollectionView.swift */; };
+		812EF21D22ECA5EC0050180E /* PoliticsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF21C22ECA5EC0050180E /* PoliticsCollectionView.swift */; };
+		812EF21F22ECA5F90050180E /* ScienceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EF21E22ECA5F90050180E /* ScienceCollectionView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8110090322EC4E1000486E5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 811008E422EC4E0600486E5E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 811008EB22EC4E0600486E5E;
+			remoteInfo = Headlight;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		811008EC22EC4E0600486E5E /* Headlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Headlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		811008EF22EC4E0600486E5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		811008F122EC4E0600486E5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		811008F322EC4E0600486E5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		811008F522EC4E0F00486E5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		811008F822EC4E0F00486E5E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		811008FB22EC4E0F00486E5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		811008FD22EC4E0F00486E5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8110090222EC4E1000486E5E /* HeadlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeadlightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8110090622EC4E1000486E5E /* HeadlightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlightTests.swift; sourceTree = "<group>"; };
+		8110090822EC4E1000486E5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8128731022EC58E90076A8A8 /* Coordinators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Coordinators.swift; path = "../../../../../../../../System/Volumes/Data/Users/jullianm/Library/CloudStorage/iCloud Drive 2/Desktop/Headlight/Headlight/Coordinators.swift"; sourceTree = "<group>"; };
+		812EF20E22EC91560050180E /* BreakingNewsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakingNewsCollectionView.swift; sourceTree = "<group>"; };
+		812EF21822ECA4C10050180E /* TechCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TechCollectionView.swift; path = "../../../../../../../../../System/Volumes/Data/Users/jullianm/Library/CloudStorage/iCloud Drive 2/Desktop/Headlight/Headlight/CollectionViews/TechCollectionView.swift"; sourceTree = "<group>"; };
+		812EF21A22ECA5DF0050180E /* EconomicsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomicsCollectionView.swift; sourceTree = "<group>"; };
+		812EF21C22ECA5EC0050180E /* PoliticsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PoliticsCollectionView.swift; path = "../../../../../../../../../System/Volumes/Data/Users/jullianm/Library/CloudStorage/iCloud Drive 2/Desktop/Headlight/Headlight/CollectionViews/PoliticsCollectionView.swift"; sourceTree = "<group>"; };
+		812EF21E22ECA5F90050180E /* ScienceCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScienceCollectionView.swift; path = "../../../../../../../../../System/Volumes/Data/Users/jullianm/Library/CloudStorage/iCloud Drive 2/Desktop/Headlight/Headlight/CollectionViews/ScienceCollectionView.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		811008E922EC4E0600486E5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		811008FF22EC4E1000486E5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		811008E322EC4E0600486E5E = {
+			isa = PBXGroup;
+			children = (
+				811008EE22EC4E0600486E5E /* Headlight */,
+				8110090522EC4E1000486E5E /* HeadlightTests */,
+				811008ED22EC4E0600486E5E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		811008ED22EC4E0600486E5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				811008EC22EC4E0600486E5E /* Headlight.app */,
+				8110090222EC4E1000486E5E /* HeadlightTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		811008EE22EC4E0600486E5E /* Headlight */ = {
+			isa = PBXGroup;
+			children = (
+				811008EF22EC4E0600486E5E /* AppDelegate.swift */,
+				811008F122EC4E0600486E5E /* SceneDelegate.swift */,
+				812EF20D22EC91040050180E /* CollectionViews */,
+				811008F322EC4E0600486E5E /* ContentView.swift */,
+				8128731022EC58E90076A8A8 /* Coordinators.swift */,
+				811008F522EC4E0F00486E5E /* Assets.xcassets */,
+				811008FA22EC4E0F00486E5E /* LaunchScreen.storyboard */,
+				811008FD22EC4E0F00486E5E /* Info.plist */,
+				811008F722EC4E0F00486E5E /* Preview Content */,
+			);
+			path = Headlight;
+			sourceTree = "<group>";
+		};
+		811008F722EC4E0F00486E5E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				811008F822EC4E0F00486E5E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8110090522EC4E1000486E5E /* HeadlightTests */ = {
+			isa = PBXGroup;
+			children = (
+				8110090622EC4E1000486E5E /* HeadlightTests.swift */,
+				8110090822EC4E1000486E5E /* Info.plist */,
+			);
+			path = HeadlightTests;
+			sourceTree = "<group>";
+		};
+		812EF20D22EC91040050180E /* CollectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				812EF20E22EC91560050180E /* BreakingNewsCollectionView.swift */,
+				812EF21822ECA4C10050180E /* TechCollectionView.swift */,
+				812EF21A22ECA5DF0050180E /* EconomicsCollectionView.swift */,
+				812EF21C22ECA5EC0050180E /* PoliticsCollectionView.swift */,
+				812EF21E22ECA5F90050180E /* ScienceCollectionView.swift */,
+			);
+			path = CollectionViews;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		811008EB22EC4E0600486E5E /* Headlight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8110090B22EC4E1000486E5E /* Build configuration list for PBXNativeTarget "Headlight" */;
+			buildPhases = (
+				811008E822EC4E0600486E5E /* Sources */,
+				811008E922EC4E0600486E5E /* Frameworks */,
+				811008EA22EC4E0600486E5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Headlight;
+			productName = Headlight;
+			productReference = 811008EC22EC4E0600486E5E /* Headlight.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8110090122EC4E1000486E5E /* HeadlightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8110090E22EC4E1000486E5E /* Build configuration list for PBXNativeTarget "HeadlightTests" */;
+			buildPhases = (
+				811008FE22EC4E1000486E5E /* Sources */,
+				811008FF22EC4E1000486E5E /* Frameworks */,
+				8110090022EC4E1000486E5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8110090422EC4E1000486E5E /* PBXTargetDependency */,
+			);
+			name = HeadlightTests;
+			productName = HeadlightTests;
+			productReference = 8110090222EC4E1000486E5E /* HeadlightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		811008E422EC4E0600486E5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = Jullianm;
+				TargetAttributes = {
+					811008EB22EC4E0600486E5E = {
+						CreatedOnToolsVersion = 11.0;
+					};
+					8110090122EC4E1000486E5E = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 811008EB22EC4E0600486E5E;
+					};
+				};
+			};
+			buildConfigurationList = 811008E722EC4E0600486E5E /* Build configuration list for PBXProject "Headlight" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 811008E322EC4E0600486E5E;
+			productRefGroup = 811008ED22EC4E0600486E5E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				811008EB22EC4E0600486E5E /* Headlight */,
+				8110090122EC4E1000486E5E /* HeadlightTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		811008EA22EC4E0600486E5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				811008FC22EC4E0F00486E5E /* LaunchScreen.storyboard in Resources */,
+				811008F922EC4E0F00486E5E /* Preview Assets.xcassets in Resources */,
+				811008F622EC4E0F00486E5E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8110090022EC4E1000486E5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		811008E822EC4E0600486E5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				811008F022EC4E0600486E5E /* AppDelegate.swift in Sources */,
+				811008F222EC4E0600486E5E /* SceneDelegate.swift in Sources */,
+				812EF21F22ECA5F90050180E /* ScienceCollectionView.swift in Sources */,
+				8128731122EC58E90076A8A8 /* Coordinators.swift in Sources */,
+				812EF21B22ECA5DF0050180E /* EconomicsCollectionView.swift in Sources */,
+				812EF21922ECA4C10050180E /* TechCollectionView.swift in Sources */,
+				812EF21D22ECA5EC0050180E /* PoliticsCollectionView.swift in Sources */,
+				811008F422EC4E0600486E5E /* ContentView.swift in Sources */,
+				812EF20F22EC91560050180E /* BreakingNewsCollectionView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		811008FE22EC4E1000486E5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8110090722EC4E1000486E5E /* HeadlightTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8110090422EC4E1000486E5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 811008EB22EC4E0600486E5E /* Headlight */;
+			targetProxy = 8110090322EC4E1000486E5E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		811008FA22EC4E0F00486E5E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				811008FB22EC4E0F00486E5E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8110090922EC4E1000486E5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8110090A22EC4E1000486E5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8110090C22EC4E1000486E5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "Headlight/Preview\\ Content";
+				DEVELOPMENT_TEAM = 43UT2JSNMP;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Headlight/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.Headlight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8110090D22EC4E1000486E5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "Headlight/Preview\\ Content";
+				DEVELOPMENT_TEAM = 43UT2JSNMP;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Headlight/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.Headlight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8110090F22EC4E1000486E5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 43UT2JSNMP;
+				INFOPLIST_FILE = HeadlightTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.HeadlightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Headlight.app/Headlight";
+			};
+			name = Debug;
+		};
+		8110091022EC4E1000486E5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 43UT2JSNMP;
+				INFOPLIST_FILE = HeadlightTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.HeadlightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Headlight.app/Headlight";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		811008E722EC4E0600486E5E /* Build configuration list for PBXProject "Headlight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8110090922EC4E1000486E5E /* Debug */,
+				8110090A22EC4E1000486E5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8110090B22EC4E1000486E5E /* Build configuration list for PBXNativeTarget "Headlight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8110090C22EC4E1000486E5E /* Debug */,
+				8110090D22EC4E1000486E5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8110090E22EC4E1000486E5E /* Build configuration list for PBXNativeTarget "HeadlightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8110090F22EC4E1000486E5E /* Debug */,
+				8110091022EC4E1000486E5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 811008E422EC4E0600486E5E /* Project object */;
+}
