@@ -95,7 +95,7 @@ struct ContentView: View {
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(preferences: HeadlinesPreferences())
+        ContentView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
     }
 }
 #endif

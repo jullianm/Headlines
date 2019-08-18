@@ -154,7 +154,7 @@ struct PreferencesView: View {
 #if DEBUG
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView(preferences: HeadlinesPreferences())
+        PreferencesView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
     }
 }
 #endif

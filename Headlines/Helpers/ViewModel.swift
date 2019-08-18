@@ -7,9 +7,14 @@
 //
 
 import Foundation
+import Combine
 
 protocol ViewModel {
     var webService: Webservice { get set }
     init(service: Webservice)
-    func fire(endpoint: Endpoint)
+}
+extension ViewModel {
+    func fire(endpoint: Endpoint) -> some Publisher {
+        return webService.fetch(endpoint: endpoint)
+    }
 }

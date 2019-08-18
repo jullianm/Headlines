@@ -21,6 +21,7 @@ struct Endpoint {
 extension Endpoint {
     static func search(sortedBy sorting: Sorting = .top,
                        matching recency: Recency = .today,
+                       sortedBy category: String? = nil,
                        matching keyword: String? = nil) -> Endpoint {
         
         var items: [URLQueryItem] = []

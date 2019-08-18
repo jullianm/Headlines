@@ -18,11 +18,15 @@ class HeadlinesPreferences: ObservableObject {
     
     @Published var categories = PreferencesCategory.all {
         didSet {
-            viewModel.fire(endpoint: Endpoint.search(
-                sortedBy: headlines.type == .top ? .top: .everything,
-                matching: .today,
-                matching: nil)
+            
+            let endpoint = Endpoint.search(
+            sortedBy: headlines.type == .top ? .top: .everything,
+            matching: .today,
+            matching: nil
             )
+            
+            
+            // TODO: Implement Publishers.Zip6 to fetch data from WS
         }
     }
     

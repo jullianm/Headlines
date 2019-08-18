@@ -7,17 +7,13 @@
 //
 
 import Foundation
+import Combine
 
 class HeadlinesViewModel: ViewModel {
+    var webService: Webservice
     
-    let webService: Webservice
-    
-    init(service: Webservice = Webservice()) {
+    required init(service: Webservice = Webservice()) {
         self.webService = service
-    }
-    
-    func fire(endpoint: Endpoint) {
-        
     }
     
 }
