@@ -13,3 +13,5 @@ Headlines is an iOS app built 95% in SwiftUI and 5% UIKit.
 
 **Design pattern**
 - MVVM 
+
+![](headlines.gif)
