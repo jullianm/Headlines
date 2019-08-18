@@ -16,11 +16,15 @@ private enum Selection {
 struct PreferencesView: View {
     
     @Environment(\.presentationMode) var presentation
-    @ObservedObject var preferences: Preferences
+    @ObservedObject var preferences: HeadlinesPreferences
     
     @State private var type = PreferencesHeadlines.all
     @State private var categories = PreferencesCategory.all
     @State private var countries = PreferencesCountry.all
+    
+    var isAllSelected: Bool {
+        return type.first(where: { $0.isSelected })?.type == .all
+    }
     
     var selectedCountry = 0
     
@@ -28,13 +32,15 @@ struct PreferencesView: View {
         NavigationView {
             List {
                 
-                Section(header: Text("Country")
-                    .font(.system(size: 20))
-                    .fontWeight(.semibold)) {
+                if !isAllSelected {
+                    Section(header: Text("Country")
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)) {
 
-                        CountryPreferenceRow { value in
-                            self.countries[value].isSelected = true
-                        }
+                            CountryPreferenceRow { value in
+                                self.countries[value].isSelected = true
+                            }
+                    }
                 }
                 
                 Section(header:
@@ -148,7 +154,7 @@ struct PreferencesView: View {
 #if DEBUG
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView(preferences: Preferences())
+        PreferencesView(preferences: HeadlinesPreferences())
     }
 }
 #endif

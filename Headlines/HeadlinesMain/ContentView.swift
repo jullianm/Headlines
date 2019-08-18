@@ -8,41 +8,39 @@
 
 import SwiftUI
 
+enum Recency: String, CaseIterable {
+    case today = "Today"
+    case yesterday = "Yesterday"
+    case threeDays = "3 days"
+    case sevenDays = "7 days"
+}
+
 struct ContentView: View {
     
-    @ObservedObject var preferences: Preferences
+    @ObservedObject var preferences: HeadlinesPreferences
     
     @State private var shouldDisplayList = false
-    @State private var sortByDate = 0
+    @State private var sortByRecency = 0
     @State private var isSearching = false
-    @State private var query = ""
+    @State private var keyword = ""
     @State private var showPreferencesModal = false
-    
-    enum Date: String {
-        case today = "Today"
-        case yesterday = "Yesterday"
-        case threeDays = "3 days ago"
-        case sevenDays = "7 days ago"
-    }
-    
+        
     var body: some View {
         NavigationView {
             VStack {
                 ZStack {
-                    TextField("Search for articles, posts, headlines..", text: $query)
+                    TextField("Search for articles, posts, headlines..", text: $keyword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .transition(.scale)
                         .opacity(isSearching ? 1: 0)
                         .animation(.easeInOut(duration: 0.3))
                     
                     Picker(
-                        selection: $sortByDate,
+                        selection: $sortByRecency,
                         label: Text("")) {
-                            
-                            Text(Date.today.rawValue).tag(0)
-                            Text(Date.yesterday.rawValue).tag(1)
-                            Text(Date.threeDays.rawValue).tag(3)
-                            Text(Date.sevenDays.rawValue).tag(7)
+                            ForEach(0..<Recency.allCases.count, id: \.self) {
+                                Text(Recency.allCases[$0].rawValue).tag($0)
+                            }
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .opacity(isSearching ? 0: 1)
@@ -97,7 +95,7 @@ struct ContentView: View {
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(preferences: Preferences())
+        ContentView(preferences: HeadlinesPreferences())
     }
 }
 #endif

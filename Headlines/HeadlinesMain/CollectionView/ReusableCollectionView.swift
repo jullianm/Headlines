@@ -9,9 +9,28 @@
 import UIKit
 import SwiftUI
 
+class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
+    
+    var section: HeadlinesSection
+    
+    init(section: HeadlinesSection) {
+        self.section = section
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+}
+
 struct ReusableCollectionView: UIViewRepresentable {
     
     let section: HeadlinesSection
+    let delegate: ReusableCollectionViewDelegate
+    
+    init(section: HeadlinesSection) {
+        self.section = section
+        self.delegate = ReusableCollectionViewDelegate(section: section)
+    }
     
     func makeUIView(context: UIViewRepresentableContext<ReusableCollectionView>) -> UICollectionView {
 
@@ -19,6 +38,8 @@ struct ReusableCollectionView: UIViewRepresentable {
             frame: .zero,
             collectionViewLayout: CollectionViewFlowLayout()
         )
+        
+        collectionView.delegate = delegate
 
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
                 
@@ -77,6 +98,7 @@ enum HeadlinesSection: String, CaseIterable {
     case economics
     case politics
     case science
+    case environment
 }
 
 
