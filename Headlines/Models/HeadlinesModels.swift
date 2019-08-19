@@ -9,14 +9,14 @@
 import Foundation
 
 // MARK: - Root
-struct Root: Codable {
+public struct Root: Codable {
     let status: String
     let totalResults: Int
     let articles: [Article]
 }
 
 // MARK: - Article
-struct Article: Codable {
+public struct Article: Codable {
     let source: Source
     let author, title, articleDescription: String
     let url, urlToImage: String
@@ -31,6 +31,6 @@ struct Article: Codable {
 }
 
 // MARK: - Source
-struct Source: Codable {
+public struct Source: Codable {
     let id, name: String
 }

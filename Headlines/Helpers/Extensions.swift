@@ -49,32 +49,3 @@ extension Array where Element == PreferencesCategory {
         return arr
     }
 }
-
-// MARK: - Combine
-extension Publishers {
-    public struct Zip6<A, B, C, D, E, F> : Publisher where A : Publisher, B : Publisher, C : Publisher, D : Publisher, E : Publisher, F: Publisher, A.Failure == B.Failure, B.Failure == C.Failure, C.Failure == D.Failure, D.Failure == E.Failure, E.Failure == F.Failure {
-
-        public typealias Output = (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output)
-        public typealias Failure = A.Failure
-
-        public let a: A
-        public let b: B
-        public let c: C
-        public let d: D
-        public let e: E
-        public let f: F
-
-        public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F) {
-            self.a = a
-            self.b = b
-            self.c = c
-            self.d = d
-            self.e = e
-            self.f = f
-        }
-
-        public func receive<S>(subscriber: S) where S : Subscriber, D.Failure == S.Failure, S.Input == (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output) {
-            
-        }
-    }
-}

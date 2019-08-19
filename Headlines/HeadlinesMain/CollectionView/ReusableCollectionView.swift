@@ -11,9 +11,9 @@ import SwiftUI
 
 class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     
-    var section: HeadlinesSection
+    var section: HeadlinesCategory
     
-    init(section: HeadlinesSection) {
+    init(section: HeadlinesCategory) {
         self.section = section
     }
     
@@ -24,10 +24,10 @@ class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
 
 struct ReusableCollectionView: UIViewRepresentable {
     
-    let section: HeadlinesSection
+    let section: HeadlinesCategory
     let delegate: ReusableCollectionViewDelegate
     
-    init(section: HeadlinesSection) {
+    init(section: HeadlinesCategory) {
         self.section = section
         self.delegate = ReusableCollectionViewDelegate(section: section)
     }
@@ -43,7 +43,7 @@ struct ReusableCollectionView: UIViewRepresentable {
 
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
                 
-        let dataSource = UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
+        let dataSource = UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
             cell.backgroundColor = .black
@@ -70,9 +70,9 @@ struct ReusableCollectionView: UIViewRepresentable {
         MainCoordinator()
     }
     
-    func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>) {
+    func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>) {
         
-        let snapshot = NSDiffableDataSourceSnapshot<HeadlinesSection, HeadlinesContainer>()
+        let snapshot = NSDiffableDataSourceSnapshot<HeadlinesCategory, HeadlinesContainer>()
         
         snapshot.appendSections([section])
 
@@ -92,7 +92,7 @@ struct ReusableCollectionView: UIViewRepresentable {
     
 }
 
-enum HeadlinesSection: String, CaseIterable {
+enum HeadlinesCategory: String, CaseIterable {
     case sports
     case tech
     case economics

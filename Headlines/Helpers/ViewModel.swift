@@ -12,9 +12,5 @@ import Combine
 protocol ViewModel {
     var webService: Webservice { get set }
     init(service: Webservice)
-}
-extension ViewModel {
-    func fire(endpoint: Endpoint) -> some Publisher {
-        return webService.fetch(endpoint: endpoint)
-    }
+    func fire(headlines: Headlines) 
 }

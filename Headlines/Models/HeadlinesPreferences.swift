@@ -19,13 +19,7 @@ class HeadlinesPreferences: ObservableObject {
     @Published var categories = PreferencesCategory.all {
         didSet {
             
-            let endpoint = Endpoint.search(
-            sortedBy: headlines.type == .top ? .top: .everything,
-            matching: .today,
-            matching: nil
-            )
-            
-            
+//            viewModel.fire(endpoint: endpoint, categories: headlines.categories)
             // TODO: Implement Publishers.Zip6 to fetch data from WS
         }
     }
@@ -42,25 +36,37 @@ class HeadlinesPreferences: ObservableObject {
             .filter { $0.isSelected }
             .map {
                 Category(
-                    category: $0.name,
+                    name: $0.name,
                     isFavorite: $0.isFavorite
                 )
         }
 
         return Headlines(
             type: selectedType,
+            country: country,
             categories: selectedCategories
         )
     }
     
 }
 
-private struct Headlines {
+struct Headlines {
     let type: HeadlinesType
+    let country: Country
     let categories: [Category]
 }
 
-private struct Category {
-    let category: HeadlinesSection
+struct Category {
+    let name: HeadlinesCategory
     let isFavorite: Bool
+    let model: [Root] = []
+}
+struct Post: Codable {
+    let userID, id: Int
+    let title, body: String
+
+    enum CodingKeys: String, CodingKey {
+        case userID = "userId"
+        case id, title, body
+    }
 }

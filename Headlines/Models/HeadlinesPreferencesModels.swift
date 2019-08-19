@@ -51,12 +51,12 @@ struct PreferencesHeadlines: Identifiable {
 
 struct PreferencesCategory: Identifiable {
     var id = UUID()
-    var name: HeadlinesSection
+    var name: HeadlinesCategory
     var isSelected: Bool
     var isFavorite: Bool
     
     static var all: [PreferencesCategory] {
-        return HeadlinesSection.allCases.map {
+        return HeadlinesCategory.allCases.map {
             PreferencesCategory(
                 name: $0,
                 isSelected: true,

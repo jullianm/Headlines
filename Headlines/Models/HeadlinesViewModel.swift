@@ -16,4 +16,8 @@ class HeadlinesViewModel: ViewModel {
         self.webService = service
     }
     
+    func fire(headlines: Headlines) {
+    
+        
+    }
 }
