@@ -21,12 +21,10 @@ class ArticleCell: UICollectionViewCell {
     
     private func setup() {
         backgroundColor = .white
-        layer.cornerRadius = 10.0
-        layer.borderColor = UIColor.lightGray.cgColor
-        layer.borderWidth = 2
-        layer.masksToBounds = true
         
         articleImageView.contentMode = .scaleToFill
+        articleImageView.layer.cornerRadius = 10.0
+        articleImageView.layer.masksToBounds = true
     }
     
     func configure(article: Article) {

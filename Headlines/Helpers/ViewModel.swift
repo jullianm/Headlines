@@ -11,10 +11,12 @@ import Combine
 
 protocol ViewModel {
     var webService: Webservice { get set }
-    var headlinesPublisher: AnyPublisher<Headlines, Error> { get }
+    var preferences: Preferences { get set }
+    var categories: [Category] { get set }
     
-    init(service: Webservice)
+    init(service: Webservice, preferences: Preferences)
     
-    func fire(headlines: Headlines)
-    func bind(headlines: Headlines)
+    func setup()
+    func fire()
+    func bind()
 }

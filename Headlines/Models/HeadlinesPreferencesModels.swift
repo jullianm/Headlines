@@ -16,14 +16,36 @@ enum HeadlinesType: String, CaseIterable {
 enum Country: String, CaseIterable {
     case france
     case germany
-    case england
+    case gb
     case usa
     case china
     case australia
     case sweden
     case nederlands
-    case scotland
-    case ireland
+    case japan 
+    
+    var convert: String {
+        switch self {
+        case .france:
+            return "fr"
+        case .germany:
+            return "de"
+        case .gb:
+            return "gb"
+        case .usa:
+            return "us"
+        case .china:
+            return "cn"
+        case .australia:
+            return "au"
+        case .sweden:
+            return "se"
+        case .nederlands:
+            return "nl"
+        case .japan:
+            return "jp"
+        }
+    }
 }
 
 struct PreferencesCountry {
@@ -59,8 +81,8 @@ struct PreferencesCategory: Identifiable {
         return HeadlinesCategory.allCases.map {
             PreferencesCategory(
                 name: $0,
-                isSelected: true,
-                isFavorite: $0 == .sports
+                isSelected: $0 == .business,
+                isFavorite: $0 == .business
             )
         }
     }

@@ -16,7 +16,7 @@ private enum Selection {
 struct PreferencesView: View {
     
     @Environment(\.presentationMode) var presentation
-    @ObservedObject var preferences: HeadlinesPreferences
+    @ObservedObject var viewModel: HeadlinesViewModel
     
     @State private var type = PreferencesHeadlines.all
     @State private var categories = PreferencesCategory.all
@@ -135,26 +135,23 @@ struct PreferencesView: View {
     }
     
     private func validate() {
-        preferences.type = type.filter { $0.isSelected }
+        viewModel.preferences.type = type.filter { $0.isSelected }
         
-        preferences.country = countries
+        viewModel.preferences.country = countries
             .first(where: { $0.isSelected })?
             .country ?? .france
             
-        preferences.categories = categories
+        viewModel.preferences.categories = categories
             .filter { $0.isSelected }
             .sortedFavorite()
-        
-        preferences.update()
-        
     }
     
 }
 
-#if DEBUG
-struct PreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreferencesView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
-    }
-}
-#endif
+//#if DEBUG
+//struct PreferencesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PreferencesView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
+//    }
+//}
+//#endif

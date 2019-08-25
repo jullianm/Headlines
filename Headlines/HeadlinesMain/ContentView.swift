@@ -17,7 +17,7 @@ enum Recency: String, CaseIterable {
 
 struct ContentView: View {
     
-    @ObservedObject var preferences: HeadlinesPreferences
+    @ObservedObject var viewModel: HeadlinesViewModel
     
     @State private var shouldDisplayList = false
     @State private var sortByRecency = 0
@@ -50,9 +50,9 @@ struct ContentView: View {
                 
                 List {
                     if shouldDisplayList {
-                        ListMode(categories: preferences.headlines.categories)
+                        ListMode(categories: viewModel.categories)
                     } else {
-                        ImageMode(categories: preferences.headlines.categories)
+                        ImageMode(categories: viewModel.categories)
                     }
                 }
             }
@@ -89,16 +89,16 @@ struct ContentView: View {
             onDismiss: {
                 self.showPreferencesModal = false
         }, content: {
-            PreferencesView(preferences: self.preferences)
+            PreferencesView(viewModel: self.viewModel)
         })
         
     }
 }
 
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
-    }
-}
-#endif
+//#if DEBUG
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
+//    }
+//}
+//#endif

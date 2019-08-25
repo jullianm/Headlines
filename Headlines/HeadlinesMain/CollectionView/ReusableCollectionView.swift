@@ -24,15 +24,8 @@ final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
 
 struct ReusableCollectionView: UIViewRepresentable {
     
-    let section: HeadlinesCategory
-    let model: Root
+    @ObservedObject var category: Category
     let delegate: ReusableCollectionViewDelegate
-    
-    init(section: HeadlinesCategory, model: Root) {
-        self.section = section
-        self.model = model
-        self.delegate = ReusableCollectionViewDelegate(section: section)
-    }
     
     func makeUIView(context: UIViewRepresentableContext<ReusableCollectionView>) -> UICollectionView {
 
@@ -51,7 +44,7 @@ struct ReusableCollectionView: UIViewRepresentable {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ArticleCell.self)", for: indexPath) as? ArticleCell
             
-            cell?.configure(article: self.model.articles[indexPath.item])
+            cell?.configure(article: self.category.articles[indexPath.item])
             
             return cell
             
@@ -68,6 +61,7 @@ struct ReusableCollectionView: UIViewRepresentable {
             return
         }
         populate(dataSource: dataSource)
+        
     }
     
     func makeCoordinator() -> MainCoordinator {
@@ -76,9 +70,10 @@ struct ReusableCollectionView: UIViewRepresentable {
     
     func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>) {
         var snapshot = NSDiffableDataSourceSnapshot<HeadlinesCategory, HeadlinesContainer>()
-        let containers = model.articles.map(HeadlinesContainer.init)
         
-        snapshot.appendSections([section])
+        let containers = category.articles.map(HeadlinesContainer.init)
+        
+        snapshot.appendSections([category.name])
 
         snapshot.appendItems(containers)
 

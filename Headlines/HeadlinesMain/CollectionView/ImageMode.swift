@@ -31,7 +31,7 @@ struct ImageMode: View {
                         }
                     }
                     
-                    ReusableCollectionView(section: category.name, model: category.model!)
+                    ReusableCollectionView(category: category, delegate: ReusableCollectionViewDelegate(section: category.name))
                 }.frame(height: category.isFavorite ? 400: 300)
                 
             }

@@ -9,20 +9,29 @@
 import Foundation
 import Combine
 
-class HeadlinesViewModel: ViewModel {
+class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
+    var preferences: Preferences
     
-    private let headlinesSubject = PassthroughSubject<Headlines, Error>()
+    @Published var categories: [Category] = []
     
-    var headlinesPublisher: AnyPublisher<Headlines, Error> {
-        return headlinesSubject.eraseToAnyPublisher()
+    required init(service: Webservice = Webservice(), preferences: Preferences) {
+        self.webService = service
+        self.preferences = preferences
+        
+        setup()
     }
     
-    required init(service: Webservice = Webservice()) {
-        webService = service
+    func setup() {
+        bind()
+        fire()
+        
+        #if DEBUG
+        generateMock()
+        #endif
     }
-    
-    func bind(headlines: Headlines) {
+
+    func bind() {
         Publishers.Zip4(
             webService.businessSubject,
             webService.entertainmentSubject,
@@ -31,21 +40,67 @@ class HeadlinesViewModel: ViewModel {
         )
             .map { $0 }
             .zip(webService.sportsSubject, webService.technologySubject, webService.healthSubject)
-            .map { ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.1, $0.2, $0.3) }
-            .map { result in
-                var updated = headlines
+            .map { result -> Headlines in
+                let data = self.processData(result: result)
                 
-                headlines.categories.enumerated().forEach { (index, category) in
-                    let result = [result.0, result.1, result.2, result.3, result.4, result.5, result.6].first(where: { $0.category == category.name })
-                    updated.categories[index].model = result?.result
+                let categories = self.preferences.selectedCategories.map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+                
+                let news = Headlines(type: self.preferences.selectedType, country: self.preferences.selectedCountry, categories: categories.sortedFavorite())
+                
+                news.categories.enumerated().forEach { (index, category) in
+
+                    let category = data.first(where: { $0.category == category.name })
+
+                    news.categories[index].articles = category?.result?.articles ?? []
+                    
                 }
-                return updated
-        }
-        .receive(subscriber: AnySubscriber(headlinesSubject))
+               
+                return news
+                
+                
+        }.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
+            self.categories = value.categories
+        }))
+        
     }
     
-    func fire(headlines: Headlines) {
-        webService.fetch(headlines: headlines)
+    func fire() {
+        webService.fetch(preferences: preferences)
+    }
+    
+    private func processData(result: ((HeadlinesResult, HeadlinesResult, HeadlinesResult, HeadlinesResult), HeadlinesResult, HeadlinesResult, HeadlinesResult)) -> [HeadlinesResult] {
+        
+        let data = [result.0.0, result.0.1, result.0.2, result.0.3, result.1, result.2, result.3]
+        
+        return data.filter { $0.result != nil }
+        
     }
 }
+
+extension HeadlinesViewModel {
+    private func generateMock() {
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        guard
+            let url = Bundle(for: Preferences.self).url(forResource: "top_headlines_mock", withExtension: "json"),
+            let data = try? Data(contentsOf: url),
+            let models = try? decoder.decode(Root.self, from: data) else {
+                return
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+
+            let categories = HeadlinesCategory.allCases.map {
+                Category(name: $0, isFavorite: $0 == .business, articles: models.articles)
+            }
+
+            let headlines = Headlines(type: .top, country: .germany, categories: categories.sortedFavorite())
+            
+            self.categories = headlines.categories
+        }
+    }
+}
+
 
