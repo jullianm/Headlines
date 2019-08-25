@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ArticleCell: UICollectionViewCell {
 
@@ -30,15 +31,6 @@ class ArticleCell: UICollectionViewCell {
     
     func configure(article: Article) {
         articleLabel.text = article.title
-        
-        guard let urlString = article.urlToImage else {
-            articleImageView.image = UIImage(named: "news")
-            return
-        }
-        
-        articleImageView.downloaded(from: urlString)
-        
+        articleImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
     }
-    
-
 }
