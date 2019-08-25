@@ -10,17 +10,19 @@ import SwiftUI
 
 struct ListMode: View {
     
-    var categories: [PreferencesCategory]
+    var categories: [Category]
     
     var body: some View {
         Group {
             
-            ForEach(self.categories, id: \.id) { category in
+            ForEach(self.categories, id: \.name) { category in
                 Section {
                     VStack(alignment: .leading) {
                         HStack {
                             
                             Text(category.name.rawValue.capitalizingFirstLetter())
+                            .font(.system(size: 30))
+                            .fontWeight(.semibold)
                             
                             if category.isFavorite {
                                 

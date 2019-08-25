@@ -16,18 +16,27 @@ enum Sorting: String {
 struct Endpoint {
     var path: String
     var queryItems: [URLQueryItem]
+    
+    private static let apiKey = "f0a2af1e23e14f75b3cd3fd51b53e0b8"
 }
 
 extension Endpoint {
-    static func search(sortedBy sorting: Sorting = .top,
-                       matching recency: Recency = .today,
-                       sortedBy category: String? = nil,
-                       matching keyword: String? = nil) -> Endpoint {
+    static func search(sorting: Sorting = .top,
+                       recency: Recency = .today,
+                       category: String? = nil,
+                       country: Country,
+                       keyword: String? = nil) -> Endpoint {
         
-        var items: [URLQueryItem] = []
+        let items: [URLQueryItem] = [
+            .init(name: "country", value: "fr"),
+            .init(name: "category", value: category),
+            .init(name: "q", value: keyword),
+            .init(name: "apiKey", value: apiKey)
+        ]
+        
         
         return Endpoint(
-            path: "/\(sorting.rawValue)",
+            path: "/v2/\(sorting.rawValue)",
             queryItems: items
         )
     }
@@ -36,7 +45,7 @@ extension Endpoint {
     var url: URL? {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "newsapi.org/v2"
+        components.host = "newsapi.org"
         components.path = path
         components.queryItems = queryItems
         

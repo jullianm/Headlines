@@ -89,7 +89,7 @@ struct PreferencesView: View {
                 
                 Button(action: {
                     self.validate()
-                    self.presentation.value.dismiss()
+                    self.presentation.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "checkmark")
                         .accentColor(Color.blue)
@@ -135,9 +135,7 @@ struct PreferencesView: View {
     }
     
     private func validate() {
-        preferences.type = type.filter {
-            $0.isSelected
-        }
+        preferences.type = type.filter { $0.isSelected }
         
         preferences.country = countries
             .first(where: { $0.isSelected })?
@@ -146,6 +144,8 @@ struct PreferencesView: View {
         preferences.categories = categories
             .filter { $0.isSelected }
             .sortedFavorite()
+        
+        preferences.update()
         
     }
     

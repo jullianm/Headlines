@@ -34,9 +34,10 @@ struct CountryPreferenceRow: View {
                     }
                 }) {
                     Image(systemName: "chevron.right.circle")
+                        .accentColor(Color.blue.opacity(showPicker ? 0.7: 1))
                         .imageScale(.large)
                         .rotationEffect(.degrees(showPicker ? 90 : 0))
-                        .scaleEffect(showPicker ? 1.5 : 1)
+                        .scaleEffect(showPicker ? 1.3 : 1)
                         .padding()
                 }
                 

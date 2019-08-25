@@ -9,78 +9,81 @@
 import Foundation
 import Combine
 
-typealias HeadlinesPublisher = (category: HeadlinesCategory, publisher: AnyPublisher<[Root], Error>)
+typealias HeadlinesPublisher = (category: HeadlinesCategory, publisher: AnyPublisher<Root, Error>)
+typealias HeadlinesResult = (category: HeadlinesCategory, result: Root?)
 
 class Webservice {
     
-    private let _data = CurrentValueSubject<[Category], Error>([])
-    
-    var categories: Publishers.Sequence<[Category], Error> {
-        return Publishers.Sequence(sequence: _data.value)
-    }
+    let businessSubject = PassthroughSubject<HeadlinesResult, Error>()
+    let politicsSubject = PassthroughSubject<HeadlinesResult, Error>()
+    let technologySubject = PassthroughSubject<HeadlinesResult, Error>()
+    let sportsSubject = PassthroughSubject<HeadlinesResult, Error>()
+    let scienceSubject = PassthroughSubject<HeadlinesResult, Error>()
+    let healthSubject = PassthroughSubject<HeadlinesResult, Error>()
+    let entertainmentSubject = PassthroughSubject<HeadlinesResult, Error>()
     
     func fetch(headlines: Headlines) {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
         
         let publishers = headlines.categories.map { category -> HeadlinesPublisher in
             
             let endpoint = Endpoint.search(
-                sortedBy: headlines.type == .top ? .top: .everything,
-                matching: .today,
-                sortedBy: category.name.rawValue,
-                matching: nil
+                sorting: headlines.type == .top ? .top: .everything,
+                recency: .today,
+                category: category.name.rawValue,
+                country: headlines.country,
+                keyword: nil
             )
             
             let publisher = URLSession.shared.dataTaskPublisher(for: endpoint.url!)
             .retry(2)
             .map { $0.data }
-            .decode(type: [Root].self, decoder: JSONDecoder())
+            .decode(type: Root.self, decoder: decoder)
+            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
             
             return (category: category.name, publisher)
-
         }
         
-        zip(publishers: publishers)
-        
+        process(publishers: publishers)
     }
     
-    private func zip(publishers: [HeadlinesPublisher]) {
-        switch publishers.count {
-        case 0:
-            break
-        case 1:
-            //FIXME: TO DO
-            break
-        case 2:
-            Publishers.Zip(
-                publishers[0].publisher, publishers[1].publisher
-            ).receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
-
-                self._data.send([
-                    Category(name: publishers[0].category, isFavorite: true),
-                    Category(name: publishers[1].category, isFavorite: true)
-                ])
-                
-            }))
-        case 3:
-            Publishers.Zip3(
-                publishers[0].publisher, publishers[1].publisher, publishers[2].publisher
-            )
-        case 4:
-            Publishers.Zip4(
-                publishers[0].publisher, publishers[1].publisher, publishers[2].publisher, publishers[3].publisher
-            )
-        case 5:
-            Publishers.Zip4(
-                publishers[0].publisher, publishers[1].publisher, publishers[2].publisher, publishers[3].publisher
-            ).map { $0 }.zip(publishers[4].publisher)
-        default:
-            Publishers.Zip4(
-                publishers[0].publisher, publishers[1].publisher, publishers[2].publisher, publishers[3].publisher
-            ).map { $0 }.zip(publishers[4].publisher, publishers[5].publisher)
+    private func process(publishers: [HeadlinesPublisher]) {
+        let categories = HeadlinesCategory.allCases
+        
+        categories.forEach { category in
+            check(category: category, forPublishers: publishers)
         }
     }
-
+    
+    private func check(category: HeadlinesCategory, forPublishers publishers: [HeadlinesPublisher]) {
+        if let publisher = publishers.first(where: { $0.category == category }) {
+            publisher.publisher.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
+                self.send(value: value, forCategory: category)
+            }))
+        } else {
+            send(value: nil, forCategory: category)
+        }
+    }
+    
+    private func send(value: Root?, forCategory category: HeadlinesCategory) {
+        switch category {
+        case .sports:
+            sportsSubject.send((category, value))
+        case .technology:
+            technologySubject.send((category, value))
+        case .business:
+            businessSubject.send((category, value))
+        case .politics:
+            politicsSubject.send((category, value))
+        case .science:
+            scienceSubject.send((category, value))
+        case .health:
+            healthSubject.send((category, value))
+        case .entertainment:
+            entertainmentSubject.send((category, value))
+        }
+    }
 }
-
 

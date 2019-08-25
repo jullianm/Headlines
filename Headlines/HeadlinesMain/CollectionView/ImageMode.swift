@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ImageMode: View {
     
-    var categories: [PreferencesCategory]
+    var categories: [Category]
     
     var body: some View {
         Group {
             
-            ForEach(self.categories, id: \.id) { category in
+            ForEach(self.categories, id: \.name) { category in
                 
                 VStack(alignment: .leading) {
                     HStack {
@@ -24,19 +24,15 @@ struct ImageMode: View {
                             .font(.system(size: 30))
                             .fontWeight(.semibold)
                         
-                        
                         if category.isFavorite {
-                            
                             Image(systemName: "star.fill")
                                 .imageScale(.medium)
                                 .foregroundColor(.yellow)
-                            
                         }
-                        
                     }
                     
-                    ReusableCollectionView(section: category.name)
-                }.frame(height: category.isFavorite ? 400: 200)
+                    ReusableCollectionView(section: category.name, model: category.model!)
+                }.frame(height: category.isFavorite ? 400: 300)
                 
             }
         }

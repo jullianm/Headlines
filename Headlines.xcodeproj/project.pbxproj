@@ -22,6 +22,8 @@
 		8124EB3122EF84CA00C1DC78 /* ListMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124EB3022EF84CA00C1DC78 /* ListMode.swift */; };
 		8124EB3322EF84D500C1DC78 /* ImageMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124EB3222EF84D500C1DC78 /* ImageMode.swift */; };
 		8124EB3522F00A0100C1DC78 /* ListNewsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124EB3422F00A0100C1DC78 /* ListNewsRow.swift */; };
+		8147F99B23125FEC00F7E2FF /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147F99923125FEC00F7E2FF /* ArticleCell.swift */; };
+		8147F99C23125FEC00F7E2FF /* ArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8147F99A23125FEC00F7E2FF /* ArticleCell.xib */; };
 		814DF679230680DA0052A61C /* ReusableCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814DF678230680DA0052A61C /* ReusableCollectionView.swift */; };
 		814DF67B230681430052A61C /* CollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814DF67A230681430052A61C /* CollectionViewFlowLayout.swift */; };
 		814DF67D2306886D0052A61C /* Coordinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814DF67C2306886D0052A61C /* Coordinators.swift */; };
@@ -52,6 +54,8 @@
 		8124EB3022EF84CA00C1DC78 /* ListMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMode.swift; sourceTree = "<group>"; };
 		8124EB3222EF84D500C1DC78 /* ImageMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMode.swift; sourceTree = "<group>"; };
 		8124EB3422F00A0100C1DC78 /* ListNewsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListNewsRow.swift; sourceTree = "<group>"; };
+		8147F99923125FEC00F7E2FF /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
+		8147F99A23125FEC00F7E2FF /* ArticleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleCell.xib; sourceTree = "<group>"; };
 		814DF678230680DA0052A61C /* ReusableCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCollectionView.swift; sourceTree = "<group>"; };
 		814DF67A230681430052A61C /* CollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		814DF67C2306886D0052A61C /* Coordinators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinators.swift; sourceTree = "<group>"; };
@@ -126,8 +130,8 @@
 		811B5F16230979CC005ACCDF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				811B5F14230979C5005ACCDF /* HeadlinesViewModel.swift */,
 				818D9DA72306FC4A000227E5 /* HeadlinesPreferences.swift */,
+				811B5F14230979C5005ACCDF /* HeadlinesViewModel.swift */,
 				818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */,
 				811B5F1D23097D5A005ACCDF /* HeadlinesModels.swift */,
 			);
@@ -188,6 +192,8 @@
 			children = (
 				8124EB3222EF84D500C1DC78 /* ImageMode.swift */,
 				814DF678230680DA0052A61C /* ReusableCollectionView.swift */,
+				8147F99923125FEC00F7E2FF /* ArticleCell.swift */,
+				8147F99A23125FEC00F7E2FF /* ArticleCell.xib */,
 				814DF67A230681430052A61C /* CollectionViewFlowLayout.swift */,
 			);
 			path = CollectionView;
@@ -262,6 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8147F99C23125FEC00F7E2FF /* ArticleCell.xib in Resources */,
 				811B5F1023095563005ACCDF /* LaunchScreen.storyboard in Resources */,
 				811008F922EC4E0F00486E5E /* Preview Assets.xcassets in Resources */,
 				810AF85422FB764A004E2396 /* Assets.xcassets in Resources */,
@@ -283,6 +290,7 @@
 				8124EB3322EF84D500C1DC78 /* ImageMode.swift in Sources */,
 				819561672305EA3700F93F9C /* CategoriesPreferenceRow.swift in Sources */,
 				81674CFA23055D3700858031 /* Webservice.swift in Sources */,
+				8147F99B23125FEC00F7E2FF /* ArticleCell.swift in Sources */,
 				814DF679230680DA0052A61C /* ReusableCollectionView.swift in Sources */,
 				818D9DA82306FC4A000227E5 /* HeadlinesPreferences.swift in Sources */,
 				811B5F1C23097B7D005ACCDF /* ViewModel.swift in Sources */,

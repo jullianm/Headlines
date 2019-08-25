@@ -18,10 +18,13 @@ public struct Root: Codable {
 // MARK: - Article
 public struct Article: Codable {
     let source: Source
-    let author, title, articleDescription: String
-    let url, urlToImage: String
+    let author: String?
+    let title: String
+    let articleDescription: String?
+    let url: String
+    let urlToImage: String?
     let publishedAt: Date
-    let content: String
+    let content: String?
 
     enum CodingKeys: String, CodingKey {
         case source, author, title
@@ -32,5 +35,6 @@ public struct Article: Codable {
 
 // MARK: - Source
 public struct Source: Codable {
-    let id, name: String
+    let id: String?
+    let name: String
 }

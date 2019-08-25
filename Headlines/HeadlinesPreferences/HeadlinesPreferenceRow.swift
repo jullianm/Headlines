@@ -29,8 +29,7 @@ struct HeadlinesPreferenceRow: View {
                     Circle().stroke(Color.black, lineWidth: 0.2)
                 )
             }
-            .scaleEffect(isSelected ? 1.5 : 1)
-            .accentColor(Color.blue)
+            .accentColor(Color.blue.opacity(isSelected ? 1: 0.5))
             
             Text(name)
             

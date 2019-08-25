@@ -50,16 +50,18 @@ struct ContentView: View {
                 
                 List {
                     if shouldDisplayList {
-                        ListMode(categories: preferences.categories)
+                        ListMode(categories: preferences.headlines.categories)
                     } else {
-                        ImageMode(categories: preferences.categories)
+                        ImageMode(categories: preferences.headlines.categories)
                     }
                 }
             }
             .navigationBarTitle(Text("Headlines"), displayMode: .inline)
             .navigationBarItems(leading:
                 Button(action: {
-                    self.shouldDisplayList.toggle()
+                    withAnimation {
+                        self.shouldDisplayList.toggle()
+                    }
                 }) {
                     Image(systemName: self.shouldDisplayList ? "list.bullet.below.rectangle": "list.bullet")
                         .accentColor(Color.black)
@@ -81,7 +83,8 @@ struct ContentView: View {
                     }
                 }
             )
-        }.sheet(
+        }
+        .sheet(
             isPresented: $showPreferencesModal,
             onDismiss: {
                 self.showPreferencesModal = false

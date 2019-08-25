@@ -18,3 +18,4 @@ protocol Coordinator {
 class MainCoordinator: Coordinator {
     var dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>?
 }
+
