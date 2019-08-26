@@ -16,8 +16,8 @@ enum HeadlinesType: String, CaseIterable {
 enum Country: String, CaseIterable {
     case france
     case germany
-    case gb
-    case usa
+    case GB
+    case USA
     case china
     case australia
     case sweden
@@ -30,9 +30,9 @@ enum Country: String, CaseIterable {
             return "fr"
         case .germany:
             return "de"
-        case .gb:
+        case .GB:
             return "gb"
-        case .usa:
+        case .USA:
             return "us"
         case .china:
             return "cn"

@@ -11,16 +11,18 @@ import SwiftUI
 private enum Selection {
     case type(PreferencesHeadlines)
     case category(PreferencesCategory, favorite: Bool)
+    case country(Int)
 }
 
 struct PreferencesView: View {
     
     @Environment(\.presentationMode) var presentation
-    @ObservedObject var viewModel: HeadlinesViewModel
     
     @State private var type = PreferencesHeadlines.all
     @State private var categories = PreferencesCategory.all
     @State private var countries = PreferencesCountry.all
+    
+    var viewModel: HeadlinesViewModel
     
     var isAllSelected: Bool {
         return type.first(where: { $0.isSelected })?.type == .all
@@ -38,7 +40,7 @@ struct PreferencesView: View {
                         .fontWeight(.semibold)) {
 
                             CountryPreferenceRow { value in
-                                self.countries[value].isSelected = true
+                                self.updatePreferences(selection: .country(value))
                             }
                     }
                 }
@@ -130,28 +132,30 @@ struct PreferencesView: View {
                     self.categories[matchingIndex].isFavorite = false
                 }
             }
+        case let .country(index):
+            
+            for (i, _) in self.countries.enumerated() where index != i {
+                self.countries[i].isSelected = false
+            }
+            
+            self.countries[index].isSelected = true
         }
         
     }
     
     private func validate() {
-        viewModel.preferences.type = type.filter { $0.isSelected }
-        
+        viewModel.preferences.type = (type.filter { $0.isSelected }.first?.type) ?? .top
+                
         viewModel.preferences.country = countries
             .first(where: { $0.isSelected })?
             .country ?? .france
-            
+        
         viewModel.preferences.categories = categories
             .filter { $0.isSelected }
+            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
             .sortedFavorite()
+        
+        viewModel.fire()
     }
-    
 }
 
-//#if DEBUG
-//struct PreferencesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PreferencesView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
-//    }
-//}
-//#endif

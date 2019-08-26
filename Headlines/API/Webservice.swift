@@ -22,17 +22,17 @@ class Webservice {
     let healthSubject = PassthroughSubject<HeadlinesResult, Error>()
     let entertainmentSubject = PassthroughSubject<HeadlinesResult, Error>()
     
-    func fetch(preferences: Preferences) {
+    func fetch(preferences: UserPreferences) {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         
-        let publishers = preferences.selectedCategories.map { category -> HeadlinesPublisher in
+        let publishers = preferences.categories.map { category -> HeadlinesPublisher in
             
             let endpoint = Endpoint.search(
-                sorting: preferences.selectedType == .top ? .top: .everything,
+                sorting: preferences.type == .top ? .top: .everything,
                 recency: .today,
                 category: category.name.rawValue,
-                country: preferences.selectedCountry,
+                country: preferences.country,
                 keyword: nil
             )
             

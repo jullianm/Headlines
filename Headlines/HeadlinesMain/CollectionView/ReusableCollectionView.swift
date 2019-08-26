@@ -24,7 +24,9 @@ final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
 
 struct ReusableCollectionView: UIViewRepresentable {
     
-    @ObservedObject var category: Category
+    @ObservedObject var viewModel: HeadlinesViewModel
+    
+    let section: HeadlinesCategory
     let delegate: ReusableCollectionViewDelegate
     
     func makeUIView(context: UIViewRepresentableContext<ReusableCollectionView>) -> UICollectionView {
@@ -44,7 +46,11 @@ struct ReusableCollectionView: UIViewRepresentable {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ArticleCell.self)", for: indexPath) as? ArticleCell
             
-            cell?.configure(article: self.category.articles[indexPath.item])
+            guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
+                return cell
+            }
+            
+            cell?.configure(article: category.articles[indexPath.item])
             
             return cell
             
@@ -61,7 +67,6 @@ struct ReusableCollectionView: UIViewRepresentable {
             return
         }
         populate(dataSource: dataSource)
-        
     }
     
     func makeCoordinator() -> MainCoordinator {
@@ -70,6 +75,10 @@ struct ReusableCollectionView: UIViewRepresentable {
     
     func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>) {
         var snapshot = NSDiffableDataSourceSnapshot<HeadlinesCategory, HeadlinesContainer>()
+        
+        guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
+            return
+        }
         
         let containers = category.articles.map(HeadlinesContainer.init)
         

@@ -33,10 +33,10 @@ struct Headlines {
     }
 }
 
-class Category: ObservableObject {
+class Category {
     var name: HeadlinesCategory = .business
     var isFavorite: Bool = false
-    @Published var articles: [Article]
+    var articles: [Article]
     
     init(name: HeadlinesCategory, isFavorite: Bool, articles: [Article] = []) {
         self.name = name

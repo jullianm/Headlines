@@ -10,13 +10,12 @@ import SwiftUI
 
 struct ImageMode: View {
     
-    var categories: [Category]
+    @ObservedObject var viewModel: HeadlinesViewModel
     
     var body: some View {
         Group {
             
-            ForEach(self.categories, id: \.name) { category in
-                
+            ForEach(self.viewModel.categories, id: \.name) { category in
                 VStack(alignment: .leading) {
                     HStack {
                         
@@ -31,7 +30,7 @@ struct ImageMode: View {
                         }
                     }
                     
-                    ReusableCollectionView(category: category, delegate: ReusableCollectionViewDelegate(section: category.name))
+                    ReusableCollectionView(viewModel: self.viewModel, section: category.name, delegate: ReusableCollectionViewDelegate(section: category.name))
                 }.frame(height: category.isFavorite ? 400: 300)
                 
             }
@@ -43,7 +42,7 @@ struct ImageMode: View {
 #if DEBUG
 struct ImageMode_Previews: PreviewProvider {
     static var previews: some View {
-        ImageMode(categories: [])
+        ImageMode(viewModel: HeadlinesViewModel(preferences: UserPreferences()))
     }
 }
 #endif

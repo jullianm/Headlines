@@ -50,9 +50,9 @@ struct ContentView: View {
                 
                 List {
                     if shouldDisplayList {
-                        ListMode(categories: viewModel.categories)
+                        ListMode(viewModel: viewModel)
                     } else {
-                        ImageMode(categories: viewModel.categories)
+                        ImageMode(viewModel: viewModel)
                     }
                 }
             }

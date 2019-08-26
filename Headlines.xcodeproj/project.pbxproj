@@ -32,7 +32,7 @@
 		814DF67D2306886D0052A61C /* Coordinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814DF67C2306886D0052A61C /* Coordinators.swift */; };
 		81674CF6230532B300858031 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81674CF5230532B300858031 /* PreferencesView.swift */; };
 		81674CFA23055D3700858031 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81674CF923055D3700858031 /* Webservice.swift */; };
-		818D9DA82306FC4A000227E5 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA72306FC4A000227E5 /* Preferences.swift */; };
+		818D9DA82306FC4A000227E5 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA72306FC4A000227E5 /* UserPreferences.swift */; };
 		818D9DAA2306FD65000227E5 /* HeadlinesPreferencesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */; };
 		818D9DAC2306FD89000227E5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DAB2306FD89000227E5 /* Extensions.swift */; };
 		819561652305EA1400F93F9C /* HeadlinesPreferenceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819561642305EA1400F93F9C /* HeadlinesPreferenceRow.swift */; };
@@ -66,7 +66,7 @@
 		814DF67C2306886D0052A61C /* Coordinators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinators.swift; sourceTree = "<group>"; };
 		81674CF5230532B300858031 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		81674CF923055D3700858031 /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
-		818D9DA72306FC4A000227E5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		818D9DA72306FC4A000227E5 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesPreferencesModels.swift; sourceTree = "<group>"; };
 		818D9DAB2306FD89000227E5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		819561642305EA1400F93F9C /* HeadlinesPreferenceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesPreferenceRow.swift; sourceTree = "<group>"; };
@@ -217,7 +217,7 @@
 		8195615F2305E96600F93F9C /* HeadlinesPreferences */ = {
 			isa = PBXGroup;
 			children = (
-				818D9DA72306FC4A000227E5 /* Preferences.swift */,
+				818D9DA72306FC4A000227E5 /* UserPreferences.swift */,
 				81674CF5230532B300858031 /* PreferencesView.swift */,
 				811B5F0D2308A0FE005ACCDF /* CountryPreferenceRow.swift */,
 				819561662305EA3700F93F9C /* CategoriesPreferenceRow.swift */,
@@ -315,7 +315,7 @@
 				81674CFA23055D3700858031 /* Webservice.swift in Sources */,
 				8147F99B23125FEC00F7E2FF /* ArticleCell.swift in Sources */,
 				814DF679230680DA0052A61C /* ReusableCollectionView.swift in Sources */,
-				818D9DA82306FC4A000227E5 /* Preferences.swift in Sources */,
+				818D9DA82306FC4A000227E5 /* UserPreferences.swift in Sources */,
 				811B5F1C23097B7D005ACCDF /* ViewModel.swift in Sources */,
 				811B5F0E2308A0FE005ACCDF /* CountryPreferenceRow.swift in Sources */,
 				811B5F15230979C5005ACCDF /* HeadlinesViewModel.swift in Sources */,

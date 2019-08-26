@@ -11,10 +11,10 @@ import Combine
 
 protocol ViewModel {
     var webService: Webservice { get set }
-    var preferences: Preferences { get set }
+    var preferences: UserPreferences { get set }
     var categories: [Category] { get set }
     
-    init(service: Webservice, preferences: Preferences)
+    init(service: Webservice, preferences: UserPreferences)
     
     func setup()
     func fire()

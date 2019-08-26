@@ -11,11 +11,19 @@ import Combine
 
 class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
-    var preferences: Preferences
+    var preferences: UserPreferences
     
-    @Published var categories: [Category] = []
+    let objectWillChange = ObservableObjectPublisher()
     
-    required init(service: Webservice = Webservice(), preferences: Preferences) {
+    var categories: [Category] = [] {
+        willSet {
+            if newValue.count > 0 {
+                objectWillChange.send()
+            }
+        }
+    }
+    
+    required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
         self.preferences = preferences
         
@@ -25,10 +33,6 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
     func setup() {
         bind()
         fire()
-        
-        #if DEBUG
-        generateMock()
-        #endif
     }
 
     func bind() {
@@ -43,19 +47,17 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
             .map { result -> Headlines in
                 let data = self.processData(result: result)
                 
-                let categories = self.preferences.selectedCategories.map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+                let headlines = Headlines(type: self.preferences.type, country: self.preferences.country, categories: self.preferences.categories)
                 
-                let news = Headlines(type: self.preferences.selectedType, country: self.preferences.selectedCountry, categories: categories.sortedFavorite())
-                
-                news.categories.enumerated().forEach { (index, category) in
+                headlines.categories.enumerated().forEach { (index, category) in
 
                     let category = data.first(where: { $0.category == category.name })
 
-                    news.categories[index].articles = category?.result?.articles ?? []
+                    headlines.categories[index].articles = category?.result?.articles ?? []
                     
                 }
                
-                return news
+                return headlines
                 
                 
         }.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
@@ -74,32 +76,6 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         
         return data.filter { $0.result != nil }
         
-    }
-}
-
-extension HeadlinesViewModel {
-    private func generateMock() {
-
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-
-        guard
-            let url = Bundle(for: Preferences.self).url(forResource: "top_headlines_mock", withExtension: "json"),
-            let data = try? Data(contentsOf: url),
-            let models = try? decoder.decode(Root.self, from: data) else {
-                return
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-
-            let categories = HeadlinesCategory.allCases.map {
-                Category(name: $0, isFavorite: $0 == .business, articles: models.articles)
-            }
-
-            let headlines = Headlines(type: .top, country: .germany, categories: categories.sortedFavorite())
-            
-            self.categories = headlines.categories
-        }
     }
 }
 

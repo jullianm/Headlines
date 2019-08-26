@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ListMode: View {
     
-    var categories: [Category]
+    var viewModel: HeadlinesViewModel
     
     var body: some View {
         Group {
             
-            ForEach(self.categories, id: \.name) { category in
+            ForEach(self.viewModel.categories, id: \.name) { category in
                 Section {
                     VStack(alignment: .leading) {
                         HStack {
@@ -47,7 +47,7 @@ struct ListMode: View {
 #if DEBUG
 struct ListMode_Previews: PreviewProvider {
     static var previews: some View {
-        ListMode(categories: [])
+        ListMode(viewModel: HeadlinesViewModel(preferences: UserPreferences()))
     }
 }
 #endif

@@ -16,6 +16,8 @@ enum Sorting: String {
 struct Endpoint {
     var path: String
     var queryItems: [URLQueryItem]
+    
+    private static let apiKey = "f0a2af1e23e14f75b3cd3fd51b53e0b8"
 }
 
 extension Endpoint {
@@ -29,9 +31,8 @@ extension Endpoint {
             .init(name: "country", value: country.convert),
             .init(name: "category", value: category),
             .init(name: "q", value: keyword),
-            .init(name: "apiKey", value: "")
+            .init(name: "apiKey", value: apiKey)
         ]
-        
         
         return Endpoint(
             path: "/v2/\(sorting.rawValue)",
