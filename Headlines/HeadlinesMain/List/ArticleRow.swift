@@ -8,20 +8,17 @@
 
 import SwiftUI
 
-struct ListNewsRow: View {
+struct ArticleRow: View {
+    
+    var article: Article
+    
     var body: some View {
         HStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello World!"/*@END_MENU_TOKEN@*/)
+            Text(self.article.title)
             Spacer()
             Image(systemName: "chevron.right")
         }.padding()
+        
     }
 }
 
-#if DEBUG
-struct ListNewsRow_Previews: PreviewProvider {
-    static var previews: some View {
-        ListNewsRow()
-    }
-}
-#endif

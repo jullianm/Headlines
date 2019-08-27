@@ -33,7 +33,8 @@ struct Headlines {
     }
 }
 
-class Category {
+struct Category: Identifiable {
+    let id = UUID()
     var name: HeadlinesCategory = .business
     var isFavorite: Bool = false
     var articles: [Article]

@@ -15,44 +15,49 @@ enum Recency: String, CaseIterable {
     case sevenDays = "7 days"
 }
 
+enum Mode {
+    case list
+    case image
+}
+
 struct ContentView: View {
     
-    @ObservedObject var viewModel: HeadlinesViewModel
+    @ObservedObject var viewModel = HeadlinesViewModel(preferences: UserPreferences())
     
-    @State private var shouldDisplayList = false
-    @State private var sortByRecency = 0
+    @State private var mode: Mode = .image
     @State private var isSearching = false
     @State private var keyword = ""
     @State private var showPreferencesModal = false
-        
+    
     var body: some View {
         NavigationView {
-            VStack {
-                ZStack {
+            VStack(alignment: .leading) {
+                
+                if self.isSearching {
                     TextField("Search for articles, posts, headlines..", text: $keyword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .transition(.scale)
-                        .opacity(isSearching ? 1: 0)
-                        .animation(.easeInOut(duration: 0.3))
-                    
-                    Picker(
-                        selection: $sortByRecency,
-                        label: Text("")) {
-                            ForEach(0..<Recency.allCases.count, id: \.self) {
-                                Text(Recency.allCases[$0].rawValue).tag($0)
-                            }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .opacity(isSearching ? 0: 1)
-                    .animation(.easeInOut(duration: 0.5))
-                    
+                        .animation(.easeInOut(duration: 0.5))
                 }
-                
+            
                 List {
-                    if shouldDisplayList {
-                        ListMode(viewModel: viewModel)
-                    } else {
-                        ImageMode(viewModel: viewModel)
+                    ForEach(viewModel.categories, id: \.name) { category in
+                        Section {
+                            if self.mode == .image {
+                                VStack(alignment: .leading) {
+                                    HeaderView(category: category)
+                                    ReusableCollectionView(
+                                        category: category,
+                                        section: category.name,
+                                        delegate: ReusableCollectionViewDelegate(section: category.name)
+                                    )
+                                }.frame(height: category.isFavorite ? 400: 300)
+                            } else {
+                                HeaderView(category: category)
+                                ForEach(category.articles, id: \.title) { article in
+                                    ArticleRow(article: article)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -60,10 +65,10 @@ struct ContentView: View {
             .navigationBarItems(leading:
                 Button(action: {
                     withAnimation {
-                        self.shouldDisplayList.toggle()
+                        self.mode = (self.mode == .list) ? .image: .list
                     }
                 }) {
-                    Image(systemName: self.shouldDisplayList ? "list.bullet.below.rectangle": "list.bullet")
+                    Image(systemName: (self.mode == .list) ? "list.bullet.below.rectangle": "list.bullet")
                         .accentColor(Color.black)
                 }
                 , trailing:
@@ -76,7 +81,9 @@ struct ContentView: View {
                     }
                     
                     Button(action: {
-                        self.isSearching.toggle()
+                        withAnimation {
+                            self.isSearching.toggle()
+                        }
                     }) {
                         Image(systemName: "magnifyingglass")
                             .accentColor(isSearching ? Color.gray: Color.black)
@@ -95,10 +102,10 @@ struct ContentView: View {
     }
 }
 
-//#if DEBUG
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView(preferences: HeadlinesPreferences(viewModel: HeadlinesViewModel()))
-//    }
-//}
-//#endif
+#if DEBUG
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView(viewModel: HeadlinesViewModel(preferences: UserPreferences()))
+    }
+}
+#endif

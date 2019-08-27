@@ -16,7 +16,7 @@ public struct Root: Codable {
 }
 
 // MARK: - Article
-public struct Article: Codable {
+public class Article: Codable {
     let source: Source
     let author: String?
     let title: String

@@ -47,7 +47,7 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
             .map { result -> Headlines in
                 let data = self.processData(result: result)
                 
-                let headlines = Headlines(type: self.preferences.type, country: self.preferences.country, categories: self.preferences.categories)
+                var headlines = Headlines(type: self.preferences.type, country: self.preferences.country, categories: self.preferences.categories)
                 
                 headlines.categories.enumerated().forEach { (index, category) in
 

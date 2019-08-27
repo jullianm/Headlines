@@ -24,7 +24,7 @@ final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
 
 struct ReusableCollectionView: UIViewRepresentable {
     
-    @ObservedObject var viewModel: HeadlinesViewModel
+    var category: Category
     
     let section: HeadlinesCategory
     let delegate: ReusableCollectionViewDelegate
@@ -45,12 +45,12 @@ struct ReusableCollectionView: UIViewRepresentable {
         let dataSource = UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ArticleCell.self)", for: indexPath) as? ArticleCell
+//
+//            guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
+//                return cell
+//            }
             
-            guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
-                return cell
-            }
-            
-            cell?.configure(article: category.articles[indexPath.item])
+            cell?.configure(article: self.category.articles[indexPath.item])
             
             return cell
             
@@ -76,11 +76,11 @@ struct ReusableCollectionView: UIViewRepresentable {
     func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>) {
         var snapshot = NSDiffableDataSourceSnapshot<HeadlinesCategory, HeadlinesContainer>()
         
-        guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
-            return
-        }
-        
-        let containers = category.articles.map(HeadlinesContainer.init)
+//        guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
+//            return
+//        }
+//
+        let containers = self.category.articles.map(HeadlinesContainer.init)
         
         snapshot.appendSections([category.name])
 

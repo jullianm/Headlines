@@ -22,6 +22,8 @@ struct PreferencesView: View {
     @State private var categories = PreferencesCategory.all
     @State private var countries = PreferencesCountry.all
     
+    @State private var sortByRecency = 0
+    
     var viewModel: HeadlinesViewModel
     
     var isAllSelected: Bool {
@@ -33,6 +35,18 @@ struct PreferencesView: View {
     var body: some View {
         NavigationView {
             List {
+                Section(header: Text("Recency")
+                    .font(.system(size: 20))
+                    .fontWeight(.semibold)) {
+                        Picker(
+                            selection: $sortByRecency,
+                            label: Text("")) {
+                                ForEach(0..<Recency.allCases.count, id: \.self) {
+                                    Text(Recency.allCases[$0].rawValue).tag($0)
+                                }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                }
                 
                 if !isAllSelected {
                     Section(header: Text("Country")
