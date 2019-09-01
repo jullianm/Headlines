@@ -13,7 +13,7 @@ struct CountryPreferenceRow: View {
     @State private var countryIndex: Int = 0
     @State private var showPicker = false
     
-    private let countries = Country.allCases
+    private let countries = HeadlinesCountry.allCases
     let action: (_ value: Int) -> ()
     
     var body: some View {
@@ -41,9 +41,7 @@ struct CountryPreferenceRow: View {
                         .padding()
                 }
                 
-                Text(
-                    countries[countryIndex].rawValue.capitalizingFirstLetter()
-                )
+                Text(countries[countryIndex].rawValue.capitalizingFirstLetter())
                 
             }
             

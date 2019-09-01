@@ -13,7 +13,7 @@ enum HeadlinesType: String, CaseIterable {
     case all
 }
 
-enum Country: String, CaseIterable {
+enum HeadlinesCountry: String, CaseIterable {
     case france
     case germany
     case GB
@@ -49,11 +49,11 @@ enum Country: String, CaseIterable {
 }
 
 struct PreferencesCountry {
-    var country: Country
+    var country: HeadlinesCountry
     var isSelected: Bool
     
     static var all: [PreferencesCountry] {
-        return Country.allCases.map {
+        return HeadlinesCountry.allCases.map {
             PreferencesCountry(country: $0, isSelected: false)
         }
     }
@@ -88,3 +88,22 @@ struct PreferencesCategory: Identifiable {
     }
 }
 
+enum HeadlinesRecency: String, CaseIterable {
+    case today = "Today"
+    case yesterday = "Yesterday"
+    case threeDays = "3 days"
+    case sevenDays = "7 days"
+    
+    var fromTo: (from: Date, to: Date) {
+        switch self {
+        case .today:
+            return (from: Date.today, to: Date.today)
+        case .yesterday:
+            return (from: Date.yesterday, to: Date.today)
+        case .threeDays:
+            return (from: Date.threeDaysAgo, to: Date.today)
+        case .sevenDays:
+            return (from: Date.sevenDaysAgo, to: Date.today)
+        }
+    }
+}

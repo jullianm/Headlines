@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+typealias UserSelection = (type: [PreferencesHeadlines], categories: [PreferencesCategory], country: [PreferencesCountry], recency: HeadlinesRecency)
+
 private enum Selection {
     case type(PreferencesHeadlines)
     case category(PreferencesCategory, favorite: Bool)
@@ -22,7 +24,7 @@ struct PreferencesView: View {
     @State private var categories = PreferencesCategory.all
     @State private var countries = PreferencesCountry.all
     
-    @State private var sortByRecency = 0
+    @State private var recencyIndex = 0
     
     var viewModel: HeadlinesViewModel
     
@@ -39,10 +41,10 @@ struct PreferencesView: View {
                     .font(.system(size: 20))
                     .fontWeight(.semibold)) {
                         Picker(
-                            selection: $sortByRecency,
+                            selection: $recencyIndex,
                             label: Text("")) {
-                                ForEach(0..<Recency.allCases.count, id: \.self) {
-                                    Text(Recency.allCases[$0].rawValue).tag($0)
+                                ForEach(0..<HeadlinesRecency.allCases.count, id: \.self) {
+                                    Text(HeadlinesRecency.allCases[$0].rawValue).tag($0)
                                 }
                         }
                         .pickerStyle(SegmentedPickerStyle())
@@ -54,7 +56,7 @@ struct PreferencesView: View {
                         .fontWeight(.semibold)) {
 
                             CountryPreferenceRow { value in
-                                self.updatePreferences(selection: .country(value))
+                                self.updateUI(selection: .country(value))
                             }
                     }
                 }
@@ -69,7 +71,7 @@ struct PreferencesView: View {
                                     name: headline.type.rawValue.capitalizingFirstLetter(),
                                     isSelected: headline.isSelected) {
                                         
-                                        self.updatePreferences(selection: .type(headline))
+                                        self.updateUI(selection: .type(headline))
                                 }
                             }.padding()
                 }
@@ -87,11 +89,11 @@ struct PreferencesView: View {
                                     isSelected: category.isSelected,
                                     onButtonTapped: {
                                         
-                                        self.updatePreferences(selection: .category(category, favorite: false))
+                                        self.updateUI(selection: .category(category, favorite: false))
                                         
                                 }) { // on favorite tapped
                                     
-                                    self.updatePreferences(selection: .category(category, favorite: true))
+                                    self.updateUI(selection: .category(category, favorite: true))
                                     
                                 }
                                 
@@ -104,7 +106,14 @@ struct PreferencesView: View {
             .navigationBarItems(trailing:
                 
                 Button(action: {
-                    self.validate()
+                    self.viewModel.update(
+                        pref: (
+                            type: self.type,
+                            categories: self.categories,
+                            country: self.countries,
+                            recency: HeadlinesRecency.allCases[self.recencyIndex]
+                        )
+                    )
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "checkmark")
@@ -114,8 +123,10 @@ struct PreferencesView: View {
             )
         }
     }
-    
-    private func updatePreferences(selection: Selection) {
+}
+
+extension PreferencesView {
+    private func updateUI(selection: Selection) {
         switch selection {
             
         case let .type(headline):
@@ -156,20 +167,4 @@ struct PreferencesView: View {
         }
         
     }
-    
-    private func validate() {
-        viewModel.preferences.type = (type.filter { $0.isSelected }.first?.type) ?? .top
-                
-        viewModel.preferences.country = countries
-            .first(where: { $0.isSelected })?
-            .country ?? .france
-        
-        viewModel.preferences.categories = categories
-            .filter { $0.isSelected }
-            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
-            .sortedFavorite()
-        
-        viewModel.fire()
-    }
 }
-

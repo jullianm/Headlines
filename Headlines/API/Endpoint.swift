@@ -22,15 +22,17 @@ struct Endpoint {
 
 extension Endpoint {
     static func search(sorting: Sorting = .top,
-                       recency: Recency = .today,
+                       recency: HeadlinesRecency = .today,
                        category: String? = nil,
-                       country: Country,
+                       country: HeadlinesCountry,
                        keyword: String? = nil) -> Endpoint {
         
         let items: [URLQueryItem] = [
             .init(name: "country", value: country.convert),
             .init(name: "category", value: category),
             .init(name: "q", value: keyword),
+            .init(name: "from", value: recency.fromTo.from.format()),
+            .init(name: "to", value: recency.fromTo.to.format()),
             .init(name: "apiKey", value: apiKey)
         ]
         

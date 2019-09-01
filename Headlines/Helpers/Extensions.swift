@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import Combine
 
-// MARK: - String
 extension String {
     func capitalizingFirstLetter() -> String {
         return prefix(1).capitalized + dropFirst()
@@ -21,7 +20,6 @@ extension String {
     }
 }
 
-// MARK: - Array
 extension Array where Element: Identifiable {
 
     var firstIndex: (UUID, _ matches: Bool) -> Index {
@@ -62,5 +60,29 @@ extension Array where Element == Category {
         arr.insert(self[index], at: 0)
         
         return arr
+    }
+}
+
+extension Date {
+    static var today: Date { return Date() }
+    static var yesterday: Date { return Date().dayBefore }
+    static var threeDaysAgo: Date { return Date().threeDaysAgo }
+    static var sevenDaysAgo: Date { return Date().threeDaysAgo }
+
+    private var dayBefore: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)!
+    }
+    private var threeDaysAgo: Date {
+        return Calendar.current.date(byAdding: .day, value: -3, to: self)!
+    }
+    private var sevenDaysAgo: Date {
+        return Calendar.current.date(byAdding: .day, value: -7, to: self)!
+    }
+    
+    func format() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let stringDate = dateFormatter.string(from: self)
+        return stringDate
     }
 }

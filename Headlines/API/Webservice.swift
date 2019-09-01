@@ -30,7 +30,7 @@ class Webservice {
             
             let endpoint = Endpoint.search(
                 sorting: preferences.type == .top ? .top: .everything,
-                recency: .today,
+                recency: preferences.recency,
                 category: category.name.rawValue,
                 country: preferences.country,
                 keyword: nil

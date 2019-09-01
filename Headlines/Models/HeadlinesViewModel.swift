@@ -19,9 +19,12 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         willSet {
             if newValue.count > 0 {
                 objectWillChange.send()
+                isLoading = false
             }
         }
     }
+    
+    var isLoading = true
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
@@ -67,9 +70,35 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func fire() {
+        isLoading = true
         webService.fetch(preferences: preferences)
     }
     
+}
+
+extension HeadlinesViewModel {
+    func update(pref: UserSelection) {
+
+        preferences.type = (pref.type.filter { $0.isSelected }.first?.type) ?? .top
+                
+        preferences.country = pref.country
+            .first(where: { $0.isSelected })?
+            .country ?? .france
+        
+        preferences.categories = pref.categories
+            .filter { $0.isSelected }
+            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+            .sortedFavorite()
+        
+        preferences.recency = pref.recency
+        
+        fire()
+        
+    }
+}
+
+
+extension HeadlinesViewModel {
     private func processData(result: ((HeadlinesResult, HeadlinesResult, HeadlinesResult, HeadlinesResult), HeadlinesResult, HeadlinesResult, HeadlinesResult)) -> [HeadlinesResult] {
         
         let data = [result.0.0, result.0.1, result.0.2, result.0.3, result.1, result.2, result.3]
@@ -78,5 +107,3 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         
     }
 }
-
-

@@ -11,10 +11,10 @@ import Combine
 
 struct Headlines {
     let type: HeadlinesType
-    let country: Country
+    let country: HeadlinesCountry
     var categories: [Category]
     
-    init(type: HeadlinesType = .top, country: Country = .france, categories: [Category] = []) {
+    init(type: HeadlinesType = .top, country: HeadlinesCountry = .france, categories: [Category] = []) {
         self.type = type
         self.country = country
         self.categories = categories
@@ -43,5 +43,13 @@ struct Category: Identifiable {
         self.name = name
         self.isFavorite = isFavorite
         self.articles = articles
+    }
+    
+    static var all: [Category] {
+        let categories = PreferencesCategory.all
+            .filter { $0.isSelected }
+            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+
+        return categories.sortedFavorite()
     }
 }
