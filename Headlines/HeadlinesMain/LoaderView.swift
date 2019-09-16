@@ -37,8 +37,7 @@ struct LoaderView<Content>: View where Content: View {
                 
                 ActivityIndicator(isAnimating: self.isShowing, style: .large)
                     
-                    .frame(width: geometry.size.width / 4,
-                           height: geometry.size.height / 7.5)
+                    .frame(width: geometry.size.width / 4, height: geometry.size.height / 7.5)
                     .background(Color.gray.opacity(0.5))
                     .foregroundColor(Color.primary)
                     .cornerRadius(20)

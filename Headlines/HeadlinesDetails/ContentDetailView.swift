@@ -35,19 +35,15 @@ struct ContentDetailView: View {
                 if self.imageLoader.image != nil {
                     Image(uiImage: self.imageLoader.image!)
                         .resizable()
-                        .renderingMode(.original)
+                        .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(10.0)
-                        .scaleEffect(self.isImageLoaded ? 1 : 0.6)
-                        .animation(.spring())
-                        .scaledToFit()
+                        .frame(width: 350, height: 400, alignment: .center)
                 } else {
                     Image("news")
                         .resizable()
-                        .renderingMode(.original)
+                        .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(10.0)
-                        .scaleEffect(self.isImageLoaded ? 1 : 0.6)
-                        .animation(.spring())
-                        .scaledToFit()
+                        .frame(width: 350, height: 400, alignment: .center)
                 }
             }
             
