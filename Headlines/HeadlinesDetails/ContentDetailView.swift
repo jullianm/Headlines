@@ -7,9 +7,11 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
 
 struct ContentDetailView: View {
+    @ObservedObject var imageLoader: ImageLoader
+    @State var isImageLoaded = false
+    
     let article: Article?
     
     var body: some View {
@@ -17,9 +19,9 @@ struct ContentDetailView: View {
             Section {
                 HStack {
                     Spacer()
-                    Image(systemName: "minus")
+                    Image(systemName: "chevron.down")
                         .accentColor(.gray)
-                        .opacity(0.6)
+                        .opacity(0.3)
                     Spacer()
                 }
             }
@@ -30,9 +32,23 @@ struct ContentDetailView: View {
             }
             
             Section {
-                AnimatedImage(url: URL(string: article?.urlToImage ?? "")!)
-                    .scaledToFit()
-                    .frame(width: 200, height: 200, alignment: .center)
+                if self.imageLoader.image != nil {
+                    Image(uiImage: self.imageLoader.image!)
+                        .resizable()
+                        .renderingMode(.original)
+                        .cornerRadius(10.0)
+                        .scaleEffect(self.isImageLoaded ? 1 : 0.6)
+                        .animation(.spring())
+                        .scaledToFit()
+                } else {
+                    Image("news")
+                        .resizable()
+                        .renderingMode(.original)
+                        .cornerRadius(10.0)
+                        .scaleEffect(self.isImageLoaded ? 1 : 0.6)
+                        .animation(.spring())
+                        .scaledToFit()
+                }
             }
             
             Section {

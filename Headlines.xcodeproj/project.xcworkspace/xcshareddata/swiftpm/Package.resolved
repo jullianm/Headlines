@@ -9,15 +9,6 @@
           "revision": "0a3cd255a655b73fb3b3437acf2ab506b5c0c9c6",
           "version": "5.1.0"
         }
-      },
-      {
-        "package": "SDWebImageSwiftUI",
-        "repositoryURL": "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
-        "state": {
-          "branch": null,
-          "revision": "2ba09192c2ba5ef11f4b7e382ad8af81e4a258af",
-          "version": "0.1.0"
-        }
       }
     ]
   },

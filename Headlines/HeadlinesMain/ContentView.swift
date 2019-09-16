@@ -65,7 +65,10 @@ struct ContentView: View {
             isPresented: $navigator.showSheet,
             onDismiss: { self.navigator.showSheet = false }, content: {
                 if self.navigator.presenting == .details {
-                    ContentDetailView(article: self.viewModel.selectedArticle)
+                    ContentDetailView(
+                        imageLoader: ImageLoader(model: self.viewModel),
+                        article: self.viewModel.selectedArticle
+                    )
                 } else {
                     PreferencesView(viewModel: self.viewModel)
                 }
