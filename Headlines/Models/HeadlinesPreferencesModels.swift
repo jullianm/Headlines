@@ -8,11 +8,7 @@
 
 import Foundation
 
-enum HeadlinesType: String, CaseIterable {
-    case top
-    case all
-}
-
+// MARK: Countries
 enum HeadlinesCountry: String, CaseIterable {
     case france
     case germany
@@ -59,35 +55,27 @@ struct PreferencesCountry {
     }
 }
 
-struct PreferencesHeadlines: Identifiable {
-    var id = UUID()
-    var type: HeadlinesType
-    var isSelected: Bool
-    
-    static var all: [PreferencesHeadlines] {
-        return HeadlinesType.allCases.map {
-            PreferencesHeadlines(type: $0, isSelected: $0 == .top)
-        }
-    }
-}
-
+// MARK: Categories
 struct PreferencesCategory: Identifiable {
     var id = UUID()
-    var name: HeadlinesCategory
+    var name: HeadlinesSection
     var isSelected: Bool
     var isFavorite: Bool
     
     static var all: [PreferencesCategory] {
-        return HeadlinesCategory.allCases.map {
-            PreferencesCategory(
-                name: $0,
-                isSelected: $0 == .business,
-                isFavorite: $0 == .business
-            )
+        return HeadlinesSection.allCases
+            .filter { $0 != .filtered }
+            .map {
+                PreferencesCategory(
+                    name: $0,
+                    isSelected: true,
+                    isFavorite: $0 == .technology
+                )
         }
     }
 }
 
+// MARK: Recency
 enum HeadlinesRecency: String, CaseIterable {
     case today = "Today"
     case yesterday = "Yesterday"

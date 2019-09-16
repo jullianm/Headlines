@@ -10,45 +10,42 @@ import Foundation
 import Combine
 
 struct Headlines {
-    let type: HeadlinesType
     let country: HeadlinesCountry
-    var categories: [Category]
+    var categories: [HeadlinesCategory]
     
-    init(type: HeadlinesType = .top, country: HeadlinesCountry = .france, categories: [Category] = []) {
-        self.type = type
+    init(country: HeadlinesCountry = .france, categories: [HeadlinesCategory] = []) {
         self.country = country
         self.categories = categories
     }
     
     static var all: Headlines {
-        let categories = HeadlinesCategory.allCases.map {
-            Category(name: $0, isFavorite: $0 == .technology)
+        let categories = HeadlinesSection.allCases.map {
+            HeadlinesCategory(name: $0, isFavorite: $0 == .technology)
         }
                 
         return Headlines(
-            type: .top,
             country: .france,
             categories: categories.sortedFavorite()
         )
     }
 }
 
-struct Category: Identifiable {
+struct HeadlinesCategory: Identifiable {
     let id = UUID()
-    var name: HeadlinesCategory = .business
+    var name: HeadlinesSection = .business
     var isFavorite: Bool = false
     var articles: [Article]
     
-    init(name: HeadlinesCategory, isFavorite: Bool, articles: [Article] = []) {
+    init(name: HeadlinesSection, isFavorite: Bool, articles: [Article] = []) {
         self.name = name
         self.isFavorite = isFavorite
         self.articles = articles
     }
     
-    static var all: [Category] {
+    static var all: [HeadlinesCategory] {
         let categories = PreferencesCategory.all
             .filter { $0.isSelected }
-            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+            .map { HeadlinesCategory(name: $0.name, isFavorite: $0.isFavorite) }
 
         return categories.sortedFavorite()
     }

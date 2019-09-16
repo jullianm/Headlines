@@ -15,7 +15,7 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
     
     let objectWillChange = ObservableObjectPublisher()
     
-    var categories: [Category] = [] {
+    var data: [HeadlinesCategory] = [] {
         willSet {
             if newValue.count > 0 {
                 objectWillChange.send()
@@ -24,6 +24,30 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         }
     }
     
+    var selectedArticle: Article?
+    
+    var isSearching: Bool = false {
+        willSet {
+            objectWillChange.send()
+        }
+    }
+    
+    var keyword: String = "" {
+        willSet {
+            guard newValue != "" else {
+                data.removeAll(where: { $0.name == .filtered })
+                objectWillChange.send()
+                return
+            }
+            
+            data.removeAll(where: { $0.name == .filtered })
+            
+            let articles = data.flatMap { $0.articles.filter { $0.title.contains(newValue) } }
+            data.insert(.init(name: .filtered, isFavorite: false, articles: articles), at: 0)
+            
+            objectWillChange.send()
+        }
+    }
     var isLoading = true
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
@@ -50,7 +74,7 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
             .map { result -> Headlines in
                 let data = self.processData(result: result)
                 
-                var headlines = Headlines(type: self.preferences.type, country: self.preferences.country, categories: self.preferences.categories)
+                var headlines = Headlines(country: self.preferences.country, categories: self.preferences.categories)
                 
                 headlines.categories.enumerated().forEach { (index, category) in
 
@@ -64,7 +88,7 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
                 
                 
         }.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
-            self.categories = value.categories
+            self.data = value.categories
         }))
         
     }
@@ -78,16 +102,13 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
 
 extension HeadlinesViewModel {
     func update(pref: UserSelection) {
-
-        preferences.type = (pref.type.filter { $0.isSelected }.first?.type) ?? .top
-                
         preferences.country = pref.country
             .first(where: { $0.isSelected })?
             .country ?? .france
         
         preferences.categories = pref.categories
             .filter { $0.isSelected }
-            .map { Category(name: $0.name, isFavorite: $0.isFavorite) }
+            .map { HeadlinesCategory(name: $0.name, isFavorite: $0.isFavorite) }
             .sortedFavorite()
         
         preferences.recency = pref.recency

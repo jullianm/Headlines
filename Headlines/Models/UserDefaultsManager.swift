@@ -8,12 +8,9 @@
 
 import Foundation
 
-struct UserDefaultsManager {
-    @UserDefaultWrapper("headlinesType", value: .top)
-    static var headlinesType: HeadlinesType
-    
+struct UserDefaultsManager {    
     @UserDefaultWrapper("headlinesCategories", value: .technology)
-    static var headlinesCategories: HeadlinesCategory
+    static var headlinesCategories: HeadlinesSection
     
     @UserDefaultWrapper("headlinesCountry", value: .france)
     static var headlinesCountry: HeadlinesCountry

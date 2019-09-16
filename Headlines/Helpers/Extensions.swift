@@ -48,8 +48,8 @@ extension Array where Element == PreferencesCategory {
         return arr
     }
 }
-extension Array where Element == Category {
-    func sortedFavorite() -> [Category] {
+extension Array where Element == HeadlinesCategory {
+    func sortedFavorite() -> [HeadlinesCategory] {
         guard let index = self.firstIndex(where: { $0.isFavorite }) else {
             return self
         }

@@ -10,7 +10,6 @@ import Foundation
 
 enum Sorting: String {
     case top = "top-headlines"
-    case everything = "everything"
 }
 
 struct Endpoint {
@@ -21,23 +20,20 @@ struct Endpoint {
 }
 
 extension Endpoint {
-    static func search(sorting: Sorting = .top,
-                       recency: HeadlinesRecency = .today,
-                       category: String? = nil,
+    static func search(recency: HeadlinesRecency = .today,
                        country: HeadlinesCountry,
-                       keyword: String? = nil) -> Endpoint {
+                       category: String) -> Endpoint {
         
         let items: [URLQueryItem] = [
             .init(name: "country", value: country.convert),
             .init(name: "category", value: category),
-            .init(name: "q", value: keyword),
             .init(name: "from", value: recency.fromTo.from.format()),
             .init(name: "to", value: recency.fromTo.to.format()),
             .init(name: "apiKey", value: apiKey)
         ]
         
         return Endpoint(
-            path: "/v2/\(sorting.rawValue)",
+            path: "/v2/\(Sorting.top.rawValue)",
             queryItems: items
         )
     }

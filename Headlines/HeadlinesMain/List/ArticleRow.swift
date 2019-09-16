@@ -8,17 +8,38 @@
 
 import SwiftUI
 
+struct CategoryRow: View {
+    let model: HeadlinesViewModel
+    let section: HeadlinesSection
+    let shouldReloadData: Bool
+    let handler: (Bool) -> ()
+    
+    var body: some View {
+        ReusableCollectionView(
+            viewModel: model,
+            section: section,
+            shouldReloadData: shouldReloadData,
+            handler: handler
+        )
+    }
+}
+
 struct ArticleRow: View {
     
-    var article: Article
+    let article: Article
+    let viewModel: HeadlinesViewModel
+    let showDetails: (Bool) -> ()
     
     var body: some View {
         HStack {
             Text(self.article.title)
             Spacer()
-            Image(systemName: "chevron.right")
-        }.padding()
-        
+        }
+        .padding()
+        .onTapGesture {
+            self.viewModel.selectedArticle = self.article
+            self.showDetails(true)
+        }
     }
 }
 

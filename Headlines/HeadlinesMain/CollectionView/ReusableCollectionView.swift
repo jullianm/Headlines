@@ -11,29 +11,41 @@ import SwiftUI
 
 final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     
-    var section: HeadlinesCategory
+    let section: HeadlinesSection
+    let viewModel: HeadlinesViewModel
+    let showDetails: (Bool) -> ()
     
-    init(section: HeadlinesCategory) {
+    init(section: HeadlinesSection, viewModel: HeadlinesViewModel, handler: @escaping (Bool) -> ()) {
         self.section = section
+        self.viewModel = viewModel
+        self.showDetails = handler
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let category = self.viewModel.data.first(where: { $0.name == self.section }) else { return }
+        viewModel.selectedArticle = category.articles[indexPath.item]
         
+        showDetails(true)
     }
 }
 
 struct ReusableCollectionView: UIViewRepresentable {
     
     var viewModel: HeadlinesViewModel
-    let section: HeadlinesCategory
+    let section: HeadlinesSection
     let delegate: ReusableCollectionViewDelegate
     let reloadData: Bool
     
-    init(viewModel: HeadlinesViewModel, section: HeadlinesCategory, shouldReloadData: Bool = true) {
+    init(viewModel: HeadlinesViewModel, section: HeadlinesSection, shouldReloadData: Bool = true, handler: @escaping (Bool) -> ()) {
         self.viewModel = viewModel
         self.section = section
-        self.delegate = ReusableCollectionViewDelegate(section: section)
         self.reloadData = shouldReloadData
+        
+        self.delegate = ReusableCollectionViewDelegate(
+            section: section,
+            viewModel: viewModel,
+            handler: handler
+        )
     }
     
     func makeUIView(context: UIViewRepresentableContext<ReusableCollectionView>) -> UICollectionView {
@@ -49,11 +61,11 @@ struct ReusableCollectionView: UIViewRepresentable {
 
         collectionView.register(UINib(nibName: "\(ArticleCell.self)", bundle: .main), forCellWithReuseIdentifier: "\(ArticleCell.self)")
                 
-        let dataSource = UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
+        let dataSource = UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ArticleCell.self)", for: indexPath) as? ArticleCell
             
-            guard let category = self.viewModel.categories.first(where: { $0.name == self.section }) else {
+            guard let category = self.viewModel.data.first(where: { $0.name == self.section }) else {
                 return cell
             }
             
@@ -80,10 +92,10 @@ struct ReusableCollectionView: UIViewRepresentable {
         MainCoordinator()
     }
     
-    func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesCategory, HeadlinesContainer>) {
-        var snapshot = NSDiffableDataSourceSnapshot<HeadlinesCategory, HeadlinesContainer>()
+    func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>) {
+        var snapshot = NSDiffableDataSourceSnapshot<HeadlinesSection, HeadlinesContainer>()
         
-        guard let category = self.viewModel.categories.first(where: { $0.name == self.section }), reloadData else {
+        guard let category = self.viewModel.data.first(where: { $0.name == self.section }), reloadData else {
             return
         }
         
@@ -98,7 +110,7 @@ struct ReusableCollectionView: UIViewRepresentable {
     
 }
 
-enum HeadlinesCategory: String, CaseIterable {
+enum HeadlinesSection: String, CaseIterable {
     case sports
     case technology
     case business
@@ -106,8 +118,8 @@ enum HeadlinesCategory: String, CaseIterable {
     case science
     case health
     case entertainment
+    case filtered
 }
-
 
 final class HeadlinesContainer: Hashable {
     let id = UUID()

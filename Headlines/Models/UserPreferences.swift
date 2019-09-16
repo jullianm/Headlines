@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct UserPreferences {
-    var type: HeadlinesType = .top
     var country: HeadlinesCountry = .france
-    var categories: [Category] = Category.all
+    var categories: [HeadlinesCategory] = HeadlinesCategory.all
     var recency: HeadlinesRecency = .today
 }
 

@@ -8,10 +8,9 @@
 
 import SwiftUI
 
-typealias UserSelection = (type: [PreferencesHeadlines], categories: [PreferencesCategory], country: [PreferencesCountry], recency: HeadlinesRecency)
+typealias UserSelection = (categories: [PreferencesCategory], country: [PreferencesCountry], recency: HeadlinesRecency)
 
 private enum Selection {
-    case type(PreferencesHeadlines)
     case category(PreferencesCategory, favorite: Bool)
     case country(Int)
 }
@@ -20,17 +19,12 @@ struct PreferencesView: View {
     
     @Environment(\.presentationMode) var presentation
     
-    @State private var type = PreferencesHeadlines.all
     @State private var categories = PreferencesCategory.all
     @State private var countries = PreferencesCountry.all
     
     @State private var recencyIndex = 0
     
     var viewModel: HeadlinesViewModel
-    
-    var isAllSelected: Bool {
-        return type.first(where: { $0.isSelected })?.type == .all
-    }
     
     var selectedCountry = 0
     
@@ -50,65 +44,47 @@ struct PreferencesView: View {
                         .pickerStyle(SegmentedPickerStyle())
                 }
                 
-                if !isAllSelected {
-                    Section(header: Text("Country")
-                        .font(.system(size: 20))
-                        .fontWeight(.semibold)) {
-
-                            CountryPreferenceRow { value in
-                                self.updateUI(selection: .country(value))
-                            }
-                    }
-                }
-                
-                Section(header:
-                    Text("Headlines")
-                        .font(.system(size: 20))
-                        .fontWeight(.semibold)) {
-                            
-                            ForEach(type, id: \.id) { headline in
-                                HeadlinesPreferenceRow(
-                                    name: headline.type.rawValue.capitalizingFirstLetter(),
-                                    isSelected: headline.isSelected) {
-                                        
-                                        self.updateUI(selection: .type(headline))
-                                }
-                            }.padding()
+                Section(header: Text("Country")
+                    .font(.system(size: 20))
+                    .fontWeight(.semibold)) {
+                        
+                        CountryPreferenceRow { value in
+                            self.updateUI(selection: .country(value))
+                        }
                 }
                 
                 Section(header:
                     Text("Categories")
                         .font(.system(size: 20))
                         .fontWeight(.semibold)) {
-                            
+
                             ForEach(categories, id: \.id) { category in
-                                
+
                                 CategoriesPreferenceRow(
                                     name: category.name.rawValue.capitalizingFirstLetter(),
                                     isFavorite: category.isFavorite,
                                     isSelected: category.isSelected,
                                     onButtonTapped: {
-                                        
+
                                         self.updateUI(selection: .category(category, favorite: false))
-                                        
+
                                 }) { // on favorite tapped
-                                    
+
                                     self.updateUI(selection: .category(category, favorite: true))
-                                    
+
                                 }
-                                
+
                             }.padding()
                 }
-                
+
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Preferences", displayMode: .inline)
             .navigationBarItems(trailing:
-                
+
                 Button(action: {
                     self.viewModel.update(
                         pref: (
-                            type: self.type,
                             categories: self.categories,
                             country: self.countries,
                             recency: HeadlinesRecency.allCases[self.recencyIndex]
@@ -119,7 +95,7 @@ struct PreferencesView: View {
                     Image(systemName: "checkmark")
                         .accentColor(Color.blue)
                 }
-                
+
             )
         }
     }
@@ -128,15 +104,6 @@ struct PreferencesView: View {
 extension PreferencesView {
     private func updateUI(selection: Selection) {
         switch selection {
-            
-        case let .type(headline):
-            
-            let matchingIndex = self.type.firstIndex(headline.id, true)
-            let nonMatchingIndex = self.type.firstIndex(headline.id, false)
-            
-            self.type[matchingIndex].isSelected.toggle()
-            self.type[nonMatchingIndex].isSelected = false
-            
         case let .category(category, favorite: favorite):
             
             let matchingIndex = self.categories.firstIndex(category.id, true)
@@ -168,3 +135,12 @@ extension PreferencesView {
         
     }
 }
+
+#if DEBUG
+struct PreferencesView_Previews: PreviewProvider {
+    static var previews: some View {
+        PreferencesView(
+            viewModel: HeadlinesViewModel(preferences: UserPreferences()))
+    }
+}
+#endif

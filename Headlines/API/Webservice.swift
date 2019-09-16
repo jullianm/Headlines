@@ -9,8 +9,8 @@
 import Foundation
 import Combine
 
-typealias HeadlinesPublisher = (category: HeadlinesCategory, publisher: AnyPublisher<Root, Error>)
-typealias HeadlinesResult = (category: HeadlinesCategory, result: Root?)
+typealias HeadlinesPublisher = (category: HeadlinesSection, publisher: AnyPublisher<Root, Error>)
+typealias HeadlinesResult = (category: HeadlinesSection, result: Root?)
 
 class Webservice {
     
@@ -29,11 +29,9 @@ class Webservice {
         let publishers = preferences.categories.map { category -> HeadlinesPublisher in
             
             let endpoint = Endpoint.search(
-                sorting: preferences.type == .top ? .top: .everything,
                 recency: preferences.recency,
-                category: category.name.rawValue,
                 country: preferences.country,
-                keyword: nil
+                category: category.name.rawValue
             )
             
             let publisher = URLSession.shared.dataTaskPublisher(for: endpoint.url!)
@@ -50,14 +48,14 @@ class Webservice {
     }
     
     private func process(publishers: [HeadlinesPublisher]) {
-        let categories = HeadlinesCategory.allCases
+        let categories = HeadlinesSection.allCases
         
         categories.forEach { category in
             check(category: category, forPublishers: publishers)
         }
     }
     
-    private func check(category: HeadlinesCategory, forPublishers publishers: [HeadlinesPublisher]) {
+    private func check(category: HeadlinesSection, forPublishers publishers: [HeadlinesPublisher]) {
         if let publisher = publishers.first(where: { $0.category == category }) {
             publisher.publisher.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
                 self.send(value: value, forCategory: category)
@@ -67,7 +65,7 @@ class Webservice {
         }
     }
     
-    private func send(value: Root?, forCategory category: HeadlinesCategory) {
+    private func send(value: Root?, forCategory category: HeadlinesSection) {
         switch category {
         case .sports:
             sportsSubject.send((category, value))
@@ -83,6 +81,8 @@ class Webservice {
             healthSubject.send((category, value))
         case .entertainment:
             entertainmentSubject.send((category, value))
+        default:
+            break
         }
     }
 }

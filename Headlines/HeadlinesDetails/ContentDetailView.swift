@@ -7,39 +7,55 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ContentDetailView: View {
+    let article: Article?
+    
     var body: some View {
         List {
-            
-            Text("Runkeeper drops its Wear OS app due to a 'buggy experience' - Engadget")
-                .font(.system(size: 30))
-                .fontWeight(.black)
-            
-            Image(systemName: "")
-                .background(Color.black)
-                .frame(height: 300)
-            
-            Text("The representative added that only a \"very small\" chunk of the community used the app, though the message suggested this wasn't the main reason. Other developers who've scrapped smartwatch apps have frequently cited either demand or a lack of necessity. Slack… The representative added that only a \"very small\" chunk of the community used the app, though the message suggested this wasn't the main reason. Other developers who've scrapped smartwatch apps have frequently cited either demand or a lack of necessity. Slack…")
-                .font(.system(size: 22))
-                .fontWeight(.medium)
-            
-            HStack {
-                Text("Source:")
-                Text("http://www.google.fr")
-                
+            Section {
+                HStack {
+                    Spacer()
+                    Image(systemName: "minus")
+                        .accentColor(.gray)
+                        .opacity(0.6)
+                    Spacer()
+                }
+            }
+            Section {
+                Text(article?.title ?? "")
+                    .font(.system(size: 25))
+                    .fontWeight(.black)
             }
             
-            Spacer()
+            Section {
+                AnimatedImage(url: URL(string: article?.urlToImage ?? "")!)
+                    .scaledToFit()
+                    .frame(width: 200, height: 200, alignment: .center)
+            }
+            
+            Section {
+                Text(article?.content ?? "")
+                    .font(.system(size: 22))
+                    .fontWeight(.medium)
+            }
+            
+            Section {
+                HStack(alignment: .center) {
+                    Text("Source: ")
+                    Text(article?.source.name ?? "")
+                }
+            }
+            
+            Section {
+                HStack(alignment: .top) {
+                    Text("Link: ")
+                    Text(article?.url ?? "")
+                }
+            }
         }
         .padding()
     }
 }
 
-#if DEBUG
-struct ContentDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentDetailView()
-    }
-}
-#endif

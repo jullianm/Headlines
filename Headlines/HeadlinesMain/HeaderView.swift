@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct HeaderView: View {
-    var category: Category
+    var category: HeadlinesCategory
     
     var body: some View {
         Group {
             HStack {
-                Text(category.name.rawValue.capitalizingFirstLetter())
+                Text(category.name == .filtered ? "": category.name.rawValue.capitalizingFirstLetter())
                     .font(.system(size: 30))
                     .fontWeight(.semibold)
                 
