@@ -18,5 +18,4 @@ protocol ViewModel {
     
     func setup()
     func fire()
-    func bind()
 }

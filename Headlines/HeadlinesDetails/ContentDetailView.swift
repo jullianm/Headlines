@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentDetailView: View {
     @ObservedObject var imageLoader: ImageLoader
-    @State var isImageLoaded = false
     
     let article: Article?
     
@@ -21,7 +20,7 @@ struct ContentDetailView: View {
                     Spacer()
                     Image(systemName: "chevron.down")
                         .accentColor(.gray)
-                        .opacity(0.3)
+                        .opacity(0.2)
                     Spacer()
                 }
             }
@@ -33,17 +32,9 @@ struct ContentDetailView: View {
             
             Section {
                 if self.imageLoader.image != nil {
-                    Image(uiImage: self.imageLoader.image!)
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(10.0)
-                        .frame(width: 350, height: 400, alignment: .center)
+                    Image(uiImage: self.imageLoader.image!).format()
                 } else {
-                    Image("news")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(10.0)
-                        .frame(width: 350, height: 400, alignment: .center)
+                    Image("news").format()
                 }
             }
             
@@ -70,4 +61,3 @@ struct ContentDetailView: View {
         .padding()
     }
 }
-

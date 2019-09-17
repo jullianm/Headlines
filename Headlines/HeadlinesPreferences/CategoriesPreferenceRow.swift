@@ -31,13 +31,10 @@ struct CategoriesPreferenceRow: View {
             
             Spacer()
             
-            Image(
-                systemName: isFavorite ? "star.fill": "star"
-            ).onTapGesture {
-                self.onFavoriteTapped()
-            }
-            .imageScale(.medium)
-            .foregroundColor(.yellow)
+            Image(systemName: isFavorite ? "star.fill": "star")
+                .onTapGesture { self.onFavoriteTapped() }
+                .imageScale(.medium)
+                .foregroundColor(.yellow)
             
         }
     }
@@ -49,7 +46,7 @@ struct CategoriesPreferenceRow_Previews: PreviewProvider {
         CategoriesPreferenceRow(name: "", onButtonTapped: {
             
         }) {
-                    
+            
         }
     }
 }

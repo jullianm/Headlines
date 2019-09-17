@@ -58,46 +58,26 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func setup() {
-        bind()
         fire()
     }
 
-    func bind() {
-        Publishers.Zip4(
-            webService.businessSubject,
-            webService.entertainmentSubject,
-            webService.politicsSubject,
-            webService.scienceSubject
-        )
-            .map { $0 }
-            .zip(webService.sportsSubject, webService.technologySubject, webService.healthSubject)
-            .map { result -> Headlines in
-                let data = self.processData(result: result)
-                
-                var headlines = Headlines(country: self.preferences.country, categories: self.preferences.categories)
-                
-                headlines.categories.enumerated().forEach { (index, category) in
-
-                    let category = data.first(where: { $0.category == category.name })
-
-                    headlines.categories[index].articles = category?.result?.articles ?? []
-                    
-                }
-               
-                return headlines
-                
-                
-        }.receive(subscriber: Subscribers.Sink(receiveCompletion: { _ in }, receiveValue: { value in
-            self.data = value.categories
-        }))
-        
-    }
-    
     func fire() {
         isLoading = true
-        webService.fetch(preferences: preferences)
-    }
-    
+
+        webService.fetch(preferences: preferences).map { value -> [HeadlinesCategory] in
+            return self.preferences.categories.map { category -> HeadlinesCategory in
+                let matched = value.first(where: { $0.0 == category.name })
+                var cat = category
+                cat.articles = matched?.1.articles ?? []
+
+                return cat
+            }
+        }.receive(subscriber: Subscribers.Sink(
+            receiveCompletion: { _ in },
+            receiveValue: { value in
+                self.data = value
+        }))
+    }    
 }
 
 extension HeadlinesViewModel {
@@ -118,13 +98,25 @@ extension HeadlinesViewModel {
     }
 }
 
+struct HeadlinesCategory: Identifiable {
+    let id = UUID()
+    var name: HeadlinesSection = .business
+    var isFavorite: Bool = false
+    var articles: [Article]
+    
+    init(name: HeadlinesSection, isFavorite: Bool, articles: [Article] = []) {
+        self.name = name
+        self.isFavorite = isFavorite
+        self.articles = articles
+    }
+    
+    static var all: [HeadlinesCategory] {
+        let categories = PreferencesCategory.all
+            .filter { $0.isSelected }
+            .map { HeadlinesCategory(name: $0.name, isFavorite: $0.isFavorite) }
 
-extension HeadlinesViewModel {
-    private func processData(result: ((HeadlinesResult, HeadlinesResult, HeadlinesResult, HeadlinesResult), HeadlinesResult, HeadlinesResult, HeadlinesResult)) -> [HeadlinesResult] {
-        
-        let data = [result.0.0, result.0.1, result.0.2, result.0.3, result.1, result.2, result.3]
-        
-        return data.filter { $0.result != nil }
-        
+        return categories.sortedFavorite()
     }
 }
+
+

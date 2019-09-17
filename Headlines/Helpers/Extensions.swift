@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 import Combine
 
 extension String {
@@ -84,5 +85,15 @@ extension Date {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let stringDate = dateFormatter.string(from: self)
         return stringDate
+    }
+}
+
+extension Image {
+    func format() -> some View {
+        return self
+            .resizable()
+            .aspectRatio(1, contentMode: .fit)
+            .cornerRadius(10.0)
+            .frame(width: 350, height: 400, alignment: .center)
     }
 }

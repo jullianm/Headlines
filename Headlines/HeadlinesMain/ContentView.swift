@@ -19,7 +19,7 @@ struct ContentView: View {
         case list, image
     }
     
-    struct Constants {
+    private struct Constants {
         struct Text {
             static let keyword = "Search by keyword..."
             static let title = "Headlines"
