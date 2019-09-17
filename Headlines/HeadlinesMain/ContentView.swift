@@ -103,7 +103,7 @@ struct ContentView: View {
     }
     
     func getContent(forMode mode: Mode, category: HeadlinesCategory) -> some View {
-        Section {
+        Group {
             if mode == .image {
                 VStack(alignment: .leading) {
                     HeaderView(category: category)
