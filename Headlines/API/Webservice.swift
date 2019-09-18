@@ -12,7 +12,7 @@ import Combine
 typealias HeadlinesResult = AnyPublisher<(HeadlinesSection, Root), Error>
 
 class Webservice {    
-     func fetch(preferences: UserPreferences) -> AnyPublisher<[(HeadlinesSection, Root)], Error> {
+     func fetch(preferences: UserPreferences) -> AnyPublisher<[(HeadlinesSection, Root)], Never> {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
 
@@ -30,6 +30,7 @@ class Webservice {
                 .decode(type: Root.self, decoder: decoder)
                 .receive(on: RunLoop.main)
                 .map { (category.name, $0) }
+            
                 .eraseToAnyPublisher()
 
             return publisher
@@ -37,6 +38,7 @@ class Webservice {
 
         return Publishers.MergeMany(publishers)
             .collect()
+            .replaceError(with: [])
             .eraseToAnyPublisher()
     }
 }

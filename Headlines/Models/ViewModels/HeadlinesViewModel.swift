@@ -24,6 +24,8 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         }
     }
     
+    var cancellable: Set<AnyCancellable>?
+    
     var selectedArticle: Article?
     
     var isSearching: Bool = false {
@@ -54,17 +56,11 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
         self.webService = service
         self.preferences = preferences
         
-        setup()
-    }
-    
-    func setup() {
         fire()
     }
-
+    
     func fire() {
-        isLoading = true
-
-        webService.fetch(preferences: preferences).map { value -> [HeadlinesCategory] in
+        let data = webService.fetch(preferences: preferences).map { value -> [HeadlinesCategory] in
             return self.preferences.categories.map { category -> HeadlinesCategory in
                 let matched = value.first(where: { $0.0 == category.name })
                 var cat = category
@@ -72,12 +68,17 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
 
                 return cat
             }
-        }.receive(subscriber: Subscribers.Sink(
-            receiveCompletion: { _ in },
-            receiveValue: { value in
-                self.data = value
-        }))
-    }    
+        }
+        .handleEvents(receiveSubscription: { _ in self.isLoading = true })
+        .receive(on: DispatchQueue.main)
+        .assign(to: \HeadlinesViewModel.data, on: self)
+        
+        cancellable?.insert(data)
+    }
+    
+    deinit {
+        cancellable?.forEach { $0.cancel() }
+    }
 }
 
 extension HeadlinesViewModel {
@@ -94,7 +95,6 @@ extension HeadlinesViewModel {
         preferences.recency = pref.recency
         
         fire()
-        
     }
 }
 

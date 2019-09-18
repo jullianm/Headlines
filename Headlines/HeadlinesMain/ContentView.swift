@@ -43,10 +43,10 @@ struct ContentView: View {
                     }
                     List {
                         if self.isSearching && self.viewModel.keyword != "" {
-                            self.getContent(forMode: self.mode, category: self.viewModel.data[0])
+                            self.content(forMode: self.mode, category: self.viewModel.data[0])
                         } else {
                             ForEach(self.viewModel.data, id: \.name) { category in
-                                self.getContent(forMode: self.mode, category: category)
+                                self.content(forMode: self.mode, category: category)
                             }
                         }
                     }
@@ -102,7 +102,7 @@ struct ContentView: View {
         }
     }
     
-    func getContent(forMode mode: Mode, category: HeadlinesCategory) -> some View {
+    func content(forMode mode: Mode, category: HeadlinesCategory) -> some View {
         Group {
             if mode == .image {
                 VStack(alignment: .leading) {
