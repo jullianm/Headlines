@@ -22,7 +22,7 @@ final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let category = self.viewModel.data.first(where: { $0.name == self.section }) else { return }
+        guard let category = self.viewModel.headlines.first(where: { $0.name == self.section }) else { return }
         viewModel.selectedArticle = category.articles[indexPath.item]
         
         showDetails(true)
@@ -65,7 +65,7 @@ struct ReusableCollectionView: UIViewRepresentable {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ArticleCell.self)", for: indexPath) as? ArticleCell
             
-            guard let category = self.viewModel.data.first(where: { $0.name == self.section }) else {
+            guard let category = self.viewModel.headlines.first(where: { $0.name == self.section }) else {
                 return cell
             }
             
@@ -95,7 +95,7 @@ struct ReusableCollectionView: UIViewRepresentable {
     func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>) {
         var snapshot = NSDiffableDataSourceSnapshot<HeadlinesSection, HeadlinesContainer>()
         
-        guard let category = self.viewModel.data.first(where: { $0.name == self.section }), reloadData else {
+        guard let category = self.viewModel.headlines.first(where: { $0.name == self.section }), reloadData else {
             return
         }
         
@@ -114,7 +114,7 @@ enum HeadlinesSection: String, CaseIterable {
     case sports
     case technology
     case business
-    case politics
+    case general
     case science
     case health
     case entertainment

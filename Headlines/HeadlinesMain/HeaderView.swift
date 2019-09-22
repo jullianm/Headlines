@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct HeaderView: View {
-    var category: HeadlinesCategory
+    var headlines: Headlines
     
     var body: some View {
         Group {
             HStack {
-                Text(category.name == .filtered ? "": category.name.rawValue.capitalizingFirstLetter())
+                Text(headlines.name == .filtered ? "": headlines.name.rawValue.capitalizingFirstLetter())
                     .font(.system(size: 30))
                     .fontWeight(.semibold)
                 
-                if category.isFavorite {
+                if headlines.isFavorite {
                     Image(systemName: "star.fill")
                         .imageScale(.medium)
                         .foregroundColor(.yellow)

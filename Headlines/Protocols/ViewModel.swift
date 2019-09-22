@@ -12,7 +12,7 @@ import Combine
 protocol ViewModel {
     var webService: Webservice { get set }
     var preferences: UserPreferences { get set }
-    var data: [HeadlinesCategory] { get set }
+    var headlines: [Headlines] { get set }
     
     init(service: Webservice, preferences: UserPreferences)
     

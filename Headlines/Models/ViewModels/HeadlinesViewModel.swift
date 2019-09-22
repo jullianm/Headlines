@@ -11,46 +11,22 @@ import Combine
 
 class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
-    var preferences: UserPreferences
-    
-    let objectWillChange = ObservableObjectPublisher()
-    
-    var data: [HeadlinesCategory] = [] {
-        willSet {
-            if newValue.count > 0 {
-                objectWillChange.send()
-                isLoading = false
-            }
-        }
-    }
-    
-    var cancellable: Set<AnyCancellable>?
-    
     var selectedArticle: Article?
+    private var cancellable: Set<AnyCancellable>?
     
-    var isSearching: Bool = false {
+    @Published var preferences: UserPreferences
+    @Published var headlines: [Headlines] = []
+    @Published var isLoading = true
+    @Published var keyword: String = "" {
         willSet {
-            objectWillChange.send()
+            sortArticles(byKeyword: newValue)
         }
     }
-    
-    var keyword: String = "" {
+    var recencyIndex: Int = 0 {
         willSet {
-            guard newValue != "" else {
-                data.removeAll(where: { $0.name == .filtered })
-                objectWillChange.send()
-                return
-            }
-            
-            data.removeAll(where: { $0.name == .filtered })
-            
-            let articles = data.flatMap { $0.articles.filter { $0.title.contains(newValue) } }
-            data.insert(.init(name: .filtered, isFavorite: false, articles: articles), at: 0)
-            
-            objectWillChange.send()
+            setRecency(forIndex: newValue)
         }
     }
-    var isLoading = true
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
@@ -60,18 +36,25 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func fire() {
-        let data = webService.fetch(preferences: preferences).map { value -> [HeadlinesCategory] in
-            return self.preferences.categories.map { category -> HeadlinesCategory in
-                let matched = value.first(where: { $0.0 == category.name })
-                var cat = category
-                cat.articles = matched?.1.articles ?? []
-
-                return cat
+        let data = webService.fetch(preferences: preferences).map { value -> [Headlines] in
+            
+            let headlines = value.map { (section, result) -> Headlines in
+                let isFavorite = self.preferences.categories
+                    .first(where: { $0.name == section })?
+                    .isFavorite
+                
+                return Headlines(name: section, isFavorite: isFavorite ?? false, articles: result.articles)
             }
+            
+            return headlines.sortedFavorite()
         }
-        .handleEvents(receiveSubscription: { _ in self.isLoading = true })
-        .receive(on: DispatchQueue.main)
-        .assign(to: \HeadlinesViewModel.data, on: self)
+        .handleEvents(receiveSubscription: { _ in
+            self.isLoading = true
+        }, receiveOutput: { _ in
+            self.isLoading = false
+        })
+            .receive(on: DispatchQueue.main)
+            .assign(to: \HeadlinesViewModel.headlines, on: self)
         
         cancellable?.insert(data)
     }
@@ -82,41 +65,56 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
 }
 
 extension HeadlinesViewModel {
-    func update(pref: UserSelection) {
-        preferences.country = pref.country
-            .first(where: { $0.isSelected })?
-            .country ?? .france
+    func sortArticles(byKeyword keyword: String) {
+        guard keyword != "" else {
+            headlines.removeAll(where: { $0.name == .filtered })
+            return
+        }
+        headlines.removeAll(where: { $0.name == .filtered })
         
-        preferences.categories = pref.categories
-            .filter { $0.isSelected }
-            .map { HeadlinesCategory(name: $0.name, isFavorite: $0.isFavorite) }
-            .sortedFavorite()
-        
-        preferences.recency = pref.recency
-        
-        fire()
+        let articles = headlines.flatMap { $0.articles.filter { $0.title.contains(keyword) } }
+        headlines.insert(.init(name: .filtered, isFavorite: false, articles: articles), at: 0)
+    }
+    
+    func setRecency(forIndex index: Int) {
+        preferences.recencies.enumerated().forEach { (i, value) in
+            self.preferences.recencies[i].isSelected = false
+        }
+        preferences.recencies[index].isSelected = true
     }
 }
 
-struct HeadlinesCategory: Identifiable {
-    let id = UUID()
-    var name: HeadlinesSection = .business
-    var isFavorite: Bool = false
-    var articles: [Article]
-    
-    init(name: HeadlinesSection, isFavorite: Bool, articles: [Article] = []) {
-        self.name = name
-        self.isFavorite = isFavorite
-        self.articles = articles
-    }
-    
-    static var all: [HeadlinesCategory] {
-        let categories = PreferencesCategory.all
-            .filter { $0.isSelected }
-            .map { HeadlinesCategory(name: $0.name, isFavorite: $0.isFavorite) }
-
-        return categories.sortedFavorite()
+// Updating our models
+extension HeadlinesViewModel {
+    func update(selection: Selection) {
+        switch selection {
+        case let .category(category, isFavorite: isFavorite):
+            
+            let matchingIndex = preferences.categories.firstIndex(category.id)
+            
+            if isFavorite {
+                
+                preferences.categories[matchingIndex].isSelected = true
+                preferences.categories[matchingIndex].isFavorite.toggle()
+                
+                for (index, _) in preferences.categories.enumerated() where matchingIndex != index {
+                    preferences.categories[index].isFavorite = false
+                }
+                
+            } else {
+                preferences.categories[matchingIndex].isSelected.toggle()
+                
+                if category.isSelected {
+                    preferences.categories[matchingIndex].isFavorite = false
+                }
+            }
+        case let .country(index):
+            
+            for (i, _) in preferences.countries.enumerated() where index != i {
+                preferences.countries[i].isSelected = false
+            }
+            
+            preferences.countries[index].isSelected = true
+        }
     }
 }
-
-

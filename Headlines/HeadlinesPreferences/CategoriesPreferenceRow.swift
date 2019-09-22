@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct CategoriesPreferenceRow: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var name: String
-    
     var isFavorite = false
     var isSelected = false
     
@@ -24,6 +24,7 @@ struct CategoriesPreferenceRow: View {
                 self.onButtonTapped()
             }) {
                 Image(systemName: isSelected ? "checkmark.square": "square")
+                .accentColor(colorScheme == .light ? Color.blue: Color.white)
             }
             .accentColor(Color.black)
             

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var navigator: Navigator
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @ObservedObject var viewModel = HeadlinesViewModel(preferences: UserPreferences())
     
     @State private var mode: Mode = .image
@@ -43,10 +44,10 @@ struct ContentView: View {
                     }
                     List {
                         if self.isSearching && self.viewModel.keyword != "" {
-                            self.content(forMode: self.mode, category: self.viewModel.data[0])
+                            self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
                         } else {
-                            ForEach(self.viewModel.data, id: \.name) { category in
-                                self.content(forMode: self.mode, category: category)
+                            ForEach(self.viewModel.headlines, id: \.name) { category in
+                                self.content(forMode: self.mode, headlines: category)
                             }
                         }
                     }
@@ -60,8 +61,7 @@ struct ContentView: View {
                     }
                 )
             }
-        }
-        .sheet(
+        }.sheet(
             isPresented: $navigator.showSheet,
             onDismiss: { self.navigator.showSheet = false }, content: {
                 if self.navigator.presenting == .details {
@@ -82,7 +82,7 @@ struct ContentView: View {
             }
         }) {
             Image(systemName: (self.mode == .list) ? Constants.Image.bulletBelowImg: Constants.Image.bulletImg)
-                .accentColor(Color.black)
+                .accentColor(colorScheme == .light ? Color.black: Color.white)
         }
     }
     
@@ -90,7 +90,7 @@ struct ContentView: View {
         Button(action: {
             self.navigator.presenting = .preferences
         }) {
-            Image(systemName: Constants.Image.preferencesImg).accentColor(Color.black)
+            Image(systemName: Constants.Image.preferencesImg).accentColor(colorScheme == .light ? Color.black: Color.white)
         }
     }
     
@@ -98,25 +98,25 @@ struct ContentView: View {
         Button(action: {
             withAnimation { self.isSearching.toggle() }
         }) {
-            Image(systemName: Constants.Image.searchImg).accentColor(self.isSearching ? Color.gray: Color.black)
+            Image(systemName: Constants.Image.searchImg).accentColor(self.isSearching ? Color.gray: colorScheme == .light ? Color.black: Color.white)
         }
     }
     
-    func content(forMode mode: Mode, category: HeadlinesCategory) -> some View {
+    func content(forMode mode: Mode, headlines: Headlines) -> some View {
         Group {
             if mode == .image {
                 VStack(alignment: .leading) {
-                    HeaderView(category: category)
+                    HeaderView(headlines: headlines)
                     CategoryRow(
                         model: self.viewModel,
-                        section: category.name,
+                        section: headlines.name,
                         shouldReloadData: !self.navigator.showSheet,
                         handler: { _ in self.navigator.presenting = .details }
                     )
-                }.frame(height: category.isFavorite ? 400: 300)
+                }.frame(height: headlines.isFavorite ? 400: 300)
             } else {
-                HeaderView(category: category)
-                ForEach(category.articles, id: \.title) { article in
+                HeaderView(headlines: headlines)
+                ForEach(headlines.articles, id: \.title) { article in
                     ArticleRow(article: article, viewModel: self.viewModel) { _ in self.navigator.presenting = .details }
                 }
             }

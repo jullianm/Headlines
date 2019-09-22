@@ -22,15 +22,11 @@ extension String {
 }
 
 extension Array where Element: Identifiable {
-
-    var firstIndex: (UUID, _ matches: Bool) -> Index {
-        
-        return { value, matches in
+    var firstIndex: (_ matching: UUID) -> Index {
+        return { value in
             self.firstIndex { identifiable in
-                matches ?
-                    identifiable.id.hashValue == value.hashValue:
-                    identifiable.id.hashValue != value.hashValue
-                } ?? 0
+                identifiable.id.hashValue == value.hashValue
+            } ?? 0
         }
     }
 }
@@ -49,8 +45,8 @@ extension Array where Element == PreferencesCategory {
         return arr
     }
 }
-extension Array where Element == HeadlinesCategory {
-    func sortedFavorite() -> [HeadlinesCategory] {
+extension Array where Element == Headlines {
+    func sortedFavorite() -> [Headlines] {
         guard let index = self.firstIndex(where: { $0.isFavorite }) else {
             return self
         }

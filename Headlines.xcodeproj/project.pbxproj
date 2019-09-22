@@ -32,7 +32,7 @@
 		81674CF6230532B300858031 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81674CF5230532B300858031 /* PreferencesView.swift */; };
 		81674CFA23055D3700858031 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81674CF923055D3700858031 /* Webservice.swift */; };
 		818D9DA82306FC4A000227E5 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA72306FC4A000227E5 /* UserPreferences.swift */; };
-		818D9DAA2306FD65000227E5 /* HeadlinesPreferencesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */; };
+		818D9DAA2306FD65000227E5 /* HeadlinesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DA92306FD65000227E5 /* HeadlinesModels.swift */; };
 		818D9DAC2306FD89000227E5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D9DAB2306FD89000227E5 /* Extensions.swift */; };
 		819561652305EA1400F93F9C /* HeadlinesPreferenceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819561642305EA1400F93F9C /* HeadlinesPreferenceRow.swift */; };
 		819561672305EA3700F93F9C /* CategoriesPreferenceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819561662305EA3700F93F9C /* CategoriesPreferenceRow.swift */; };
@@ -58,6 +58,7 @@
 		811B5F1B23097B7D005ACCDF /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		811B5F1D23097D5A005ACCDF /* NewsAPIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAPIModels.swift; sourceTree = "<group>"; };
 		811B5F1F23098636005ACCDF /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		811C858C23374688008B8DE2 /* Headlines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Headlines.entitlements; sourceTree = "<group>"; };
 		8124EB3422F00A0100C1DC78 /* ArticleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRow.swift; sourceTree = "<group>"; };
 		8147F99923125FEC00F7E2FF /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
 		8147F99A23125FEC00F7E2FF /* ArticleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleCell.xib; sourceTree = "<group>"; };
@@ -70,7 +71,7 @@
 		81674CF5230532B300858031 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		81674CF923055D3700858031 /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		818D9DA72306FC4A000227E5 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesPreferencesModels.swift; sourceTree = "<group>"; };
+		818D9DA92306FD65000227E5 /* HeadlinesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesModels.swift; sourceTree = "<group>"; };
 		818D9DAB2306FD89000227E5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		819561642305EA1400F93F9C /* HeadlinesPreferenceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlinesPreferenceRow.swift; sourceTree = "<group>"; };
 		819561662305EA3700F93F9C /* CategoriesPreferenceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesPreferenceRow.swift; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		811008EE22EC4E0600486E5E /* Headlines */ = {
 			isa = PBXGroup;
 			children = (
+				811C858C23374688008B8DE2 /* Headlines.entitlements */,
 				811B5F17230979EB005ACCDF /* Supporting Files */,
 				811B5F1A23097B0D005ACCDF /* Helpers */,
 				811B5F1823097A85005ACCDF /* HeadlinesMain */,
@@ -256,7 +258,6 @@
 			isa = PBXGroup;
 			children = (
 				818D9DA72306FC4A000227E5 /* UserPreferences.swift */,
-				818D9DA92306FD65000227E5 /* HeadlinesPreferencesModels.swift */,
 			);
 			path = UserPreferences;
 			sourceTree = "<group>";
@@ -290,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				811B5F14230979C5005ACCDF /* HeadlinesViewModel.swift */,
+				818D9DA92306FD65000227E5 /* HeadlinesModels.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -397,7 +399,7 @@
 				818D9DAC2306FD89000227E5 /* Extensions.swift in Sources */,
 				811B5F1223095647005ACCDF /* ContentDetailView.swift in Sources */,
 				819561652305EA1400F93F9C /* HeadlinesPreferenceRow.swift in Sources */,
-				818D9DAA2306FD65000227E5 /* HeadlinesPreferencesModels.swift in Sources */,
+				818D9DAA2306FD65000227E5 /* HeadlinesModels.swift in Sources */,
 				810AF85822FB7695004E2396 /* SceneDelegate.swift in Sources */,
 				811B5F2023098636005ACCDF /* Endpoint.swift in Sources */,
 				811B5F1E23097D5A005ACCDF /* NewsAPIModels.swift in Sources */,
@@ -525,7 +527,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Headlines/Headlines.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "Headlines/Preview\\ Content";
 				DEVELOPMENT_TEAM = 43UT2JSNMP;
 				ENABLE_PREVIEWS = YES;
@@ -536,8 +540,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.Headlines;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -545,7 +550,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Headlines/Headlines.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "Headlines/Preview\\ Content";
 				DEVELOPMENT_TEAM = 43UT2JSNMP;
 				ENABLE_PREVIEWS = YES;
@@ -556,8 +563,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jullian.Headlines;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

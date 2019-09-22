@@ -8,6 +8,29 @@
 
 import Foundation
 
+// MARK: Headlines
+struct Headlines {
+    var name: HeadlinesSection = .business
+    var recency: HeadlinesRecency = .today
+    var isFavorite: Bool = false
+    var articles: [Article]
+    
+    init(name: HeadlinesSection, isFavorite: Bool, articles: [Article] = []) {
+        self.name = name
+        self.isFavorite = isFavorite
+        self.articles = articles
+    }
+    
+    static var all: [Headlines] {
+        let categories = PreferencesCategory.all
+            .filter { $0.isSelected }
+            .map { Headlines(name: $0.name, isFavorite: $0.isFavorite) }
+
+        return categories.sortedFavorite()
+    }
+}
+
+
 // MARK: Countries
 enum HeadlinesCountry: String, CaseIterable {
     case france
@@ -50,10 +73,11 @@ struct PreferencesCountry {
     
     static var all: [PreferencesCountry] {
         return HeadlinesCountry.allCases.map {
-            PreferencesCountry(country: $0, isSelected: false)
+            PreferencesCountry(country: $0, isSelected: $0 == .france)
         }
     }
 }
+
 
 // MARK: Categories
 struct PreferencesCategory: Identifiable {
@@ -76,6 +100,16 @@ struct PreferencesCategory: Identifiable {
 }
 
 // MARK: Recency
+struct PreferencesRecency {
+    var date: HeadlinesRecency
+    var isSelected: Bool
+    
+    static var all: [PreferencesRecency] {
+        return HeadlinesRecency.allCases.map {
+            PreferencesRecency(date: $0, isSelected: $0 == .today)
+        }
+    }
+}
 enum HeadlinesRecency: String, CaseIterable {
     case today = "Today"
     case yesterday = "Yesterday"

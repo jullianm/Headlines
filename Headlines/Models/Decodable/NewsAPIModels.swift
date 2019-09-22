@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - Root
-public struct Root: Codable {
+public struct Result: Codable {
     let status: String
     let totalResults: Int
     let articles: [Article]

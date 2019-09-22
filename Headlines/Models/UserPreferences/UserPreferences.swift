@@ -8,9 +8,20 @@
 
 import SwiftUI
 
-struct UserPreferences {
-    var country: HeadlinesCountry = .france
-    var categories: [HeadlinesCategory] = HeadlinesCategory.all
-    var recency: HeadlinesRecency = .today
+struct UserPreferences {    
+    var categories: [PreferencesCategory]
+    var countries: [PreferencesCountry]
+    var recencies: [PreferencesRecency]
+    
+    init(
+        categories: [PreferencesCategory] = PreferencesCategory.all,
+        countries: [PreferencesCountry] = PreferencesCountry.all,
+        recencies: [PreferencesRecency] = PreferencesRecency.all) {
+        
+        self.categories = categories
+        self.countries = countries
+        self.recencies = recencies
+    }
+    
 }
 
