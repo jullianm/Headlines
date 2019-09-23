@@ -60,7 +60,7 @@ struct ContentView: View {
                     .navigationBarItems(
                         leading: self.modeButton,
                         trailing: HStack(spacing: 10) {
-                            self.preferencesButton
+                            self.preferencesButton.padding(.trailing, 5)
                             self.searchButton
                         }
                     )
