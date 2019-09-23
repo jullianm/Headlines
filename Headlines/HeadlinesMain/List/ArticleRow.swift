@@ -20,7 +20,7 @@ struct CategoryRow: View {
             section: section,
             shouldReloadData: shouldReloadData,
             handler: handler
-        ).edgesIgnoringSafeArea(.init(arrayLiteral: .leading, .trailing))
+        )
     }
 }
 

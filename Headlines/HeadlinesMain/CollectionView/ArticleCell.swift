@@ -22,7 +22,7 @@ class ArticleCell: UICollectionViewCell {
     private func setup() {
         backgroundColor = .white
         
-        articleImageView.contentMode = .scaleToFill
+        articleImageView.contentMode = .scaleAspectFill
         articleImageView.layer.cornerRadius = 10.0
         articleImageView.layer.masksToBounds = true
     }

@@ -42,6 +42,7 @@ struct ContentDetailView: View {
                 Text(article?.content ?? "")
                     .font(.system(size: 22))
                     .fontWeight(.medium)
+                    .lineLimit(nil)
             }
             
             Section {

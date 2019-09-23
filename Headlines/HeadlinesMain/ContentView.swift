@@ -34,32 +34,37 @@ struct ContentView: View {
     }
     
     var body: some View {
-        LoaderView(isShowing: viewModel.isLoading) {
-            NavigationView {
-                VStack(alignment: .leading) {
-                    if self.isSearching {
-                        TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .animation(.easeInOut(duration: 0.5))
-                    }
-                    List {
-                        if self.isSearching && self.viewModel.keyword != "" {
-                            self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
-                        } else {
-                            ForEach(self.viewModel.headlines, id: \.name) { category in
-                                self.content(forMode: self.mode, headlines: category)
+        GeometryReader { geometry in
+            LoaderView(isShowing: self.viewModel.isLoading) {
+                NavigationView {
+                    VStack(alignment: .leading) {
+                        if self.isSearching {
+                            TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .animation(.easeInOut(duration: 0.5))
+                        }
+                        List {
+                            
+                            if self.isSearching && self.viewModel.keyword != "" {
+                                self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
+                            } else {
+                                ForEach(self.viewModel.headlines, id: \.name) { category in
+                                    self.content(forMode: self.mode, headlines: category)
+                                }
                             }
                         }
+                        
+                        
                     }
+                    .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
+                    .navigationBarItems(
+                        leading: self.modeButton,
+                        trailing: HStack(spacing: 10) {
+                            self.preferencesButton
+                            self.searchButton
+                        }
+                    )
                 }
-                .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
-                .navigationBarItems(
-                    leading: self.modeButton,
-                    trailing: HStack(spacing: 10) {
-                        self.preferencesButton
-                        self.searchButton
-                    }
-                )
             }
         }.sheet(
             isPresented: $navigator.showSheet,
@@ -106,14 +111,19 @@ struct ContentView: View {
         Group {
             if mode == .image {
                 VStack(alignment: .leading) {
-                    HeaderView(headlines: headlines)
+                    HeaderView(headlines: headlines).padding(.leading)
                     CategoryRow(
                         model: self.viewModel,
                         section: headlines.name,
                         shouldReloadData: !self.navigator.showSheet,
                         handler: { _ in self.navigator.presenting = .details }
                     )
-                }.frame(height: headlines.isFavorite ? 400: 300)
+                }
+                    .frame(height: headlines.isFavorite ? 400: 300)
+                    .scaledToFill()
+                    .clipped()
+                    .listRowInsets(EdgeInsets())
+                    
             } else {
                 HeaderView(headlines: headlines)
                 ForEach(headlines.articles, id: \.title) { article in
@@ -123,3 +133,11 @@ struct ContentView: View {
         }
     }
 }
+
+#if DEBUG
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+#endif

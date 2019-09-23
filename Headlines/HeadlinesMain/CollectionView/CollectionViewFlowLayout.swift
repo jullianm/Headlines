@@ -20,7 +20,7 @@ class CollectionViewFlowLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 10
         collectionView.backgroundColor = .clear
         scrollDirection = .horizontal
-//        sectionInset = .init(top: 0, left: 20.0, bottom: 0, right: 0)
+        sectionInset = .init(top: 0, left: 10.0, bottom: 0, right: 0)
         itemSize = .init(width: collectionView.frame.size.width/1.2, height: collectionView.frame.size.height)
         
      }
@@ -33,7 +33,7 @@ class CollectionViewFlowLayout: UICollectionViewFlowLayout {
         let currentPage = (velocity.x < 0.0) ? floor(approximatePage) : ceil(approximatePage)
         
         // Calculate newHorizontalOffset.
-        let newHorizontalOffset = ((currentPage) * pageWidth) - 30
+        let newHorizontalOffset = ((currentPage) * pageWidth) - 25
         
         return CGPoint(x: newHorizontalOffset, y: proposedContentOffset.y)
     }

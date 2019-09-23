@@ -16,7 +16,7 @@ struct Endpoint {
     var path: String
     var queryItems: [URLQueryItem]
     
-    private static let apiKey = "your_api_key"
+    private static let apiKey = "f0a2af1e23e14f75b3cd3fd51b53e0b8"
 }
 
 extension Endpoint {
