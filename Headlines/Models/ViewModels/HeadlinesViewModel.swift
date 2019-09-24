@@ -9,35 +9,40 @@
 import Foundation
 import Combine
 
-class HeadlinesViewModel: ObservableObject, ViewModel {
+final class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
     var selectedArticle: Article?
-    private var cancellable: Set<AnyCancellable>?
+    
+    private var cancellable: Set<AnyCancellable>
     
     @Published var preferences: UserPreferences
     @Published var headlines: [Headlines] = []
     @Published var isLoading = true
-    @Published var keyword: String = "" {
-        willSet {
-            sortArticles(byKeyword: newValue)
-        }
-    }
-    var recencyIndex: Int = 0 {
-        willSet {
-            setRecency(forIndex: newValue)
-        }
-    }
+    @Published var keyword: String = "" 
+    @Published var recencyIndex: Int = 0
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
         self.preferences = preferences
-        
+        self.cancellable = Set()
+
+        bind()
         fire()
+    }
+    
+    func bind() {
+        self.$keyword
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .sink { self.sortArticles(byKeyword: $0) }
+            .store(in: &cancellable)
+        
+        self.$recencyIndex
+            .sink(receiveValue: { self.setRecency(forIndex: $0) })
+            .store(in: &cancellable)
     }
     
     func fire() {
         let data = webService.fetch(preferences: preferences).map { value -> [Headlines] in
-            
             let headlines = value.map { (section, result) -> Headlines in
                 let isFavorite = self.preferences.categories
                     .first(where: { $0.name == section })?
@@ -56,16 +61,16 @@ class HeadlinesViewModel: ObservableObject, ViewModel {
             .receive(on: DispatchQueue.main)
             .assign(to: \HeadlinesViewModel.headlines, on: self)
         
-        cancellable?.insert(data)
+        cancellable.insert(data)
     }
     
     deinit {
-        cancellable?.forEach { $0.cancel() }
+        cancellable.forEach { $0.cancel() }
     }
 }
 
 extension HeadlinesViewModel {
-    func sortArticles(byKeyword keyword: String) {
+    private func sortArticles(byKeyword keyword: String) {
         guard keyword != "" else {
             headlines.removeAll(where: { $0.name == .filtered })
             return
@@ -86,7 +91,7 @@ extension HeadlinesViewModel {
 
 // Updating our models
 extension HeadlinesViewModel {
-    func update(selection: Selection) {
+   func update(selection: Selection) {
         switch selection {
         case let .category(category, isFavorite: isFavorite):
             

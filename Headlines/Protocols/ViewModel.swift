@@ -16,5 +16,6 @@ protocol ViewModel {
     
     init(service: Webservice, preferences: UserPreferences)
     
+    func bind()
     func fire()
 }
