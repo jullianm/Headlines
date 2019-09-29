@@ -10,7 +10,7 @@ import Foundation
 
 class Navigator: ObservableObject {
     enum ModalType {
-        case preferences, details
+        case preferences, details, article
     }
     var presenting: ModalType = .preferences {
         willSet {

@@ -12,6 +12,7 @@ import Combine
 final class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
     var selectedArticle: Article?
+    var isFirstLaunch = true
     
     private var cancellable: Set<AnyCancellable>
     
@@ -25,7 +26,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         self.webService = service
         self.preferences = preferences
         self.cancellable = Set()
-
+        
         bind()
         fire()
     }
@@ -57,6 +58,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
             self.isLoading = true
         }, receiveOutput: { _ in
             self.isLoading = false
+            self.isFirstLaunch = false
         })
             .receive(on: DispatchQueue.main)
             .assign(to: \HeadlinesViewModel.headlines, on: self)
@@ -91,7 +93,7 @@ extension HeadlinesViewModel {
 
 // Updating our models
 extension HeadlinesViewModel {
-   func update(selection: Selection) {
+    func update(selection: Selection) {
         switch selection {
         case let .category(category, isFavorite: isFavorite):
             

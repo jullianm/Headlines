@@ -35,38 +35,39 @@ struct ContentView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            LoaderView(isShowing: self.viewModel.isLoading) {
-                NavigationView {
-                    VStack(alignment: .leading) {
-                        if self.isSearching {
-                            TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .animation(.easeInOut(duration: 0.5))
-                        }
-                        List {
-                            
-                            if self.isSearching && self.viewModel.keyword != "" {
-                                self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
-                            } else {
-                                ForEach(self.viewModel.headlines, id: \.name) { category in
-                                    self.content(forMode: self.mode, headlines: category)
+            LaunchView(isFirstLaunch: self.viewModel.isFirstLaunch) {
+                LoaderView(isShowing: self.viewModel.isLoading && !self.viewModel.isFirstLaunch) {
+                    NavigationView {
+                        VStack(alignment: .leading) {
+                            if self.isSearching {
+                                TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .animation(.easeInOut(duration: 0.5))
+                            }
+                            List {
+                                
+                                if self.isSearching && self.viewModel.keyword != "" {
+                                    self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
+                                } else {
+                                    ForEach(self.viewModel.headlines, id: \.name) { category in
+                                        self.content(forMode: self.mode, headlines: category)
+                                    }
                                 }
                             }
                         }
-                        
-                        
+                        .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
+                        .navigationBarItems(
+                            leading: self.modeButton,
+                            trailing: HStack(spacing: 10) {
+                                self.preferencesButton.padding(.trailing, 5)
+                                self.searchButton
+                            }
+                        )
                     }
-                    .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
-                    .navigationBarItems(
-                        leading: self.modeButton,
-                        trailing: HStack(spacing: 10) {
-                            self.preferencesButton.padding(.trailing, 5)
-                            self.searchButton
-                        }
-                    )
                 }
             }
-        }.sheet(
+        }
+        .sheet(
             isPresented: $navigator.showSheet,
             onDismiss: { self.navigator.showSheet = false }, content: {
                 if self.navigator.presenting == .details {

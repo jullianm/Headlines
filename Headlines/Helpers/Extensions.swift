@@ -85,11 +85,11 @@ extension Date {
 }
 
 extension Image {
-    func format() -> some View {
+    func modifier(uiImage : UIImage) -> some View {
         return self
             .resizable()
-            .aspectRatio(1, contentMode: .fit)
+            .frame(width: UIScreen.main.bounds.width - 40, height: 250.0, alignment: .leading)
+            .aspectRatio(uiImage.size.width/uiImage.size.height, contentMode: .fill)
             .cornerRadius(10.0)
-            .frame(width: 350, height: 400, alignment: .center)
     }
 }
