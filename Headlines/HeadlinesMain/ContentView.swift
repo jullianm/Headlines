@@ -44,12 +44,11 @@ struct ContentView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .animation(.easeInOut(duration: 0.5))
                             }
-                            List {
-                                
+                            ScrollView(.vertical, showsIndicators: false) {
                                 if self.isSearching && self.viewModel.keyword != "" {
                                     self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
                                 } else {
-                                    ForEach(self.viewModel.headlines, id: \.name) { category in
+                                    ForEach(self.viewModel.headlines) { category in
                                         self.content(forMode: self.mode, headlines: category)
                                     }
                                 }
@@ -96,7 +95,8 @@ struct ContentView: View {
         Button(action: {
             self.navigator.presenting = .preferences
         }) {
-            Image(systemName: Constants.Image.preferencesImg).accentColor(colorScheme == .light ? Color.black: Color.white)
+            Image(systemName: Constants.Image.preferencesImg)
+                .accentColor(colorScheme == .light ? Color.black: Color.white)
         }
     }
     
@@ -104,7 +104,8 @@ struct ContentView: View {
         Button(action: {
             withAnimation { self.isSearching.toggle() }
         }) {
-            Image(systemName: Constants.Image.searchImg).accentColor(self.isSearching ? Color.gray: colorScheme == .light ? Color.black: Color.white)
+            Image(systemName: Constants.Image.searchImg)
+                .accentColor(self.isSearching ? Color.gray: colorScheme == .light ? Color.black: Color.white)
         }
     }
     
@@ -123,13 +124,13 @@ struct ContentView: View {
                     .frame(height: headlines.isFavorite ? 400: 300)
                     .scaledToFill()
                     .clipped()
-                    .listRowInsets(EdgeInsets())
-                    
             } else {
-                HeaderView(headlines: headlines)
-                ForEach(headlines.articles, id: \.title) { article in
-                    ArticleRow(article: article, viewModel: self.viewModel) { _ in self.navigator.presenting = .details }
-                }
+                VStack(alignment: .leading) {
+                    HeaderView(headlines: headlines)
+                    ForEach(headlines.articles) { article in
+                        ArticleRow(article: article, viewModel: self.viewModel) { _ in self.navigator.presenting = .details }
+                    }
+                }.padding(.leading)
             }
         }
     }

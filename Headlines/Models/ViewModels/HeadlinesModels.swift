@@ -9,7 +9,8 @@
 import Foundation
 
 // MARK: Headlines
-struct Headlines {
+struct Headlines: Identifiable {
+    var id = UUID()
     var name: HeadlinesSection = .business
     var recency: HeadlinesRecency = .today
     var isFavorite: Bool = false

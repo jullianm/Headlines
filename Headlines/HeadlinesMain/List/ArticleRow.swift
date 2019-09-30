@@ -31,11 +31,12 @@ struct ArticleRow: View {
     let showDetails: (Bool) -> ()
     
     var body: some View {
-        HStack {
+        VStack(alignment: .leading) {
             Text(self.article.title)
-            Spacer()
+                .fixedSize(horizontal: false, vertical: true)
+            .padding()
+            Divider()
         }
-        .padding()
         .onTapGesture {
             self.viewModel.selectedArticle = self.article
             self.showDetails(true)

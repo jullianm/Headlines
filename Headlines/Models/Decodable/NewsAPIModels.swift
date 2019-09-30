@@ -16,7 +16,8 @@ public struct Result: Codable {
 }
 
 // MARK: - Article
-public class Article: Codable {
+public class Article: Codable, Identifiable {
+    public var id = UUID()
     let source: Source
     let author: String?
     let title: String
