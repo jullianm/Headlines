@@ -88,8 +88,8 @@ extension Image {
     func modifier(uiImage : UIImage) -> some View {
         return self
             .resizable()
-            .frame(width: UIScreen.main.bounds.width - 40, height: 250.0, alignment: .leading)
             .aspectRatio(uiImage.size.width/uiImage.size.height, contentMode: .fill)
+            .frame(width: UIScreen.main.bounds.width - 40, height: 250.0, alignment: .leading)
             .cornerRadius(10.0)
     }
 }
