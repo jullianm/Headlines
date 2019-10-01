@@ -25,12 +25,23 @@ public class Article: Codable, Identifiable {
     let url: String
     let urlToImage: String?
     let publishedAt: Date
-    let content: String?
+    private let rawContent: String?
+    
+    var content: String {
+        guard let index = rawContent?.firstIndex(where: { $0 == "[" }) else {
+            return rawContent ?? ""
+        }
+        var formattedContent = rawContent ?? ""
+        formattedContent.removeSubrange(index..<formattedContent.endIndex)
+        
+        return formattedContent
+    }
 
     enum CodingKeys: String, CodingKey {
         case source, author, title
         case articleDescription = "description"
-        case url, urlToImage, publishedAt, content
+        case rawContent = "content"
+        case url, urlToImage, publishedAt
     }
 }
 

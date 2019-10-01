@@ -50,7 +50,7 @@ struct ContentView: View {
                         .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
                         .navigationBarItems(
                             leading: self.modeButton,
-                            trailing: HStack(spacing: 10) {
+                            trailing: HStack(spacing: 17) {
                                 self.preferencesButton.padding(.trailing, 5)
                                 self.searchButton
                             }
@@ -96,8 +96,10 @@ struct ContentView: View {
             self.mode = (self.mode == .list) ? .image: .list
         }) {
             Image(systemName: (self.mode == .list) ? Constants.Image.bulletBelowImg: Constants.Image.bulletImg)
+                .resizable()
+                .aspectRatio(self.mode == .image ? 1.25: 1, contentMode: .fit)
                 .accentColor(colorScheme == .light ? Color.black: Color.white)
-        }
+        }.frame(width: 20, height: 20)
     }
     
     private var preferencesButton: some View {
@@ -105,8 +107,10 @@ struct ContentView: View {
             self.navigator.presenting = .preferences
         }) {
             Image(systemName: Constants.Image.preferencesImg)
+                .resizable()
+                .aspectRatio(0.7, contentMode: .fit)
                 .accentColor(colorScheme == .light ? Color.black: Color.white)
-        }
+        }.frame(width: 25, height: 25)
     }
     
     private var searchButton: some View {
@@ -114,8 +118,10 @@ struct ContentView: View {
             withAnimation { self.isSearching.toggle() }
         }) {
             Image(systemName: Constants.Image.searchImg)
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
                 .accentColor(self.isSearching ? Color.gray: colorScheme == .light ? Color.black: Color.white)
-        }
+        }.frame(width: 20, height: 20)
     }
     
     private func buildScrollViewContent(forMode mode: Mode, headlines: Headlines) -> some View {

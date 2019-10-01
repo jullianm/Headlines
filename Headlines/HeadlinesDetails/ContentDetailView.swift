@@ -47,21 +47,19 @@ struct ContentDetailView: View {
                     
                     HStack(alignment: .center) {
                         Text("Source: ")
-                        Text(article?.source.name ?? "")
-                    }
-                    HStack(alignment: .top) {
-                        Text("Link: ")
                         
                         Button(action: {
                             self.showSafariVC = true
                         }) {
-                            Text(article?.url ?? "").truncationMode(.middle)
-                        }.sheet(isPresented: self.$showSafariVC, content: {
-                            SafariView(url: URL(string: self.article?.url ?? "")!)
-                        })
+                            Text(article?.source.name ?? "").truncationMode(.middle)
+                        }
                     }
                 }
-            }
+            }.sheet(isPresented: $showSafariVC, onDismiss: {
+                self.showSafariVC = false
+            }, content: {
+                SafariView(url: URL(string: self.article?.url ?? "")!)
+            })
         }.padding()
     }
 }
