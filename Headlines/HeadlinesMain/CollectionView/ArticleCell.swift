@@ -12,7 +12,11 @@ import SDWebImage
 class ArticleCell: UICollectionViewCell {
 
     @IBOutlet weak var articleLabel: UILabel!
-    @IBOutlet weak var articleImageView: UIImageView!
+    @IBOutlet weak var articleImageView: UIImageView! {
+        didSet {
+            articleImageView.image = UIImage(named: "news.jpg")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

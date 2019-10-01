@@ -15,7 +15,6 @@ struct ContentView: View {
     
     @State private var mode: Mode = .image
     @State private var isSearching = false
-    @State var show = true
     
     enum Mode {
         case list, image
@@ -45,16 +44,8 @@ struct ContentView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .animation(.easeInOut(duration: 0.5))
                             }
-                            RefreshableScrollView(height: 70, refreshing: self.$viewModel.isRefreshing) {
-                                if self.isSearching && self.viewModel.keyword != "" {
-                                    self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
-                                } else {
-                                    ForEach(self.viewModel.headlines) { category in
-                                        self.content(forMode: self.mode, headlines: category)
-                                    }
-                                }
-                            }
                             
+                            self.scrollView
                         }
                         .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
                         .navigationBarItems(
@@ -82,7 +73,25 @@ struct ContentView: View {
         })
     }
     
-    var modeButton: some View {
+    private var searchTextField: some View {
+        TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .animation(.easeInOut(duration: 0.5))
+    }
+    
+    private var scrollView: some View {
+        RefreshableScrollView(height: 70, refreshing: self.$viewModel.isRefreshing) {
+            if self.isSearching && self.viewModel.keyword != "" {
+                self.buildScrollViewContent(forMode: self.mode, headlines: self.viewModel.headlines[0])
+            } else {
+                ForEach(self.viewModel.headlines) { category in
+                    self.buildScrollViewContent(forMode: self.mode, headlines: category)
+                }
+            }
+        }
+    }
+    
+    private var modeButton: some View {
         Button(action: {
             self.mode = (self.mode == .list) ? .image: .list
         }) {
@@ -91,7 +100,7 @@ struct ContentView: View {
         }
     }
     
-    var preferencesButton: some View {
+    private var preferencesButton: some View {
         Button(action: {
             self.navigator.presenting = .preferences
         }) {
@@ -100,7 +109,7 @@ struct ContentView: View {
         }
     }
     
-    var searchButton: some View {
+    private var searchButton: some View {
         Button(action: {
             withAnimation { self.isSearching.toggle() }
         }) {
@@ -109,7 +118,7 @@ struct ContentView: View {
         }
     }
     
-    func content(forMode mode: Mode, headlines: Headlines) -> some View {
+    private func buildScrollViewContent(forMode mode: Mode, headlines: Headlines) -> some View {
         Group {
             if mode == .image {
                 VStack(alignment: .leading) {
@@ -121,9 +130,9 @@ struct ContentView: View {
                         handler: { _ in self.navigator.presenting = .details }
                     )
                 }
-                    .frame(height: headlines.isFavorite ? 400: 300)
-                    .scaledToFill()
-                    .clipped()
+                .frame(height: headlines.isFavorite ? 400: 300)
+                .scaledToFill()
+                .clipped()
             } else {
                 VStack(alignment: .leading) {
                     HeaderView(headlines: headlines)
@@ -132,7 +141,7 @@ struct ContentView: View {
                     }
                 }.padding(.leading)
             }
-        }
+        }.animation(.linear(duration: mode == .list ? 0.2: 0.05))
     }
 }
 
