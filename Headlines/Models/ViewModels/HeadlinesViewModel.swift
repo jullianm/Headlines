@@ -18,7 +18,8 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     
     @Published var preferences: UserPreferences
     @Published var headlines: [Headlines] = []
-    @Published var isLoading = true
+    @Published var isLoading = false
+    @Published var isRefreshing = false
     @Published var keyword: String = "" 
     @Published var recencyIndex: Int = 0
     
@@ -40,6 +41,10 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         self.$recencyIndex
             .sink(receiveValue: { self.setRecency(forIndex: $0) })
             .store(in: &cancellable)
+        
+        self.$isRefreshing
+            .sink(receiveValue: { if $0 { self.fire() } })
+            .store(in: &cancellable)
     }
     
     func fire() {
@@ -58,6 +63,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
             self.isLoading = true
         }, receiveOutput: { _ in
             self.isLoading = false
+            self.isRefreshing = false
             self.isFirstLaunch = false
         })
             .receive(on: DispatchQueue.main)

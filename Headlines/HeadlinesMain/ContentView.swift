@@ -15,6 +15,7 @@ struct ContentView: View {
     
     @State private var mode: Mode = .image
     @State private var isSearching = false
+    @State var show = true
     
     enum Mode {
         case list, image
@@ -36,7 +37,7 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             LaunchView(isFirstLaunch: self.viewModel.isFirstLaunch) {
-                LoaderView(isShowing: self.viewModel.isLoading && !self.viewModel.isFirstLaunch) {
+                LoaderView(isShowing: (self.viewModel.isLoading && !self.viewModel.isRefreshing) && !self.viewModel.isFirstLaunch) {
                     NavigationView {
                         VStack(alignment: .leading) {
                             if self.isSearching {
@@ -44,7 +45,7 @@ struct ContentView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .animation(.easeInOut(duration: 0.5))
                             }
-                            ScrollView(.vertical, showsIndicators: false) {
+                            RefreshableScrollView(height: 70, refreshing: self.$viewModel.isRefreshing) {
                                 if self.isSearching && self.viewModel.keyword != "" {
                                     self.content(forMode: self.mode, headlines: self.viewModel.headlines[0])
                                 } else {
@@ -53,6 +54,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                            
                         }
                         .navigationBarTitle(Text(Constants.Text.title), displayMode: .inline)
                         .navigationBarItems(
@@ -82,9 +84,7 @@ struct ContentView: View {
     
     var modeButton: some View {
         Button(action: {
-            withAnimation {
-                self.mode = (self.mode == .list) ? .image: .list
-            }
+            self.mode = (self.mode == .list) ? .image: .list
         }) {
             Image(systemName: (self.mode == .list) ? Constants.Image.bulletBelowImg: Constants.Image.bulletImg)
                 .accentColor(colorScheme == .light ? Color.black: Color.white)
