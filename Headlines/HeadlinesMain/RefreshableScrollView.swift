@@ -54,7 +54,7 @@ struct RefreshableScrollView<Content: View>: View {
             self.rotation = self.symbolRotation(self.scrollOffset)
             
             // Crossing the threshold on the way down, we start the refresh process
-            if !self.refreshing && (self.scrollOffset > self.threshold && self.previousScrollOffset <= self.threshold) {
+            if !self.refreshing && (self.scrollOffset > self.threshold + 30 && self.previousScrollOffset <= self.threshold) {
                 self.refreshing = true
             }
             
