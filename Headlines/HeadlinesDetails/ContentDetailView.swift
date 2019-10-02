@@ -31,6 +31,12 @@ struct ContentDetailView: View {
                         .fontWeight(.black)
                         .fixedSize(horizontal: false, vertical: true)
                     
+                    Spacer()
+                    
+                    Text(article?.publishedDate ?? "")
+                        .font(.system(size: 17))
+                        .fontWeight(.medium)
+                    
                     Spacer(minLength: 20)
                   
                     Image(uiImage: self.imageLoader.image ?? UIImage(named: "news")!)

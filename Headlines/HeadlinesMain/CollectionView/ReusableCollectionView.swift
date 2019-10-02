@@ -110,7 +110,7 @@ struct ReusableCollectionView: UIViewRepresentable {
     
 }
 
-enum HeadlinesSection: String, CaseIterable {
+enum HeadlinesSection: String, Codable, CaseIterable {
     case sports
     case technology
     case business

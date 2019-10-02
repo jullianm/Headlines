@@ -33,7 +33,7 @@ struct Headlines: Identifiable {
 
 
 // MARK: Countries
-enum HeadlinesCountry: String, CaseIterable {
+enum HeadlinesCountry: Int, Codable, CaseIterable {
     case france
     case germany
     case GB
@@ -42,7 +42,11 @@ enum HeadlinesCountry: String, CaseIterable {
     case australia
     case sweden
     case nederlands
-    case japan 
+    case japan
+    
+    var label: String {
+        return "\(self)".capitalizingFirstLetter()
+    }
     
     var convert: String {
         switch self {
@@ -68,9 +72,31 @@ enum HeadlinesCountry: String, CaseIterable {
     }
 }
 
-struct PreferencesCountry {
+struct PreferencesCountry: Codable {
     var country: HeadlinesCountry
     var isSelected: Bool
+    
+    init(country: HeadlinesCountry, isSelected: Bool) {
+        self.country = country
+        self.isSelected = isSelected
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        country = try container.decode(HeadlinesCountry.self, forKey: .country)
+        isSelected = try container.decode(Bool.self, forKey: .isSelected)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(country, forKey: .country)
+        try container.encode(isSelected, forKey: .isSelected)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case country
+        case isSelected
+    }
     
     static var all: [PreferencesCountry] {
         return HeadlinesCountry.allCases.map {
@@ -81,11 +107,37 @@ struct PreferencesCountry {
 
 
 // MARK: Categories
-struct PreferencesCategory: Identifiable {
+struct PreferencesCategory: Codable, Identifiable {
     var id = UUID()
     var name: HeadlinesSection
     var isSelected: Bool
     var isFavorite: Bool
+    
+    init(name: HeadlinesSection, isSelected: Bool, isFavorite: Bool) {
+        self.name = name
+        self.isSelected = isSelected
+        self.isFavorite = isFavorite
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(HeadlinesSection.self, forKey: .name)
+        isSelected = try container.decode(Bool.self, forKey: .isSelected)
+        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(isSelected, forKey: .isSelected)
+        try container.encode(isFavorite, forKey: .isFavorite)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case isSelected
+        case isFavorite
+    }
     
     static var all: [PreferencesCategory] {
         return HeadlinesSection.allCases
@@ -101,9 +153,31 @@ struct PreferencesCategory: Identifiable {
 }
 
 // MARK: Recency
-struct PreferencesRecency {
+struct PreferencesRecency: Codable {
     var date: HeadlinesRecency
     var isSelected: Bool
+    
+    init(date: HeadlinesRecency, isSelected: Bool) {
+        self.date = date
+        self.isSelected = isSelected
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        date = try container.decode(HeadlinesRecency.self, forKey: .date)
+        isSelected = try container.decode(Bool.self, forKey: .isSelected)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(date, forKey: .date)
+        try container.encode(isSelected, forKey: .isSelected)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case date
+        case isSelected
+    }
     
     static var all: [PreferencesRecency] {
         return HeadlinesRecency.allCases.map {
@@ -111,11 +185,24 @@ struct PreferencesRecency {
         }
     }
 }
-enum HeadlinesRecency: String, CaseIterable {
-    case today = "Today"
-    case yesterday = "Yesterday"
-    case threeDays = "3 days"
-    case sevenDays = "7 days"
+enum HeadlinesRecency: Int, Codable, CaseIterable {
+    case today
+    case yesterday
+    case threeDays
+    case sevenDays
+    
+    var label: String {
+        switch self {
+        case .today:
+            return "Today"
+        case .yesterday:
+            return "Yesterday"
+        case .threeDays:
+            return "3 days"
+        case .sevenDays:
+            return "7 days"
+        }
+    }
     
     var fromTo: (from: Date, to: Date) {
         switch self {

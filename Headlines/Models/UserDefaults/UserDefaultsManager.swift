@@ -1,5 +1,5 @@
 //
-//  UserDefaults.swift
+//  UserDefaultsManager.swift
 //  Headlines
 //
 //  Created by Jullianm on 01/09/2019.
@@ -9,13 +9,12 @@
 import Foundation
 
 struct UserDefaultsManager {    
-    @UserDefaultWrapper("headlinesCategories", value: .technology)
-    static var headlinesCategories: HeadlinesSection
+    @UserDefaultWrapper("preferencesCategories", value: PreferencesCategory.all)
+    static var preferencesCategories: [PreferencesCategory]
     
-    @UserDefaultWrapper("headlinesCountry", value: .france)
-    static var headlinesCountry: HeadlinesCountry
+    @UserDefaultWrapper("preferencesCountry", value: PreferencesCountry.all)
+    static var preferencesCountry: [PreferencesCountry]
     
-    @UserDefaultWrapper("headlinesRecency", value: .today)
-    static var headlinesRecency: HeadlinesRecency
-    
+    @UserDefaultWrapper("preferencesRecency", value: PreferencesRecency.all)
+    static var preferencesRecency: [PreferencesRecency]
 }

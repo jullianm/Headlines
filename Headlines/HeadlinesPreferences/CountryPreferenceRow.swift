@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct CountryPreferenceRow: View {
-    
-    @State private var countryIndex: Int = 0
+    @ObservedObject var viewModel: HeadlinesViewModel
     @State private var showPicker = false
     
     private let countries = HeadlinesCountry.allCases
@@ -20,9 +19,9 @@ struct CountryPreferenceRow: View {
         
         // FIXME: ugly workaround to be able to trigger the callback when the picker value changed
         let indexBinding = Binding(get: {
-            self.countryIndex
+            self.viewModel.countryIndex
         }, set: {
-            self.countryIndex = $0
+            self.viewModel.countryIndex = $0
             self.action($0)
         })
         
@@ -41,8 +40,7 @@ struct CountryPreferenceRow: View {
                         .padding()
                 }
                 
-                Text(countries[countryIndex].rawValue.capitalizingFirstLetter())
-                
+                Text(countries[viewModel.countryIndex].label.capitalizingFirstLetter())
             }
             
             if showPicker {
@@ -51,9 +49,7 @@ struct CountryPreferenceRow: View {
                     
                     Picker(selection: indexBinding, label: Text("")) {
                         ForEach(0..<countries.count) { value in
-                            Text(self.countries[value].rawValue.capitalizingFirstLetter()).tag(value)
-                            
-                            
+                            Text(self.countries[value].label.capitalizingFirstLetter()).tag(value)
                         }
                     }
                     .pickerStyle(WheelPickerStyle())
@@ -64,13 +60,3 @@ struct CountryPreferenceRow: View {
         }
     }
 }
-
-#if DEBUG
-struct CountryPreferenceRow_Previews: PreviewProvider {
-    static var previews: some View {
-        CountryPreferenceRow { value in
-            
-        }
-    }
-}
-#endif

@@ -22,11 +22,14 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     @Published var isRefreshing = false
     @Published var keyword: String = "" 
     @Published var recencyIndex: Int = 0
+    @Published var countryIndex: Int = 0
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
         self.preferences = preferences
         self.cancellable = Set()
+        self.recencyIndex = preferences.recencies.first(where: { $0.isSelected })?.date.rawValue ?? 0
+        self.countryIndex = preferences.countries.first(where: { $0.isSelected })?.country.rawValue ?? 0
         
         bind()
         fire()
@@ -129,5 +132,11 @@ extension HeadlinesViewModel {
             
             preferences.countries[index].isSelected = true
         }
+        
+    }
+    func save() {
+        UserDefaultsManager.preferencesCategories = preferences.categories
+        UserDefaultsManager.preferencesCountry = preferences.countries
+        UserDefaultsManager.preferencesRecency = preferences.recencies
     }
 }

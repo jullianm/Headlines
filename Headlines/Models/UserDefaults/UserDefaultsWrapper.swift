@@ -9,7 +9,7 @@
 import Foundation
 
 @propertyWrapper
-struct UserDefaultWrapper<T> {
+struct UserDefaultWrapper<T: Codable> {
     let key: String
     let value: T
 
@@ -20,10 +20,12 @@ struct UserDefaultWrapper<T> {
 
     var wrappedValue: T {
         get {
-            return UserDefaults.standard.object(forKey: key) as? T ?? value
+            guard let data = UserDefaults.standard.value(forKey: key) as? Data else { return value }
+            return (try? PropertyListDecoder().decode(T.self, from: data)) ?? value
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: key)
+            let encoded = try? PropertyListEncoder().encode(newValue)
+            UserDefaults.standard.set(encoded, forKey: key)
         }
     }
 }

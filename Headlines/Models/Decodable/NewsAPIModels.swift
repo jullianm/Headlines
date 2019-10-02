@@ -24,8 +24,16 @@ public class Article: Codable, Identifiable {
     let articleDescription: String?
     let url: String
     let urlToImage: String?
-    let publishedAt: Date
+    private let publishedAt: Date
     private let rawContent: String?
+    
+    var publishedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, yyyy"
+        formatter.locale = Locale.current
+        
+        return formatter.string(from: publishedAt)
+    }
     
     var content: String {
         guard let index = rawContent?.firstIndex(where: { $0 == "[" }) else {

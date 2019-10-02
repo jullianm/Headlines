@@ -13,15 +13,10 @@ struct UserPreferences {
     var countries: [PreferencesCountry]
     var recencies: [PreferencesRecency]
     
-    init(
-        categories: [PreferencesCategory] = PreferencesCategory.all,
-        countries: [PreferencesCountry] = PreferencesCountry.all,
-        recencies: [PreferencesRecency] = PreferencesRecency.all) {
-        
-        self.categories = categories
-        self.countries = countries
-        self.recencies = recencies
+    init() {
+        self.categories = UserDefaultsManager.preferencesCategories
+        self.countries = UserDefaultsManager.preferencesCountry
+        self.recencies = UserDefaultsManager.preferencesRecency
     }
-    
 }
 

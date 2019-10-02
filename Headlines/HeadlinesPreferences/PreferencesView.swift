@@ -28,7 +28,7 @@ struct PreferencesView: View {
                             selection: self.$viewModel.recencyIndex,
                             label: Text("")) {
                                 ForEach(0..<viewModel.preferences.recencies.count, id: \.self) {
-                                    Text(self.viewModel.preferences.recencies[$0].date.rawValue).tag($0)
+                                    Text(self.viewModel.preferences.recencies[$0].date.label).tag($0)
                                 }
                         }
                         .pickerStyle(SegmentedPickerStyle())
@@ -38,7 +38,7 @@ struct PreferencesView: View {
                     .font(.system(size: 20))
                     .fontWeight(.semibold)) {
                         
-                        CountryPreferenceRow { value in
+                        CountryPreferenceRow(viewModel: viewModel) { value in
                             self.viewModel.update(selection: .country(value))
                         }
                 }
@@ -67,6 +67,7 @@ struct PreferencesView: View {
             .navigationBarItems(trailing:
                 Button(action: {
                     self.viewModel.fire()
+                    self.viewModel.save()
                     self.presentation.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "checkmark")
