@@ -51,7 +51,8 @@ struct ContentDetailView: View {
                         Button(action: {
                             self.showSafariVC = true
                         }) {
-                            Text(article?.source.name ?? "").truncationMode(.middle)
+                            Text(article?.source.name.lowercased() ?? "")
+                                .truncationMode(.middle)
                         }
                     }
                 }

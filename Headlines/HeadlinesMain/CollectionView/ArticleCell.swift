@@ -33,6 +33,7 @@ class ArticleCell: UICollectionViewCell {
     
     func configure(article: Article) {
         articleLabel.text = article.title
-        articleImageView.sd_setImage(with: URL(string: article.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
+        let encoded = article.urlToImage?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ?? ""
+        articleImageView.sd_setImage(with: URL(string: encoded), placeholderImage: UIImage(named: "news.jpg"))
     }
 }

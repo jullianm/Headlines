@@ -29,6 +29,7 @@ class ImageService {
 
 extension String {
     var url: URL {
-        URL(string: self)!
+        let encoded = self.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ?? ""
+        return URL(string: encoded)!
     }
 }
