@@ -9,15 +9,23 @@
 import SwiftUI
 
 struct HeaderView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     var headlines: Headlines
     
     var body: some View {
         Group {
             HStack {
-                Text(headlines.name == .filtered ? "": headlines.name.rawValue.capitalizingFirstLetter())
+                if headlines.name == .search {
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .accentColor(colorScheme == .light ? .black: .white)
+                }
+                
+                Text(headlines.name.rawValue.capitalizingFirstLetter())
                     .font(.system(size: 30))
                     .fontWeight(.semibold)
-                
+                                
                 if headlines.isFavorite {
                     Image(systemName: "star.fill")
                         .imageScale(.medium)

@@ -87,13 +87,13 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
 extension HeadlinesViewModel {
     private func sortArticles(byKeyword keyword: String) {
         guard keyword != "" else {
-            headlines.removeAll(where: { $0.name == .filtered })
+            headlines.removeAll(where: { $0.name == .search })
             return
         }
-        headlines.removeAll(where: { $0.name == .filtered })
+        headlines.removeAll(where: { $0.name == .search })
         
         let articles = headlines.flatMap { $0.articles.filter { $0.title.contains(keyword) } }
-        headlines.insert(.init(name: .filtered, isFavorite: false, articles: articles), at: 0)
+        headlines.insert(.init(name: .search, isFavorite: false, articles: articles), at: 0)
     }
     
     func setRecency(forIndex index: Int) {
