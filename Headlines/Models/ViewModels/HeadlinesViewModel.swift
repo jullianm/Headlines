@@ -28,8 +28,12 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         self.webService = service
         self.preferences = preferences
         self.cancellable = Set()
-        self.recencyIndex = preferences.recencies.first(where: { $0.isSelected })?.date.rawValue ?? 0
-        self.countryIndex = preferences.countries.first(where: { $0.isSelected })?.country.rawValue ?? 0
+        self.recencyIndex = preferences.recencies
+            .first(where: { $0.isSelected })?
+            .date.rawValue ?? 0
+        self.countryIndex = preferences.countries
+            .first(where: { $0.isSelected })?
+            .country.rawValue ?? 0
         
         bind()
         fire()
@@ -134,6 +138,9 @@ extension HeadlinesViewModel {
         }
         
     }
+}
+// Saving to user defaults
+extension HeadlinesViewModel {
     func save() {
         UserDefaultsManager.preferencesCategories = preferences.categories
         UserDefaultsManager.preferencesCountry = preferences.countries

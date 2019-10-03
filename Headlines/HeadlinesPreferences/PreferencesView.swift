@@ -72,7 +72,7 @@ struct PreferencesView: View {
                 }) {
                     Image(systemName: "checkmark")
                         .accentColor(Color.blue)
-                }
+                }.frame(width: 25, height: 25)
             )
         }
     }

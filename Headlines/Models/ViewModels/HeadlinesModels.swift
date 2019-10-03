@@ -26,7 +26,7 @@ struct Headlines: Identifiable {
         let categories = PreferencesCategory.all
             .filter { $0.isSelected }
             .map { Headlines(name: $0.name, isFavorite: $0.isFavorite) }
-
+        
         return categories.sortedFavorite()
     }
 }
@@ -43,9 +43,75 @@ enum HeadlinesCountry: Int, Codable, CaseIterable {
     case sweden
     case nederlands
     case japan
+    case arabEmirates
+    case argentina
+    case austria
+    case belgium
+    case bulgaria
+    case brazil
+    case canada
+    case switzerland
+    case colombia
+    case cuba
+    case czechRepublic
+    case egypt
+    case greece
+    case hongKong
+    case hungaria
+    case indonesia
+    case ireland
+    case israel
+    case india
+    case italia
+    case southKorea
+    case lithuania
+    case latvia
+    case morocco
+    case mexico
+    case malaysia
+    case nigeria
+    case norway
+    case newZealand
+    case philippines
+    case poland
+    case portugal
+    case romania
+    case serbia
+    case russia
+    case saudiArabia
+    case singapore
+    case slovenia
+    case slovakia
+    case thailand
+    case turkey
+    case taiwan
+    case ukrainia
+    case venezuela
+    case southAfrica
     
     var label: String {
-        return "\(self)".capitalizingFirstLetter()
+        switch self {
+        case .saudiArabia:
+            return "Saudi Arabia"
+        case .southKorea:
+            return "South Korea"
+        case .arabEmirates:
+            return "United Arab Emirates"
+        case .czechRepublic:
+            return "Czech Republic"
+        case .southAfrica:
+            return "South Africa"
+        case .hongKong:
+            return "Hong Kong"
+        case .newZealand:
+            return "New Zealand"
+        case .GB:
+            return "Great Britain"
+        case .USA:
+            return "United States of America"
+        default:
+            return "\(self)".capitalizingFirstLetter()
+        }
     }
     
     var convert: String {
@@ -68,6 +134,96 @@ enum HeadlinesCountry: Int, Codable, CaseIterable {
             return "nl"
         case .japan:
             return "jp"
+        case .arabEmirates:
+            return "ae"
+        case .argentina:
+            return "ar"
+        case .austria:
+            return "at"
+        case .belgium:
+            return "be"
+        case .bulgaria:
+            return "bg"
+        case .brazil:
+            return "br"
+        case .canada:
+            return "ca"
+        case .switzerland:
+            return "ch"
+        case .colombia:
+            return "co"
+        case .cuba:
+            return "cu"
+        case .czechRepublic:
+            return "cz"
+        case .egypt:
+            return "eg"
+        case .greece:
+            return "gr"
+        case .hongKong:
+            return "hk"
+        case .hungaria:
+            return "hu"
+        case .indonesia:
+            return "id"
+        case .ireland:
+            return "ie"
+        case .israel:
+            return "il"
+        case .india:
+            return "in"
+        case .italia:
+            return "it"
+        case .southKorea:
+            return "kr"
+        case .lithuania:
+            return "lt"
+        case .latvia:
+            return "lv"
+        case .morocco:
+            return "ma"
+        case .mexico:
+            return "mx"
+        case .malaysia:
+            return "my"
+        case .nigeria:
+            return "ng"
+        case .norway:
+            return "no"
+        case .newZealand:
+            return "nz"
+        case .philippines:
+            return "ph"
+        case .poland:
+            return "pl"
+        case .portugal:
+            return "pt"
+        case .romania:
+            return "ro"
+        case .serbia:
+            return "rs"
+        case .russia:
+            return "ru"
+        case .saudiArabia:
+            return "sa"
+        case .singapore:
+            return "sg"
+        case .slovenia:
+            return "si"
+        case .slovakia:
+            return "sk"
+        case .thailand:
+            return "th"
+        case .turkey:
+            return "tr"
+        case .taiwan:
+            return "tw"
+        case .ukrainia:
+            return "ua"
+        case .venezuela:
+            return "ve"
+        case .southAfrica:
+            return "za"
         }
     }
 }

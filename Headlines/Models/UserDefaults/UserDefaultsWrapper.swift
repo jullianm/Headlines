@@ -1,5 +1,5 @@
 //
-//  UserDefaultsManager.swift
+//  UserDefaultWrapper.swift
 //  Headlines
 //
 //  Created by Jullianm on 01/09/2019.
