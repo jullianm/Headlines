@@ -41,9 +41,11 @@ struct ContentView: View {
                     NavigationView {
                         VStack(alignment: .leading) {
                             if self.isSearching {
-                                TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .animation(.easeInOut(duration: 0.5))
+                                TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword) {
+                                    UIApplication.shared.endEditing()
+                                }
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .animation(.easeInOut(duration: 0.5))
                             }
                             
                             self.scrollView
@@ -85,8 +87,9 @@ struct ContentView: View {
             if self.viewModel.headlines.isEmpty {
                 HStack {
                     Image(systemName: Constants.Image.searchImg)
-                    Text(Constants.Text.noResults.localized()).fontWeight(.light)
-                }
+                    Text(Constants.Text.noResults.localized())
+                        .fontWeight(.regular)
+                }.padding(.top, 10.0)
             } else {
                 ForEach(self.viewModel.headlines) { category in
                     self.buildScrollViewContent(forMode: self.mode, headlines: category)

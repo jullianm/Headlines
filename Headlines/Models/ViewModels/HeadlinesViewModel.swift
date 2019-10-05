@@ -44,6 +44,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     func bind() {
         self.$keyword
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .drop(while: { $0 == "" })
             .sink { _ in self.fire() }
             .store(in: &cancellable)
         

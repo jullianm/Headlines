@@ -99,3 +99,9 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
 }
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
