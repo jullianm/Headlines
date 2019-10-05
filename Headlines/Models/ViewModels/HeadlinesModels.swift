@@ -34,83 +34,85 @@ struct Headlines: Identifiable {
 
 // MARK: Countries
 enum HeadlinesCountry: Int, Codable, CaseIterable {
-    case france
-    case germany
-    case GB
-    case USA
-    case china
-    case australia
-    case sweden
-    case nederlands
-    case japan
-    case arabEmirates
     case argentina
+    case australia
     case austria
     case belgium
-    case bulgaria
     case brazil
+    case bulgaria
     case canada
-    case switzerland
+    case china
     case colombia
     case cuba
     case czechRepublic
     case egypt
+    case france
+    case GB
+    case germany
     case greece
     case hongKong
     case hungaria
+    case india
     case indonesia
     case ireland
     case israel
-    case india
     case italia
-    case southKorea
-    case lithuania
+    case japan
     case latvia
-    case morocco
-    case mexico
+    case lithuania
     case malaysia
+    case mexico
+    case morocco
+    case nederlands
+    case newZealand
     case nigeria
     case norway
-    case newZealand
     case philippines
     case poland
     case portugal
     case romania
-    case serbia
     case russia
     case saudiArabia
+    case serbia
     case singapore
-    case slovenia
     case slovakia
+    case slovenia
+    case southAfrica
+    case southKorea
+    case sweden
+    case switzerland
+    case taiwan
     case thailand
     case turkey
-    case taiwan
     case ukrainia
+    case unitedArabEmirates
+    case USA
     case venezuela
-    case southAfrica
     
     var label: String {
         switch self {
         case .saudiArabia:
-            return "Saudi Arabia"
+            return "Saudi Arabia".localized()
         case .southKorea:
-            return "South Korea"
-        case .arabEmirates:
-            return "United Arab Emirates"
+            return "South Korea".localized()
+        case .unitedArabEmirates:
+            return "United Arab Emirates".localized()
         case .czechRepublic:
-            return "Czech Republic"
+            return "Czech Republic".localized()
         case .southAfrica:
-            return "South Africa"
+            return "South Africa".localized()
         case .hongKong:
-            return "Hong Kong"
+            return "Hong Kong".localized()
         case .newZealand:
-            return "New Zealand"
+            return "New Zealand".localized()
         case .GB:
-            return "Great Britain"
+            return "Great Britain".localized()
         case .USA:
-            return "United States of America"
+            return "United States of America".localized()
         default:
-            return "\(self)".capitalizingFirstLetter()
+            return "\(self)"
+                .capitalizingFirstLetter()
+                .localized()
         }
     }
     
@@ -134,7 +136,7 @@ enum HeadlinesCountry: Int, Codable, CaseIterable {
             return "nl"
         case .japan:
             return "jp"
-        case .arabEmirates:
+        case .unitedArabEmirates:
             return "ae"
         case .argentina:
             return "ar"
@@ -350,13 +352,13 @@ enum HeadlinesRecency: Int, Codable, CaseIterable {
     var label: String {
         switch self {
         case .today:
-            return "Today"
+            return "Today".localized()
         case .yesterday:
-            return "Yesterday"
+            return "Yesterday".localized()
         case .threeDays:
-            return "3 days"
+            return "3 days".localized()
         case .sevenDays:
-            return "7 days"
+            return "7 days".localized()
         }
     }
     

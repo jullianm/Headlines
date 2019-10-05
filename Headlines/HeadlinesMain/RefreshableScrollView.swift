@@ -9,13 +9,24 @@
 import SwiftUI
 
 struct RefreshableScrollView<Content: View>: View {
-    @State private var previousScrollOffset: CGFloat = 0
-    @State private var scrollOffset: CGFloat = 0
     @State private var frozen: Bool = false
     @State private var rotation: Angle = .degrees(0)
+    @State private var previousScrollOffset: CGFloat = 0
+    @State private var scrollOffset: CGFloat = 0 {
+        willSet {
+            RefreshableKeyTypes.offsetValues.append(newValue)
+            
+            if
+                let lastValue = RefreshableKeyTypes.offsetValues.last,
+                lastValue == 0,
+                RefreshableKeyTypes.offsetValues.contains(where: { $0 < 0 }) {
+                RefreshableKeyTypes.offsetValues = []
+            }
+        }
+    }
+    @Binding var refreshing: Bool
     
     var threshold: CGFloat = 80
-    @Binding var refreshing: Bool
     let content: Content
 
     init(height: CGFloat = 80, refreshing: Binding<Bool>, @ViewBuilder content: () -> Content) {
@@ -53,8 +64,10 @@ struct RefreshableScrollView<Content: View>: View {
             
             self.rotation = self.symbolRotation(self.scrollOffset)
             
+            let canRefresh = RefreshableKeyTypes.offsetValues.filter { $0 < 0 }.isEmpty
+            
             // Crossing the threshold on the way down, we start the refresh process
-            if !self.refreshing && (self.scrollOffset > self.threshold + 30 && self.previousScrollOffset <= self.threshold) {
+            if !self.refreshing && (self.scrollOffset > self.threshold && self.previousScrollOffset <= self.threshold) && canRefresh {
                 self.refreshing = true
             }
             
@@ -136,6 +149,8 @@ struct RefreshableScrollView<Content: View>: View {
 }
 
 struct RefreshableKeyTypes {
+    static var offsetValues: [CGFloat] = []
+    
     enum ViewType: Int {
         case movingView
         case fixedView

@@ -1,0 +1,90 @@
+/* 
+  Localizable.strings
+  Headlines
+
+  Created by Jullianm on 05/10/2019.
+  Copyright © 2019 Jullianm. All rights reserved.
+*/
+
+// Sections
+"Recency" = "Recency";
+"Country" = "Country";
+"Categories" = "Categories";
+"Preferences" = "Preferences";
+
+// Keyword
+"Search by keyword..." = "Search by keyword...";
+"No results found..." = "No results found...";
+
+// Recency
+"Today" = "Today";
+"Yesterday" = "Yesterday";
+"3 days" = "3 days";
+"7 days" = "7 days";
+
+// Date
+"Argentina" = "Argentina";
+"Australia" = "Australia";
+"Austria" = "Austria";
+"Belgium" = "Belgium";
+"Brazil" = "Brazil";
+"Bulgaria" = "Bulgaria";
+"Canada" = "Canada";
+"China" = "China";
+"Colombia" = "Colombia";
+"Cuba" = "Cuba";
+"Czech Republic" = "Czech Republic";
+"Egypt" = "Egypt";
+"France" = "France";
+"Great Britain" = "Great Britain";
+"Germany" = "Germany";
+"Greece" = "Greece";
+"Hong Kong" = "Hong Kong";
+"Hungaria" = "Hungaria";
+"India" = "India";
+"Indonesia" = "Indonesia";
+"Ireland" = "Ireland";
+"Israel" = "Israel";
+"Italia" = "Italia";
+"Japan" = "Japan";
+"Latvia" = "Latvia";
+"Lithuania" = "Lithuania";
+"Malaysia" = "Malaysia";
+"Mexico" = "Mexico";
+"Morocco" = "Morocco";
+"Nederlands" = "Nederlands";
+"New Zealand" = "New Zealand";
+"Nigeria" = "Nigeria";
+"Norway" = "Norway";
+"Philippines" = "Philippines";
+"Poland" = "Poland";
+"Portugal" = "Portugal";
+"Romania" = "Romania";
+"Russia" = "Russia";
+"Saudi Arabia" = "Saudi Arabia";
+"Serbia" = "Serbia";
+"Singapore" = "Singapore";
+"Slovakia" = "Slovakia";
+"Slovenia" = "Slovenia";
+"South Africa" = "South Africa";
+"South Korea" = "South Korea";
+"Sweden" = "Sweden";
+"Switzerland" = "Switzerland";
+"Taiwan" = "Taiwan";
+"Thailand" = "Thailand";
+"Turkey" = "Turkey";
+"Ukrainia" = "Ukrainia";
+"United Arab Emirates" = "United Arab Emirates";
+"United States of America" = "United States of America";
+"Venezuela" = "Venezuela";
+
+// Categories
+
+"Sports" = "Sports";
+"Technology" = "Technology";
+"Business" = "Business";
+"General" = "General";
+"Science" = "Science";
+"Health" = "Health";
+"Entertainment" = "Entertainment";
+"Search" = "Search";

@@ -12,7 +12,9 @@ struct CountryPreferenceRow: View {
     @ObservedObject var viewModel: HeadlinesViewModel
     @State private var showPicker = false
     
-    private let countries = HeadlinesCountry.allCases
+    private let countries = HeadlinesCountry
+        .allCases
+    
     let action: (_ value: Int) -> ()
     
     var body: some View {

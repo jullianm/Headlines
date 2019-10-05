@@ -39,8 +39,8 @@ struct ContentDetailView: View {
                     
                     Spacer(minLength: 20)
                   
-                    Image(uiImage: self.imageLoader.image ?? UIImage(named: "news")!)
-                        .modifier(uiImage: self.imageLoader.image ?? UIImage(named: "news")!)
+                    Image(uiImage: self.imageLoader.image ?? UIImage(named: "headlines_placeholder")!)
+                        .modifier(uiImage: self.imageLoader.image ?? UIImage(named: "headlines_placeholder")!)
                     
                     Spacer(minLength: 20)
                     

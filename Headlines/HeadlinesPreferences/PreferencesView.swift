@@ -21,7 +21,7 @@ struct PreferencesView: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Recency")
+                Section(header: Text("Recency".localized())
                     .font(.system(size: 20))
                     .fontWeight(.semibold)) {
                         Picker(
@@ -34,7 +34,7 @@ struct PreferencesView: View {
                         .pickerStyle(SegmentedPickerStyle())
                 }
                 
-                Section(header: Text("Country")
+                Section(header: Text("Country".localized())
                     .font(.system(size: 20))
                     .fontWeight(.semibold)) {
                         
@@ -44,14 +44,14 @@ struct PreferencesView: View {
                 }
                 
                 Section(header:
-                    Text("Categories")
+                    Text("Categories".localized())
                         .font(.system(size: 20))
                         .fontWeight(.semibold)) {
                             
                             ForEach(viewModel.preferences.categories, id: \.id) { category in
                                 
                                 CategoriesPreferenceRow(
-                                    name: category.name.rawValue.capitalizingFirstLetter(),
+                                    name: category.name.rawValue.capitalizingFirstLetter().localized(),
                                     isFavorite: category.isFavorite,
                                     isSelected: category.isSelected,
                                     onButtonTapped: {

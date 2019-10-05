@@ -93,3 +93,9 @@ extension Image {
             .cornerRadius(10.0)
     }
 }
+
+extension String {
+    func localized() -> String {
+        return NSLocalizedString(self, comment: "")
+    }
+}

@@ -1,0 +1,90 @@
+/* 
+  Localizable.strings
+  Headlines
+
+  Created by Jullianm on 05/10/2019.
+  Copyright © 2019 Jullianm. All rights reserved.
+*/
+
+// Sections
+"Recency" = "Récence";
+"Country" = "Pays";
+"Categories" = "Catégories";
+"Preferences" = "Préférences";
+
+// Keyword
+"Search by keyword..." = "Recherche par mot-clé...";
+"No results found..." = "Aucun résultat...";
+
+// Recency
+"Today" = "Aujourd'hui";
+"Yesterday" = "Hier";
+"3 days" = "3 jours";
+"7 days" = "7 jours";
+
+// Date
+"Argentina" = "Argentine";
+"Australia" = "Australie";
+"Austria" = "Autriche";
+"Belgium" = "Belgique";
+"Brazil" = "Brésil";
+"Bulgaria" = "Bulgarie";
+"Canada" = "Canada";
+"China" = "Chine";
+"Colombia" = "Colombie";
+"Cuba" = "Cuba";
+"Czech Republic" = "République Tchèque";
+"Egypt" = "Egypte";
+"France" = "France";
+"Great Britain" = "Grande Bretagne";
+"Germany" = "Allemagne";
+"Greece" = "Grèce";
+"Hong Kong" = "Hong Kong";
+"Hungaria" = "Hongrie";
+"India" = "Inde";
+"Indonesia" = "Indonésie";
+"Ireland" = "Irlande";
+"Israel" = "Israel";
+"Italia" = "Italie";
+"Japan" = "Japon";
+"Latvia" = "Lettonie";
+"Lithuania" = "Lituanie";
+"Malaysia" = "Malaysie";
+"Mexico" = "Mexique";
+"Morocco" = "Maroc";
+"Nederlands" = "Pays-Bas";
+"New Zealand" = "Nouvelle-Zélande";
+"Nigeria" = "Nigéria";
+"Norway" = "Norvège";
+"Philippines" = "Philippines";
+"Poland" = "Pologne";
+"Portugal" = "Portugal";
+"Romania" = "Romanie";
+"Russia" = "Russie";
+"Saudi Arabia" = "Arabie Saoudite";
+"Serbia" = "Serbie";
+"Singapore" = "Singapour";
+"Slovakia" = "Slovaquie";
+"Slovenia" = "Slovénie";
+"South Africa" = "Afrique du Sud";
+"South Korea" = "Corée du Sud";
+"Sweden" = "Suède";
+"Switzerland" = "Suisse";
+"Taiwan" = "Taïwan";
+"Thailand" = "Thailande";
+"Turkey" = "Turquie";
+"Ukrainia" = "Ukraine";
+"United Arab Emirates" = "Émirats Arabes Unis";
+"United States of America" = "États-Unis";
+"Venezuela" = "Vénezuela";
+
+// Categories
+
+"Sports" = "Sports";
+"Technology" = "Technologie";
+"Business" = "Affaires";
+"General" = "Général";
+"Science" = "Science";
+"Health" = "Santé";
+"Entertainment" = "Divertissement";
+"Search" = "Recherche";

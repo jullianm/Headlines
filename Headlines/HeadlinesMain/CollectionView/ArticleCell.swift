@@ -14,7 +14,7 @@ class ArticleCell: UICollectionViewCell {
     @IBOutlet weak var articleLabel: UILabel!
     @IBOutlet weak var articleImageView: UIImageView! {
         didSet {
-            articleImageView.image = UIImage(named: "news.jpg")
+            articleImageView.image = UIImage(named: "headlines_placeholder")
         }
     }
     
@@ -34,6 +34,6 @@ class ArticleCell: UICollectionViewCell {
     func configure(article: Article) {
         articleLabel.text = article.title
         let encoded = article.urlToImage?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ?? ""
-        articleImageView.sd_setImage(with: URL(string: encoded), placeholderImage: UIImage(named: "news.jpg"))
+        articleImageView.sd_setImage(with: URL(string: encoded), placeholderImage: UIImage(named: "headlines_placeholder"))
     }
 }

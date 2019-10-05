@@ -22,7 +22,7 @@ struct HeaderView: View {
                         .accentColor(colorScheme == .light ? .black: .white)
                 }
                 
-                Text(headlines.name.rawValue.capitalizingFirstLetter())
+                Text(headlines.name.rawValue.capitalizingFirstLetter().localized())
                     .font(.system(size: 30))
                     .fontWeight(.semibold)
                                 

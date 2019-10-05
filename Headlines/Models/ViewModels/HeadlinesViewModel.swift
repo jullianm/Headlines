@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import UIKit
 import Combine
 
 final class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
     var selectedArticle: Article?
     var isFirstLaunch = true
+    var offsetValues: [CGFloat] = []
     
     private var cancellable: Set<AnyCancellable>
     
@@ -42,7 +44,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     func bind() {
         self.$keyword
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
-            .sink { self.sortArticles(byKeyword: $0) }
+            .sink { _ in self.fire() }
             .store(in: &cancellable)
         
         self.$recencyIndex
@@ -55,7 +57,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func fire() {
-        let data = webService.fetch(preferences: preferences).map { value -> [Headlines] in
+        let data = webService.fetch(preferences: preferences, keyword: keyword).map { value -> [Headlines] in
             let headlines = value.map { (section, result) -> Headlines in
                 let isFavorite = self.preferences.categories
                     .first(where: { $0.name == section })?
@@ -66,9 +68,12 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
             
             return headlines.sortedFavorite()
         }
+        .map { headlines in
+            headlines.filter { $0.articles.count > 0 }
+        }
         .handleEvents(receiveSubscription: { _ in
             self.isLoading = true
-        }, receiveOutput: { _ in
+        }, receiveOutput: { value in
             self.isLoading = false
             self.isRefreshing = false
             self.isFirstLaunch = false
@@ -84,18 +89,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     }
 }
 
-extension HeadlinesViewModel {
-    private func sortArticles(byKeyword keyword: String) {
-        guard keyword != "" else {
-            headlines.removeAll(where: { $0.name == .search })
-            return
-        }
-        headlines.removeAll(where: { $0.name == .search })
-        
-        let articles = headlines.flatMap { $0.articles.filter { $0.title.contains(keyword) } }
-        headlines.insert(.init(name: .search, isFavorite: false, articles: articles), at: 0)
-    }
-    
+extension HeadlinesViewModel {    
     func setRecency(forIndex index: Int) {
         preferences.recencies.enumerated().forEach { (i, value) in
             self.preferences.recencies[i].isSelected = false

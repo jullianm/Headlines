@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct LaunchView<Content: View>: View {
-    
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     let isFirstLaunch: Bool
     let content: () -> Content
@@ -24,7 +23,7 @@ struct LaunchView<Content: View>: View {
                         Rectangle()
                             .foregroundColor(self.colorScheme == .light ? Color.white: Color.black)
                             .edgesIgnoringSafeArea(.all)
-                        Image("splash_headlines")
+                        Image(self.colorScheme == .dark ? "headlines_dark_mode": "headlines_light_mode")
                             .resizable()
                             .frame(width: geometry.size.width/3, height: geometry.size.width/3, alignment: .center)
                             .cornerRadius(10.0)

@@ -24,6 +24,7 @@ struct ContentView: View {
         struct Text {
             static let keyword = "Search by keyword..."
             static let title = "Headlines"
+            static let noResults = "No results found..."
         }
         struct Image {
             static let bulletBelowImg = "list.bullet.below.rectangle"
@@ -40,7 +41,7 @@ struct ContentView: View {
                     NavigationView {
                         VStack(alignment: .leading) {
                             if self.isSearching {
-                                TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
+                                TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .animation(.easeInOut(duration: 0.5))
                             }
@@ -80,9 +81,12 @@ struct ContentView: View {
     }
     
     private var scrollView: some View {
-        RefreshableScrollView(height: 70, refreshing: self.$viewModel.isRefreshing) {
-            if self.isSearching && self.viewModel.keyword != "" {
-                self.buildScrollViewContent(forMode: self.mode, headlines: self.viewModel.headlines[0])
+        RefreshableScrollView(refreshing: self.$viewModel.isRefreshing) {
+            if self.viewModel.headlines.isEmpty {
+                HStack {
+                    Image(systemName: Constants.Image.searchImg)
+                    Text(Constants.Text.noResults.localized()).fontWeight(.light)
+                }
             } else {
                 ForEach(self.viewModel.headlines) { category in
                     self.buildScrollViewContent(forMode: self.mode, headlines: category)

@@ -12,7 +12,7 @@ import Combine
 typealias HeadlinesResult = AnyPublisher<(HeadlinesSection, Result), Error>
 
 class Webservice {    
-     func fetch(preferences: UserPreferences) -> AnyPublisher<[(HeadlinesSection, Result)], Never> {
+    func fetch(preferences: UserPreferences, keyword: String) -> AnyPublisher<[(HeadlinesSection, Result)], Never> {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         
@@ -25,7 +25,11 @@ class Webservice {
             let endpoint = Endpoint.search(
                 recency: recency ?? .today,
                 country: country ?? .france,
-                category: category.name.rawValue
+                category: category.name.rawValue,
+                keyword: keyword
+                    .lowercased()
+                    .folding(options: .diacriticInsensitive, locale: .current)
+                    .trimmingCharacters(in: .whitespaces)
             )
 
             let publisher = URLSession.shared.dataTaskPublisher(for: endpoint.url!)
