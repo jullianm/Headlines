@@ -34,11 +34,11 @@ struct ArticleRow: View {
         VStack(alignment: .leading) {
             Text(self.article.title)
                 .fixedSize(horizontal: false, vertical: true)
-            .padding()
+                .padding(.init(arrayLiteral: .leading, .trailing))
             Text(self.article.source.name.lowercased())
                 .font(.system(size: 16))
                 .fontWeight(.light)
-                .padding()
+                .padding(.init(arrayLiteral: .leading, .trailing))
             Divider()
         }
         .onTapGesture {
