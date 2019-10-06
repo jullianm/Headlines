@@ -15,6 +15,9 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     var selectedArticle: Article?
     var isFirstLaunch = true
     var offsetValues: [CGFloat] = []
+    var isKeywordValid: Bool {
+        return keyword != ""
+    }
     
     private var cancellable: Set<AnyCancellable>
     
@@ -43,9 +46,8 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     
     func bind() {
         self.$keyword
-            .debounce(for: 0.5, scheduler: DispatchQueue.main)
-            .drop(while: { $0 == "" })
-            .sink { _ in self.fire() }
+            .dropFirst()
+            .sink { if $0 == "" { self.fire() } }
             .store(in: &cancellable)
         
         self.$recencyIndex

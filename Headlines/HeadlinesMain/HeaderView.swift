@@ -1,6 +1,6 @@
 //
 //  ListMode.swift
-//  Headlight
+//  Headlines
 //
 //  Created by Jullianm on 29/07/2019.
 //  Copyright © 2019 Jullianm. All rights reserved.

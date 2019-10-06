@@ -1,6 +1,6 @@
 //
 //  ListNewsRow.swift
-//  Headlight
+//  Headlines
 //
 //  Created by Jullianm on 30/07/2019.
 //  Copyright © 2019 Jullianm. All rights reserved.
@@ -35,6 +35,10 @@ struct ArticleRow: View {
             Text(self.article.title)
                 .fixedSize(horizontal: false, vertical: true)
             .padding()
+            Text(self.article.source.name.lowercased())
+                .font(.system(size: 16))
+                .fontWeight(.light)
+                .padding()
             Divider()
         }
         .onTapGesture {

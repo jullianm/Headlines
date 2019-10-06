@@ -20,12 +20,23 @@ public class Article: Codable, Identifiable {
     public var id = UUID()
     let source: Source
     let author: String?
-    let title: String
+    private let rawTitle: String
     let articleDescription: String?
     let url: String
     let urlToImage: String?
     private let publishedAt: Date
     private let rawContent: String?
+    
+    var title: String {
+        guard
+            let index = rawTitle.lastIndex(where: { $0 == "-" }) else {
+            return rawTitle
+        }
+        var formattedContent = rawTitle 
+        formattedContent.removeSubrange(index..<formattedContent.endIndex)
+        
+        return formattedContent
+    }
     
     var publishedDate: String {
         let formatter = DateFormatter()
@@ -46,7 +57,8 @@ public class Article: Codable, Identifiable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case source, author, title
+        case source, author
+        case rawTitle = "title"
         case articleDescription = "description"
         case rawContent = "content"
         case url, urlToImage, publishedAt

@@ -1,6 +1,6 @@
 //
 //  CategoriesPreferenceRow.swift
-//  Headlight
+//  Headlines
 //
 //  Created by Jullianm on 15/08/2019.
 //  Copyright © 2019 Jullianm. All rights reserved.

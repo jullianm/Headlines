@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Headlight
+//  Headlines
 //
 //  Created by Jullianm on 27/07/2019.
 //  Copyright © 2019 Jullianm. All rights reserved.
@@ -41,11 +41,38 @@ struct ContentView: View {
                     NavigationView {
                         VStack(alignment: .leading) {
                             if self.isSearching {
-                                TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword) {
-                                    UIApplication.shared.endEditing()
+                                VStack(alignment: .center) {
+                                    HStack(alignment: .center) {
+                                        TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword) {
+                                            guard self.viewModel.isKeywordValid else { return }
+                                            self.viewModel.fire()
+                                            UIApplication.shared.endEditing()
+                                        }
+                                        .padding(.leading)
+                                        .keyboardType(.webSearch)
+                                        .textFieldStyle(PlainTextFieldStyle())
+                                        .animation(.linear(duration: 0.4))
+                                        
+                                        Button(action: {
+                                            self.viewModel.fire()
+                                        }) {
+                                            Image(systemName: "checkmark")
+                                                .accentColor(self.viewModel.isKeywordValid ? Color.blue :Color.gray)
+                                                .frame(width: 20, height: 20)
+                                        }
+                                        .disabled(self.viewModel.keyword == "")
+                                        .padding(.trailing)
+                                        .animation(.linear(duration: 0.1))
+                                    }
+                                    Divider()
+                                        .accentColor(Color.black.opacity(0.3))
+                                        .frame(height: 0.3, alignment: .top)
+                                        .animation(.linear(duration:
+                                            0.1))
                                 }
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .animation(.easeInOut(duration: 0.5))
+                                .padding(.top)
+                                .transition(.move(edge: .leading))
+                                
                             }
                             
                             self.scrollView
@@ -122,7 +149,7 @@ struct ContentView: View {
     
     private var searchButton: some View {
         Button(action: {
-            withAnimation { self.isSearching.toggle() }
+            withAnimation(.linear(duration: 0.2)) { self.isSearching.toggle() }
         }) {
             Image(systemName: Constants.Image.searchImg)
                 .resizable()

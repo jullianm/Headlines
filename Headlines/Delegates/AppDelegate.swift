@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Headlight
+//  Headlines
 //
 //  Created by Jullianm on 27/07/2019.
 //  Copyright © 2019 Jullianm. All rights reserved.
@@ -31,4 +31,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
