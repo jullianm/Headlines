@@ -11,14 +11,16 @@ import UIKit
 import Combine
 
 final class HeadlinesViewModel: ObservableObject, ViewModel {
+    /// Properties
     var webService: Webservice
     var selectedArticle: Article?
     var isFirstLaunch = true
-    
     var keyword = CurrentValueSubject<String, Never>("")
     
+    /// Cancellable object
     private var cancellable: Set<AnyCancellable>
     
+    /// Published properties
     @Published var preferences: UserPreferences
     @Published var headlines: [Headlines] = []
     @Published var isLoading = false
@@ -41,6 +43,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         fire()
     }
     
+    /// Bindings
     func bind() {
         keyword
             .eraseToAnyPublisher()
@@ -57,6 +60,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
             .store(in: &cancellable)
     }
     
+    /// API calls
     func fire() {
         let data = webService.fetch(preferences: preferences, keyword: keyword.value).map { value -> [Headlines] in
             let headlines = value.map { (section, result) -> Headlines in
@@ -90,6 +94,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     }
 }
 
+/// Preferences updates
 extension HeadlinesViewModel {    
     func setRecency(forIndex index: Int) {
         preferences.recencies.enumerated().forEach { (i, value) in
@@ -134,7 +139,7 @@ extension HeadlinesViewModel {
         
     }
 }
-// Saving to user defaults
+/// User defaults storage
 extension HeadlinesViewModel {
     func save() {
         UserDefaultsManager.preferencesCategories = preferences.categories
