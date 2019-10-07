@@ -27,6 +27,7 @@ struct CategoryRow: View {
 struct ArticleRow: View {
     
     let article: Article
+    @Environment(\.colorScheme) var colorScheme
     let viewModel: HeadlinesViewModel
     let showDetails: (Bool) -> ()
     
@@ -35,10 +36,13 @@ struct ArticleRow: View {
             Text(self.article.title)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.init(arrayLiteral: .leading, .trailing))
+            HStack(alignment: .center) {
+                Spacer()
             Text(self.article.source.name.lowercased())
-                .font(.system(size: 16))
-                .fontWeight(.light)
+                .font(.system(size: 17))
+                .fontWeight(.ultraLight)
                 .padding(.init(arrayLiteral: .leading, .trailing))
+            }
             Divider()
         }
         .onTapGesture {

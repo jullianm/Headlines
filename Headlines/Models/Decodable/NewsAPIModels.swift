@@ -43,7 +43,9 @@ public class Article: Codable, Identifiable {
         formatter.dateFormat = "EEEE, MMM d, yyyy"
         formatter.locale = Locale.current
         
-        return formatter.string(from: publishedAt)
+        return formatter
+            .string(from: publishedAt)
+            .capitalizingFirstLetter()
     }
     
     var content: String {
