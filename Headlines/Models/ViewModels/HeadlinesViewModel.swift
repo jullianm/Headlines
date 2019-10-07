@@ -14,9 +14,10 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     var webService: Webservice
     var selectedArticle: Article?
     var isFirstLaunch = true
-    var offsetValues: [CGFloat] = []
+    
+    var keyword = CurrentValueSubject<String, Never>("")
     var isKeywordValid: Bool {
-        return keyword != ""
+        return keyword.value != ""
     }
     
     private var cancellable: Set<AnyCancellable>
@@ -25,7 +26,6 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     @Published var headlines: [Headlines] = []
     @Published var isLoading = false
     @Published var isRefreshing = false
-    @Published var keyword: String = "" 
     @Published var recencyIndex: Int = 0
     @Published var countryIndex: Int = 0
     
@@ -45,7 +45,8 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func bind() {
-        self.$keyword
+        keyword
+            .eraseToAnyPublisher()
             .dropFirst()
             .sink { if $0 == "" { self.fire() } }
             .store(in: &cancellable)
@@ -60,7 +61,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     }
     
     func fire() {
-        let data = webService.fetch(preferences: preferences, keyword: keyword).map { value -> [Headlines] in
+        let data = webService.fetch(preferences: preferences, keyword: keyword.value).map { value -> [Headlines] in
             let headlines = value.map { (section, result) -> Headlines in
                 let isFavorite = self.preferences.categories
                     .first(where: { $0.name == section })?

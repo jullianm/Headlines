@@ -36,13 +36,11 @@ struct ArticleRow: View {
             Text(self.article.title)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.init(arrayLiteral: .leading, .trailing))
-            HStack(alignment: .center) {
-                Spacer()
-            Text(self.article.source.name.lowercased())
+            Text(article.source.name)
                 .font(.system(size: 17))
                 .fontWeight(.ultraLight)
                 .padding(.init(arrayLiteral: .leading, .trailing))
-            }
+            
             Divider()
         }
         .onTapGesture {

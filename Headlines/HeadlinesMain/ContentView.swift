@@ -43,7 +43,7 @@ struct ContentView: View {
                             if self.isSearching {
                                 VStack(alignment: .center) {
                                     HStack(alignment: .center) {
-                                        TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword) {
+                                        TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword.value) {
                                             guard self.viewModel.isKeywordValid else { return }
                                             self.viewModel.fire()
                                             UIApplication.shared.endEditing()
@@ -51,7 +51,7 @@ struct ContentView: View {
                                         .padding(.leading)
                                         .keyboardType(.webSearch)
                                         .textFieldStyle(PlainTextFieldStyle())
-                                        .animation(.linear(duration: 0.4))
+                                        .animation(.linear(duration: 0.17))
                                         
                                         Button(action: {
                                             self.viewModel.fire()
@@ -60,9 +60,9 @@ struct ContentView: View {
                                                 .accentColor(self.viewModel.isKeywordValid ? Color.blue :Color.gray)
                                                 .frame(width: 20, height: 20)
                                         }
-                                        .disabled(self.viewModel.keyword == "")
+                                        .disabled(self.viewModel.keyword.value == "")
                                         .padding(.trailing)
-                                        .animation(.linear(duration: 0.1))
+                                        .animation(.linear(duration: 0.17))
                                     }
                                     Divider()
                                         .accentColor(Color.black.opacity(0.3))
@@ -71,7 +71,7 @@ struct ContentView: View {
                                             0.1))
                                 }
                                 .padding(.top)
-                                .transition(.move(edge: .leading))
+                                .transition(.move(edge: .top))
                                 
                             }
                             
@@ -104,7 +104,7 @@ struct ContentView: View {
     }
     
     private var searchTextField: some View {
-        TextField(Constants.Text.keyword, text: self.$viewModel.keyword)
+        TextField(Constants.Text.keyword, text: self.$viewModel.keyword.value)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .animation(.easeInOut(duration: 0.5))
     }
