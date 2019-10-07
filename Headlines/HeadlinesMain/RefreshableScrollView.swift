@@ -71,16 +71,16 @@ struct RefreshableScrollView<Content: View>: View {
                 self.refreshing = true
             }
             
-            if self.refreshing {
-                // Crossing the threshold on the way up, we add a space at the top of the scrollview
-                if self.previousScrollOffset > self.threshold && self.scrollOffset <= self.threshold {
-                    self.frozen = true
-
-                }
-            } else {
-                // remove the sapce at the top of the scroll view
-                self.frozen = false
-            }
+//            if self.refreshing {
+//                // Crossing the threshold on the way up, we add a space at the top of the scrollview
+//                if self.previousScrollOffset > self.threshold && self.scrollOffset <= self.threshold {
+//                    self.frozen = true
+//
+//                }
+//            } else {
+//                // remove the sapce at the top of the scroll view
+//                self.frozen = false
+//            }
             
             // Update last scroll offset
             self.previousScrollOffset = self.scrollOffset
