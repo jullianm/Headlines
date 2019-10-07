@@ -16,9 +16,6 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     var isFirstLaunch = true
     
     var keyword = CurrentValueSubject<String, Never>("")
-    var isKeywordValid: Bool {
-        return keyword.value != ""
-    }
     
     private var cancellable: Set<AnyCancellable>
     

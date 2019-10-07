@@ -44,7 +44,7 @@ struct ContentView: View {
                                 VStack(alignment: .center) {
                                     HStack(alignment: .center) {
                                         TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword.value) {
-                                            guard self.viewModel.isKeywordValid else { return }
+                                            guard self.viewModel.keyword.value != "" else { return }
                                             self.viewModel.fire()
                                             UIApplication.shared.endEditing()
                                         }
@@ -57,7 +57,7 @@ struct ContentView: View {
                                             self.viewModel.fire()
                                         }) {
                                             Image(systemName: "checkmark")
-                                                .accentColor(self.viewModel.isKeywordValid ? Color.blue :Color.gray)
+                                                .accentColor(self.viewModel.keyword.value != "" ? Color.blue :Color.gray)
                                                 .frame(width: 20, height: 20)
                                         }
                                         .disabled(self.viewModel.keyword.value == "")
