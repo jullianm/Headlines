@@ -27,6 +27,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     @Published var isRefreshing = false
     @Published var recencyIndex: Int = 0
     @Published var countryIndex: Int = 0
+    @Published var canSearch = false
     
     required init(service: Webservice = Webservice(), preferences: UserPreferences) {
         self.webService = service
@@ -48,8 +49,13 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         keyword
             .eraseToAnyPublisher()
             .dropFirst()
-            .sink { if $0 == "" { self.fire() } }
-            .store(in: &cancellable)
+            .sink { str in
+                if str != "" && !self.canSearch {
+                    self.canSearch = true
+                } else if str == "" && self.canSearch {
+                    self.canSearch = false
+                }
+        }.store(in: &cancellable)
         
         self.$recencyIndex
             .sink(receiveValue: { self.setRecency(forIndex: $0) })

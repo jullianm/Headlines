@@ -57,10 +57,10 @@ struct ContentView: View {
                                             self.viewModel.fire()
                                         }) {
                                             Image(systemName: "checkmark")
-                                                .accentColor(self.viewModel.keyword.value != "" ? Color.blue :Color.gray)
+                                                .accentColor(self.viewModel.canSearch ? Color.blue :Color.gray)
                                                 .frame(width: 20, height: 20)
                                         }
-                                        .disabled(self.viewModel.keyword.value == "")
+                                        .disabled(!self.viewModel.canSearch)
                                         .padding(.trailing)
                                         .animation(.linear(duration: 0.17))
                                     }
@@ -110,7 +110,7 @@ struct ContentView: View {
     }
     
     private var scrollView: some View {
-        RefreshableScrollView(refreshing: self.$viewModel.isRefreshing) {
+        RefreshableScrollView(height: 70, refreshing: self.$viewModel.isRefreshing) {
             if self.viewModel.headlines.isEmpty {
                 HStack {
                     Image(systemName: Constants.Image.searchImg)
@@ -149,7 +149,13 @@ struct ContentView: View {
     
     private var searchButton: some View {
         Button(action: {
-            withAnimation(.linear(duration: 0.2)) { self.isSearching.toggle() }
+            withAnimation(.linear(duration: 0.2)) {
+                self.isSearching.toggle()
+                
+                if !self.isSearching && self.viewModel.keyword.value == "" {
+                    self.viewModel.fire()
+                }
+            }
         }) {
             Image(systemName: Constants.Image.searchImg)
                 .resizable()

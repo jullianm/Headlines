@@ -42,7 +42,11 @@ struct RefreshableScrollView<Content: View>: View {
                 ZStack(alignment: .top) {
                     MovingView()
                     
-                    VStack { self.content }.alignmentGuide(.top, computeValue: { d in (self.refreshing && self.frozen) ? -self.threshold : 0.0 })
+                    VStack {
+                        self.content
+                    }.alignmentGuide(.top, computeValue: { d in
+                        (self.refreshing && self.frozen) ? -self.threshold : 0.0
+                    })
                     
                     SymbolView(height: self.threshold, loading: self.refreshing, frozen: self.frozen, rotation: self.rotation)
                 }
