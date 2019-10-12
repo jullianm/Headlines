@@ -14,16 +14,7 @@ struct ContentView: View {
     @ObservedObject var viewModel = HeadlinesViewModel(preferences: UserPreferences())
     
     @State private var mode: Mode = .image
-    @State private var isSearching = false {
-        willSet {
-            if !newValue &&
-                self.viewModel.keyword.value == "" &&
-                self.viewModel.headlines.isEmpty ||
-                (self.viewModel.headlines.first(where: { $0.name == .search }) != nil)  {
-                self.viewModel.fire()
-            }
-        }
-    }
+    @State private var isSearching = false 
     @State private var scaleValue = 0.0
     
     enum Mode {

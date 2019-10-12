@@ -118,7 +118,6 @@ enum HeadlinesSection: String, Codable, CaseIterable {
     case science
     case health
     case entertainment
-    case search
 }
 
 final class HeadlinesContainer: Hashable {
