@@ -73,6 +73,7 @@ struct RefreshableScrollView<Content: View>: View {
             // Crossing the threshold on the way down, we start the refresh process
             if !self.refreshing && (self.scrollOffset > self.threshold && self.previousScrollOffset <= self.threshold) && canRefresh {
                 self.refreshing = true
+                UIApplication.shared.endEditing()
             }
             
 //            if self.refreshing {

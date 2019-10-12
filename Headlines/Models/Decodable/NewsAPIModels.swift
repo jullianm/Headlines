@@ -43,6 +43,16 @@ public class Article: Codable, Identifiable {
         formatter.dateFormat = "EEEE, MMM d, yyyy"
         formatter.locale = Locale.current
         
+        enum CountryCode: String {
+            case FR
+        }
+        
+        if (Locale.current as NSLocale).object(forKey: .countryCode) as? String == CountryCode.FR.rawValue {
+            formatter.dateFormat = "EEEE, d MMM yyyy"
+        } else {
+            formatter.dateFormat = "EEEE, MMM d yyyy"
+        }
+        
         return formatter
             .string(from: publishedAt)
             .capitalizingFirstLetter()

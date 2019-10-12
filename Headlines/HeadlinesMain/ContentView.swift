@@ -14,7 +14,17 @@ struct ContentView: View {
     @ObservedObject var viewModel = HeadlinesViewModel(preferences: UserPreferences())
     
     @State private var mode: Mode = .image
-    @State private var isSearching = false
+    @State private var isSearching = false {
+        willSet {
+            if !newValue &&
+                self.viewModel.keyword.value == "" &&
+                self.viewModel.headlines.isEmpty ||
+                (self.viewModel.headlines.first(where: { $0.name == .search }) != nil)  {
+                self.viewModel.fire()
+            }
+        }
+    }
+    @State private var scaleValue = 0.0
     
     enum Mode {
         case list, image
@@ -40,40 +50,36 @@ struct ContentView: View {
                 LoaderView(isShowing: (self.viewModel.isLoading && !self.viewModel.isRefreshing) && !self.viewModel.isFirstLaunch) {
                     NavigationView {
                         VStack(alignment: .leading) {
-                            if self.isSearching {
-                                VStack(alignment: .center) {
-                                    HStack(alignment: .center) {
-                                        TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword.value) {
-                                            guard self.viewModel.keyword.value != "" else { return }
-                                            self.viewModel.fire()
-                                            UIApplication.shared.endEditing()
+                            VStack(alignment: .center) {
+                                HStack(alignment: .center) {
+                                    TextField(Constants.Text.keyword.localized(), text: self.$viewModel.keyword.value) {
+                                        guard self.viewModel.keyword.value != "" else {
+                                            return
                                         }
-                                        .padding(.leading)
-                                        .keyboardType(.webSearch)
-                                        .textFieldStyle(PlainTextFieldStyle())
-                                        .animation(.linear(duration: 0.17))
-                                        
-                                        Button(action: {
-                                            self.viewModel.fire()
-                                        }) {
-                                            Image(systemName: "checkmark")
-                                                .accentColor(self.viewModel.canSearch ? Color.blue :Color.gray)
-                                                .frame(width: 20, height: 20)
-                                        }
-                                        .disabled(!self.viewModel.canSearch)
-                                        .padding(.trailing)
-                                        .animation(.linear(duration: 0.17))
+                                        self.viewModel.fire()
+                                        UIApplication.shared.endEditing()
                                     }
-                                    Divider()
-                                        .accentColor(Color.black.opacity(0.3))
-                                        .frame(height: 0.3, alignment: .top)
-                                        .animation(.linear(duration:
-                                            0.1))
+                                    .padding(.leading)
+                                    .keyboardType(.webSearch)
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                    
+                                    Button(action: {
+                                        self.viewModel.fire()
+                                    }) {
+                                        Image(systemName: "checkmark")
+                                            .accentColor(self.viewModel.canSearch ? Color.blue :Color.gray)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    .disabled(!self.viewModel.canSearch)
+                                    .padding(.trailing)
                                 }
-                                .padding(.top)
-                                .transition(.move(edge: .top))
-                                
+                                Divider()
+                                    .accentColor(Color.black.opacity(0.3))
+                                    .frame(height: 0.3, alignment: .top)
                             }
+                            .padding(.top)
+                            .frame(height: self.isSearching ? 50: 0)
+                            .scaleEffect(self.isSearching ? 1 : 0)
                             
                             self.scrollView
                         }
@@ -106,7 +112,6 @@ struct ContentView: View {
     private var searchTextField: some View {
         TextField(Constants.Text.keyword, text: self.$viewModel.keyword.value)
             .textFieldStyle(RoundedBorderTextFieldStyle())
-            .animation(.easeInOut(duration: 0.5))
     }
     
     private var scrollView: some View {
@@ -127,7 +132,9 @@ struct ContentView: View {
     
     private var modeButton: some View {
         Button(action: {
-            self.mode = (self.mode == .list) ? .image: .list
+            withAnimation {
+                self.mode = (self.mode == .list) ? .image: .list
+            }
         }) {
             Image(systemName: (self.mode == .list) ? Constants.Image.bulletBelowImg: Constants.Image.bulletImg)
                 .resizable()
@@ -149,12 +156,9 @@ struct ContentView: View {
     
     private var searchButton: some View {
         Button(action: {
-            withAnimation(.linear(duration: 0.2)) {
+            withAnimation {
                 self.isSearching.toggle()
-                
-                if !self.isSearching && self.viewModel.keyword.value == "" {
-                    self.viewModel.fire()
-                }
+                UIApplication.shared.endEditing()
             }
         }) {
             Image(systemName: Constants.Image.searchImg)
@@ -187,7 +191,7 @@ struct ContentView: View {
                     }
                 }.padding(.leading)
             }
-        }.animation(.linear(duration: mode == .list ? 0.2: 0.05))
+        }.animation(.easeInOut(duration: 0.4))
     }
 }
 
