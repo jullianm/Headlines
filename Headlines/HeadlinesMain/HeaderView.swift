@@ -14,14 +14,7 @@ struct HeaderView: View {
     
     var body: some View {
         Group {
-            HStack {
-                if headlines.name == .search {
-                    Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .accentColor(colorScheme == .light ? .black: .white)
-                }
-                
+            HStack {                
                 Text(headlines.name.rawValue.capitalizingFirstLetter().localized())
                     .font(.system(size: 30))
                     .fontWeight(.semibold)

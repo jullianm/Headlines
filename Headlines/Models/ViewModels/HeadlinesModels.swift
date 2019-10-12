@@ -299,7 +299,6 @@ struct PreferencesCategory: Codable, Identifiable {
     
     static var all: [PreferencesCategory] {
         return HeadlinesSection.allCases
-            .filter { $0 != .search }
             .map {
                 PreferencesCategory(
                     name: $0,
