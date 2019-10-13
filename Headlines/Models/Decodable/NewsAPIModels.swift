@@ -44,10 +44,10 @@ public class Article: Codable, Identifiable {
         formatter.locale = Locale.current
         
         enum CountryCode: String {
-            case FR
+            case fr
         }
         
-        if (Locale.current as NSLocale).object(forKey: .countryCode) as? String == CountryCode.FR.rawValue {
+        if NSLocale.preferredLanguages[0].starts(with: "fr") {
             formatter.dateFormat = "EEEE, d MMM yyyy"
         } else {
             formatter.dateFormat = "EEEE, MMM d yyyy"
