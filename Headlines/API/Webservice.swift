@@ -11,7 +11,8 @@ import Combine
 
 typealias HeadlinesResult = AnyPublisher<(HeadlinesSection, Result), Error>
 
-class Webservice {    
+class Webservice {
+    var cancellable = Set<AnyCancellable>()
     func fetch(preferences: UserPreferences, keyword: String) -> AnyPublisher<[(HeadlinesSection, Result)], Never> {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601

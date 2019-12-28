@@ -30,35 +30,27 @@ final class ReusableCollectionViewDelegate: NSObject, UICollectionViewDelegate {
 }
 
 struct ReusableCollectionView: UIViewRepresentable {
+    private var viewModel: HeadlinesViewModel
+    private let section: HeadlinesSection
+    private let delegate: ReusableCollectionViewDelegate
     
-    var viewModel: HeadlinesViewModel
-    let section: HeadlinesSection
-    let delegate: ReusableCollectionViewDelegate
-    let reloadData: Bool
-    
-    init(viewModel: HeadlinesViewModel, section: HeadlinesSection, shouldReloadData: Bool = true, handler: @escaping (Bool) -> ()) {
+    init(viewModel: HeadlinesViewModel, section: HeadlinesSection, handler: @escaping (Bool) -> ()) {
         self.viewModel = viewModel
         self.section = section
-        self.reloadData = shouldReloadData
         
-        self.delegate = ReusableCollectionViewDelegate(
-            section: section,
-            viewModel: viewModel,
-            handler: handler
-        )
+        self.delegate = ReusableCollectionViewDelegate(section: section,
+                                                       viewModel: viewModel,
+                                                       handler: handler)
     }
     
     func makeUIView(context: UIViewRepresentableContext<ReusableCollectionView>) -> UICollectionView {
 
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: CollectionViewFlowLayout()
-        )
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: CollectionViewFlowLayout())
         
         collectionView.showsHorizontalScrollIndicator = false
-        
         collectionView.delegate = delegate
-
+        
         collectionView.register(UINib(nibName: "\(ArticleCell.self)", bundle: .main), forCellWithReuseIdentifier: "\(ArticleCell.self)")
                 
         let dataSource = UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>(collectionView: collectionView) { collectionView, indexPath, container in
@@ -81,21 +73,24 @@ struct ReusableCollectionView: UIViewRepresentable {
         return collectionView
     }
     
-    func updateUIView(_ uiView: UICollectionView, context: UIViewRepresentableContext<ReusableCollectionView>) {
-        guard let dataSource = context.coordinator.dataSource else {
-            return
+    func updateUIView(_ uiView: UICollectionView, context: UIViewRepresentableContext<ReusableCollectionView>) {        
+        guard
+            let dataSource = context.coordinator.dataSource,
+            viewModel.canReloadData else {
+                return
         }
-        populate(dataSource: dataSource)
+        
+        self.populate(dataSource: dataSource)
     }
     
     func makeCoordinator() -> MainCoordinator {
         MainCoordinator()
     }
-    
+        
     func populate(dataSource: UICollectionViewDiffableDataSource<HeadlinesSection, HeadlinesContainer>) {
         var snapshot = NSDiffableDataSourceSnapshot<HeadlinesSection, HeadlinesContainer>()
         
-        guard let category = self.viewModel.headlines.first(where: { $0.name == self.section }), reloadData else {
+        guard let category = self.viewModel.headlines.first(where: { $0.name == self.section }) else {
             return
         }
         
@@ -106,6 +101,8 @@ struct ReusableCollectionView: UIViewRepresentable {
         snapshot.appendItems(containers)
 
         dataSource.apply(snapshot)
+        
+        viewModel.canReloadData = false
     }
     
 }

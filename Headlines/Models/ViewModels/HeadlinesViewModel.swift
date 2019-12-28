@@ -16,6 +16,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     var selectedArticle: Article?
     var isFirstLaunch = true
     var keyword = CurrentValueSubject<String, Never>("")
+    var canReloadData = false
     
     /// Cancellable object
     private var cancellable: Set<AnyCancellable>
@@ -86,11 +87,12 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
             self.isLoading = true
         }, receiveOutput: { value in
             self.isLoading = false
+            self.canReloadData = true
             self.isRefreshing = false
             self.isFirstLaunch = false
         })
-            .receive(on: DispatchQueue.main)
-            .assign(to: \HeadlinesViewModel.headlines, on: self)
+        .receive(on: DispatchQueue.main)
+        .assign(to: \HeadlinesViewModel.headlines, on: self)
         
         cancellable.insert(data)
     }

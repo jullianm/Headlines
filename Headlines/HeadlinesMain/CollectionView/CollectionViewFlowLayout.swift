@@ -9,7 +9,6 @@
 import UIKit
 
 class CollectionViewFlowLayout: UICollectionViewFlowLayout {
-    
     override func prepare() {
         super.prepare()
         
@@ -22,8 +21,8 @@ class CollectionViewFlowLayout: UICollectionViewFlowLayout {
         scrollDirection = .horizontal
         sectionInset = .init(top: 0, left: 10.0, bottom: 0, right: 0)
         itemSize = .init(width: collectionView.frame.size.width/1.2, height: collectionView.frame.size.height)
-        
      }
+    
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         // Page width used for estimating and calculating paging.
         let pageWidth = itemSize.width + minimumLineSpacing
@@ -37,7 +36,6 @@ class CollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         return CGPoint(x: newHorizontalOffset, y: proposedContentOffset.y)
     }
-    
 }
 
 

@@ -18,7 +18,6 @@ struct CategoryRow: View {
         ReusableCollectionView(
             viewModel: model,
             section: section,
-            shouldReloadData: shouldReloadData,
             handler: handler
         )
     }
@@ -36,6 +35,9 @@ struct ArticleRow: View {
             Text(self.article.title)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.init(arrayLiteral: .leading, .trailing))
+            
+            Spacer()
+            
             Text(article.source.name)
                 .font(.system(size: 17))
                 .fontWeight(.ultraLight)
