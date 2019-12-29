@@ -20,6 +20,7 @@ private struct Constants {
         static let preferencesImg = "selection.pin.in.out"
         static let refreshImg = "arrow.clockwise"
         static let searchImg = "magnifyingglass"
+        static let checkmark = "checkmark"
     }
 }
 
@@ -118,7 +119,9 @@ struct ContentView: View {
     // MARK: - Buttons
     private var modeButton: some View {
         Button(action: {
-            self.mode.toggle()
+            withAnimation {
+                self.mode = (self.mode == .list) ? .image: .list
+            }
         }) {
             Image(systemName: (self.mode == .list) ? Constants.Image.bulletBelowImg: Constants.Image.bulletImg)
                 .resizable()
@@ -170,7 +173,6 @@ struct ContentView: View {
                     .padding(.bottom, 7)
                     .frame(width: 30, height: 30)
             }
-            
         })
     }
     
@@ -178,7 +180,7 @@ struct ContentView: View {
         Button(action: {
             self.viewModel.fire()
         }) {
-            Image(systemName: "checkmark")
+            Image(systemName: Constants.Image.checkmark)
                 .accentColor(self.viewModel.canSearch ? Color.blue :Color.gray)
                 .frame(width: 20, height: 20)
         }
@@ -203,7 +205,7 @@ struct ContentView: View {
         }
     }
     private func getScrollViewContent(forMode mode: Mode, headlines: Headlines) -> some View {
-        Group {
+        VStack {
             if mode == .image {
                 VStack(alignment: .leading) {
                     HeaderView(headlines: headlines).padding(.leading)

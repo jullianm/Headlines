@@ -69,16 +69,17 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     
     /// API calls
     func fire() {
-        let data = webService.fetch(preferences: preferences, keyword: keyword.value).map { value -> [Headlines] in
-            let headlines = value.map { (section, result) -> Headlines in
-                let isFavorite = self.preferences.categories
-                    .first(where: { $0.name == section })?
-                    .isFavorite
+        let data = webService.fetch(preferences: preferences, keyword: keyword.value)
+            .map { value -> [Headlines] in
+                let headlines = value.map { (section, result) -> Headlines in
+                    let isFavorite = self.preferences.categories
+                        .first(where: { $0.name == section })?
+                        .isFavorite
+                    
+                    return Headlines(name: section, isFavorite: isFavorite ?? false, articles: result.articles)
+                }
                 
-                return Headlines(name: section, isFavorite: isFavorite ?? false, articles: result.articles)
-            }
-            
-            return headlines.sortedFavorite()
+                return headlines.sortedFavorite()
         }
         .map { headlines in
             headlines.filter { $0.articles.count > 0 }
