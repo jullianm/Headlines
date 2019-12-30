@@ -8,15 +8,9 @@
 
 import Foundation
 
-enum Sorting: String {
-    case top = "top-headlines"
-}
-
 struct Endpoint {
     var path: String
     var queryItems: [URLQueryItem]
-    
-    private static let apiKey = "f0a2af1e23e14f75b3cd3fd51b53e0b8"
 }
 
 extension Endpoint {
@@ -25,26 +19,29 @@ extension Endpoint {
                        category: String,
                        keyword: String) -> Endpoint {
         
-        let items: [URLQueryItem] = [
+        var items: [URLQueryItem] = [
             .init(name: "country", value: country.convert),
-            .init(name: "category", value: category),
-            .init(name: "q", value: keyword),
-            .init(name: "from", value: recency.fromTo.from.format()),
-            .init(name: "to", value: recency.fromTo.to.format()),
-            .init(name: "apiKey", value: apiKey)
         ]
+
+        var path = "/rest/news/top/\(category)"
+        
+        if keyword.count > 0 {
+            path.append("/search")
+            items.append(.init(name: "keyword", value: keyword))
+        }
         
         return Endpoint(
-            path: "/v2/\(Sorting.top.rawValue)",
+            path: path,
             queryItems: items
         )
     }
 }
+
 extension Endpoint {
     var url: URL? {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "newsapi.org"
+        components.host = "api.headlines.rankorr.red"
         components.path = path
         components.queryItems = queryItems
         

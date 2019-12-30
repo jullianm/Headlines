@@ -50,13 +50,14 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
         keyword
             .eraseToAnyPublisher()
             .dropFirst()
-            .sink { str in
-                if str != "" && !self.canSearch {
-                    self.canSearch = true
-                } else if str == "" && self.canSearch {
-                    self.canSearch = false
+            .handleEvents(receiveOutput: {
+                if $0.count > 20 {
+                    self.keyword.value = String($0.prefix(20))
                 }
-        }.store(in: &cancellable)
+            })
+            .map { !(($0 == "") && self.canSearch) }
+            .assign(to: \.canSearch, on: self)
+            .store(in: &cancellable)
         
         self.$recencyIndex
             .sink(receiveValue: { self.setRecency(forIndex: $0) })
@@ -69,7 +70,7 @@ final class HeadlinesViewModel: ObservableObject, ViewModel {
     
     /// API calls
     func fire() {
-        let data = webService.fetch(preferences: preferences, keyword: keyword.value)
+        let data = webService.fetch(preferences: preferences, keyword: keyword.value.lowercased())
             .map { value -> [Headlines] in
                 let headlines = value.map { (section, result) -> Headlines in
                     let isFavorite = self.preferences.categories
