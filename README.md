@@ -5,8 +5,6 @@ It uses Combine, Apple's solution to reactive programming, to handle asynchronou
 The MVVM architecture has been implemented with a one and only view model conforming to the @ObservableObject protocol which will be observed by our views.
 Any changes in the model will be known to the view model and be reflected on the UI.
 
-Disclaimer: The app is 95% done, there are still a few issues to address.
-
 ![alt text](https://github.com/jullianm/Headlines/blob/master/headlines_screen.png)
 
 **UI**
