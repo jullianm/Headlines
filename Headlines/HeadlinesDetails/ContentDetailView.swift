@@ -55,18 +55,14 @@ struct ContentDetailView: View {
                         Text("Source: ")
                         
                         Button(action: {
-                            self.showSafariVC = true
+                            UIApplication.shared.open(URL(string: self.article?.url ?? "")!)
                         }) {
                             Text(article?.source.name.lowercased() ?? "")
                                 .truncationMode(.middle)
                         }
                     }
                 }
-            }.sheet(isPresented: $showSafariVC, onDismiss: {
-                self.showSafariVC = false
-            }, content: {
-                SafariView(url: URL(string: self.article?.url ?? "")!)
-            })
+            }
         }.padding()
     }
 }
